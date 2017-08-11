@@ -21,19 +21,20 @@ import java.util.List;
 
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -89,13 +90,24 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return null;
+        return NULL_AABB;
+    }
+    
+    @Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+    {
+        return getBoundingBox(blockState, worldIn, pos);
+    }
+
+    @Override
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
+    {
+        return false;
     }
 
     @Override
     public boolean isOpaqueCube(IBlockState parIBlockState)
     {
-        this.is
         return false;
     }
 
@@ -112,12 +124,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @Override
-    public IBlockState onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState iBlockState, EntityLivingBase placer, ItemStack itemStak)
-    {
-        return getDefaultState();
-    }
-
-    @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         return;
@@ -127,7 +133,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
      * Called when a neighboring block changes.
      */
     @Override
-    public void onNeighborBlockChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos)
+    public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos)
     {
         return;
     }
@@ -144,16 +150,17 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         return 0;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
-    {
-        return EnumWorldBlockLayer.CUTOUT;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+	    return BlockRenderLayer.CUTOUT;
+	}
 
     @Override
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
+    	// want entities to be able to fall through it
         return;
     }
 
@@ -164,14 +171,17 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @Override
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this);
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return new TileEntityMovingLightSource();
+    	TileEntityMovingLightSource theTileEntity = new TileEntityMovingLightSource();
+        return theTileEntity;
     }
+    
+    @Override
+	public boolean hasTileEntity(IBlockState state)
+    {
+        return true;
+    }
+
+
 }

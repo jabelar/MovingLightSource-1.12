@@ -20,13 +20,9 @@
 package com.blogspot.jabelarminecraft.movinglightsource;
 
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiCompactor;
-import com.blogspot.jabelarminecraft.movinglightsource.items.IExtendedReach;
-import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageExtendedReachAttack;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.ItemRegistry;
-import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
@@ -40,12 +36,10 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
@@ -652,48 +646,48 @@ public class EventHandler
 //        
 //    }
 
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-    public void onEvent(MouseEvent event)
-    { 
-        if (event.getButton() == 0 && event.isButtonstate())
-        {
-            Minecraft mc = Minecraft.getMinecraft();
-            EntityPlayer thePlayer = mc.player;
-            if (thePlayer != null)
-            {
-                ItemStack itemstack = thePlayer.getHeldItemMainhand();
-                IExtendedReach ieri;
-                if (itemstack != null)
-                {
-                    if (itemstack.getItem() instanceof IExtendedReach)
-                    {
-                        ieri = (IExtendedReach) itemstack.getItem();
-                    } else
-                    {
-                        ieri = null;
-                    }
-    
-                    if (ieri != null)
-                    {
-                        float reach = ieri.getReach();
-                        RayTraceResult mov = Utilities.getMouseOverExtended(reach); 
-                        
-                        if (mov != null)
-                        {
-                            if (mov.entityHit != null && mov.entityHit.hurtResistantTime == 0)
-                            {
-                                if (mov.entityHit != thePlayer )
-                                {
-                                    MainMod.network.sendToServer(new MessageExtendedReachAttack(mov.entityHit.getEntityId()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-   }
+//    @SideOnly(Side.CLIENT)
+//    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+//    public void onEvent(MouseEvent event)
+//    { 
+//        if (event.getButton() == 0 && event.isButtonstate())
+//        {
+//            Minecraft mc = Minecraft.getMinecraft();
+//            EntityPlayer thePlayer = mc.player;
+//            if (thePlayer != null)
+//            {
+//                ItemStack itemstack = thePlayer.getHeldItemMainhand();
+//                IExtendedReach ieri;
+//                if (itemstack != null)
+//                {
+//                    if (itemstack.getItem() instanceof IExtendedReach)
+//                    {
+//                        ieri = (IExtendedReach) itemstack.getItem();
+//                    } else
+//                    {
+//                        ieri = null;
+//                    }
+//    
+//                    if (ieri != null)
+//                    {
+//                        float reach = ieri.getReach();
+//                        RayTraceResult mov = Utilities.getMouseOverExtended(reach); 
+//                        
+//                        if (mov != null)
+//                        {
+//                            if (mov.entityHit != null && mov.entityHit.hurtResistantTime == 0)
+//                            {
+//                                if (mov.entityHit != thePlayer )
+//                                {
+//                                    MainMod.network.sendToServer(new MessageExtendedReachAttack(mov.entityHit.getEntityId()));
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//   }
 
 //    
 //    @SideOnly(Side.CLIENT)
@@ -1039,13 +1033,12 @@ public class EventHandler
                     if (event.player.world.getBlockState(blockLocation).getBlock() == Blocks.AIR)
                     {
                     	// DEBUG
-                    	System.out.println("There is space at player location to place block");
+                    	System.out.println("There is space at player location "+blockLocation+" to place block");
                     	
                     	// there is space to create moving light source block
                         event.player.world.setBlockState(
                         		blockLocation, 
-                        		Blocks.SANDSTONE.getDefaultState()
-                        		// BlockRegistry.MOVING_LIGHT_SOURCE.getDefaultState()
+                        		BlockRegistry.MOVING_LIGHT_SOURCE.getDefaultState()
                         		);
                     }
                     else if (event.player.world.getBlockState(blockLocation.add(event.player.getLookVec().x, event.player.getLookVec().y, event.player.getLookVec().y)).getBlock() == Blocks.AIR)
