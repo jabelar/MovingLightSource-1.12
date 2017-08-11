@@ -16,20 +16,24 @@
 
 package com.blogspot.jabelarminecraft.movinglightsource.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,6 +44,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
+    public static List<Item> lightSourceList = new ArrayList<Item>() {
+        {
+            add(Item.getItemFromBlock(Blocks.TORCH));
+            add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
+            add(Item.getItemFromBlock(Blocks.REDSTONE_LAMP));
+            add(Item.getItemFromBlock(Blocks.REDSTONE_BLOCK));
+            add(Item.getItemFromBlock(Blocks.REDSTONE_ORE));
+            add(Items.REDSTONE);
+            add(Item.getItemFromBlock(Blocks.REDSTONE_WIRE));
+            add(Item.getItemFromBlock(Blocks.GLOWSTONE));
+            add(Items.GLOWSTONE_DUST);
+            add(Item.getItemFromBlock(Blocks.LAVA));
+            add(Items.LAVA_BUCKET);
+            add(Item.getItemFromBlock(Blocks.LIT_REDSTONE_LAMP));
+            add(Item.getItemFromBlock(Blocks.BEACON));
+            add(Item.getItemFromBlock(Blocks.SEA_LANTERN));
+            add(Item.getItemFromBlock(Blocks.END_PORTAL));
+            add(Item.getItemFromBlock(Blocks.END_PORTAL_FRAME));
+        }
+    };
 
     public BlockMovingLightSource()
     {
@@ -50,6 +74,17 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setLightLevel(1.0F);
         // setBlockBounds(0.5F, 0.5F, 0.5F, 0.5F, 0.5F, 0.5F);
     }
+    
+    public BlockMovingLightSource(int parLightLevel)
+    {
+        this();
+        setLightLevel(parLightLevel);
+    }
+    
+    public static boolean isLightEmittingItem(Item parItem)
+    {
+        return lightSourceList.contains(parItem);
+    }
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
@@ -58,7 +93,14 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
+    public boolean isOpaqueCube(IBlockState parIBlockState)
+    {
+        this.is
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState parIBlockState)
     {
         return false;
     }
@@ -67,6 +109,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
         return true;
+    }
+
+    @Override
+    public IBlockState onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState iBlockState, EntityLivingBase placer, ItemStack itemStak)
+    {
+        return getDefaultState();
     }
 
     @Override
@@ -79,7 +127,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
      * Called when a neighboring block changes.
      */
     @Override
-    public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborBlockPos)
+    public void onNeighborBlockChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos)
     {
         return;
     }
@@ -98,9 +146,9 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
 
     @Override
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public EnumWorldBlockLayer getBlockLayer()
     {
-        return BlockRenderLayer.CUTOUT;
+        return EnumWorldBlockLayer.CUTOUT;
     }
 
     @Override
@@ -116,9 +164,9 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
+    protected BlockState createBlockState()
     {
-        return new BlockStateContainer(this);
+        return new BlockState(this);
     }
 
     @Override
