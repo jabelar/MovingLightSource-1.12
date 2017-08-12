@@ -35,8 +35,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     public TileEntityMovingLightSource()
     {
         // after constructing the tile entity instance, remember to call the setPlayer() method.
-        // DEBUG
-        System.out.println("Constructing");
+//        // DEBUG
+//        System.out.println("Constructing");
     }
  
     @Override
@@ -45,8 +45,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     	// clean up in case the player disappears (teleports, dies, logs out, etc.)
         if (thePlayer == null)
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because player is null");
+//        	// DEBUG
+//        	System.out.println("Setting block to air because player is null");
             if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
             {
                 world.setBlockToAir(getPos());
@@ -60,23 +60,23 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         double distanceSquared = getDistanceSq(thePlayer.posX, thePlayer.posY, thePlayer.posZ);
         if (distanceSquared > 4.0D) 
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because player moved away, with distance squared = "+distanceSquared+" from player at position = "+thePlayer.getPosition());
+//        	// DEBUG
+//        	System.out.println("Setting block to air because player moved away, with distance squared = "+distanceSquared+" from player at position = "+thePlayer.getPosition());
             if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
             {
-            	// DEBUG
-            	System.out.println("Comfirmed that there is moving light source there");
+//            	// DEBUG
+//            	System.out.println("Comfirmed that there is moving light source there");
                 world.setBlockToAir(getPos());
             }            
         }
     	if (! BlockMovingLightSource.isLightEmittingItem(thePlayer.getActiveItemStack().getItem()))
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because player no longer holding light emmitting item");
+//        	// DEBUG
+//        	System.out.println("Setting block to air because player no longer holding light emmitting item");
             if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
             {
-            	// DEBUG
-            	System.out.println("Comfirmed that there is moving light source there");
+//            	// DEBUG
+//            	System.out.println("Comfirmed that there is moving light source there");
                 world.setBlockToAir(getPos());
             }            
         }
@@ -84,8 +84,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     
     public void setPlayer(EntityPlayer parPlayer)
     {
-    	// DEBUG
-    	System.out.println("Setting the player to "+parPlayer);
+//    	// DEBUG
+//    	System.out.println("Setting the player to "+parPlayer);
         thePlayer = parPlayer;
     }
     

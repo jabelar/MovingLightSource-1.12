@@ -1018,8 +1018,8 @@ public class EventHandler
             	// check if player is holding a light source
                 if (event.player.getHeldItemMainhand().getItem() == ItemBlock.getItemFromBlock(Blocks.TORCH))
                 {
-                	// DEBUG
-                	System.out.println("Holding torch");
+//                	// DEBUG
+//                	System.out.println("Holding torch");
                 	
                 	// determine player position
                     int blockX = MathHelper.floor(event.player.posX);
@@ -1028,12 +1028,12 @@ public class EventHandler
                     
                     // place light where there is space to do so
                     BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
-                    // DEBUG
-                    System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
+//                    // DEBUG
+//                    System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
                     if (event.player.world.getBlockState(blockLocation).getBlock() == Blocks.AIR)
                     {
-                    	// DEBUG
-                    	System.out.println("There is space at player location "+blockLocation+" to place block");
+//                    	// DEBUG
+//                    	System.out.println("There is space at player location "+blockLocation+" to place block");
                     	
                     	// there is space to create moving light source block
                         event.player.world.setBlockState(
@@ -1043,8 +1043,8 @@ public class EventHandler
                     }
                     else if (event.player.world.getBlockState(blockLocation.add(event.player.getLookVec().x, event.player.getLookVec().y, event.player.getLookVec().y)).getBlock() == Blocks.AIR)
                     {
-                    	// DEBUG
-                    	System.out.println("There is space in front of player to place block");
+//                    	// DEBUG
+//                    	System.out.println("There is space in front of player to place block");
                     	
                         event.player.world.setBlockState(blockLocation.add(
                         		event.player.getLookVec().x, 
