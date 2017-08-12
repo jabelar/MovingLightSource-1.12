@@ -17,6 +17,7 @@
 package com.blogspot.jabelarminecraft.movinglightsource.blocks;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
@@ -27,6 +28,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -47,7 +49,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
     public static List<Item> lightSourceList = new ArrayList<Item>() {
         {
-            add(Item.getItemFromBlock(Blocks.TORCH));
+        	add(Item.getItemFromBlock(Blocks.TORCH));
             add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
             add(Item.getItemFromBlock(Blocks.REDSTONE_LAMP));
             add(Item.getItemFromBlock(Blocks.REDSTONE_BLOCK));
@@ -74,6 +76,21 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setTickRandomly(false);
         setLightLevel(1.0F);
         // setBlockBounds(0.5F, 0.5F, 0.5F, 0.5F, 0.5F, 0.5F);
+        
+        // not easy to tell which blocks may not have items
+        // so need to clean up any AIR ItemBlocks that make it into
+        // the list.
+        Iterator<Item> iterator = lightSourceList.iterator();
+        while (iterator.hasNext())
+        {
+        	Item item = iterator.next();
+        	if (item == Items.AIR)
+        	{
+        		iterator.remove();
+        	}
+        }
+        // DEBUG
+        System.out.println("List of all light-emmitting items is "+lightSourceList);
     }
     
     public BlockMovingLightSource(int parLightLevel)
@@ -82,9 +99,10 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setLightLevel(parLightLevel);
     }
     
-    public static boolean isLightEmittingItem(Item parItem)
+    public static boolean isHoldingLightItem(EntityPlayer parPlayer)
     {
-        return lightSourceList.contains(parItem);
+        return (lightSourceList.contains(parPlayer.getHeldItemMainhand().getItem())
+        		|| lightSourceList.contains(parPlayer.getHeldItemOffhand().getItem()));
     }
 
     @Override

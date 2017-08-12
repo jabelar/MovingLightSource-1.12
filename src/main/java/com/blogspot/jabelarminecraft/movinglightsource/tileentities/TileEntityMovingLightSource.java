@@ -69,10 +69,12 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
                 world.setBlockToAir(getPos());
             }            
         }
-    	if (! BlockMovingLightSource.isLightEmittingItem(thePlayer.getActiveItemStack().getItem()))
+        
+        // handle case where player no longer holding light emitting item
+    	if (! BlockMovingLightSource.isHoldingLightItem(thePlayer))
         {
-//        	// DEBUG
-//        	System.out.println("Setting block to air because player no longer holding light emmitting item");
+        	// DEBUG
+        	System.out.println("Setting block to air because player no longer holding light emmitting item");
             if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
             {
 //            	// DEBUG
