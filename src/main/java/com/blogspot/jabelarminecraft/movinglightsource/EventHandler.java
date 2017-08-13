@@ -33,6 +33,7 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +43,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -345,30 +346,30 @@ public class EventHandler
 //    {
 //        
 //    }
-    
-    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-    public void onEvent(NameFormat event)
-    {
-    	// DEBUG
-    	System.out.println("NameFormat event for username = "+event.getUsername());
-        if (event.getUsername().equalsIgnoreCase("jnaejnae"))
-        {
-            event.setDisplayname(event.getUsername()+" the Great and Powerful");
-        }        
-        else if (event.getUsername().equalsIgnoreCase("MistMaestro"))
-        {
-            event.setDisplayname(event.getUsername()+" the Wise");
-        }    
-        else if (event.getUsername().equalsIgnoreCase("Taliaailat"))
-        {
-            event.setDisplayname(event.getUsername()+" the Beautiful");
-        }    
-        else
-        {
-            event.setDisplayname(event.getUsername()+" the Ugly");            
-        }
-    }
-    
+//    
+//    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+//    public void onEvent(NameFormat event)
+//    {
+//    	// DEBUG
+//    	System.out.println("NameFormat event for username = "+event.getUsername());
+//        if (event.getUsername().equalsIgnoreCase("jnaejnae"))
+//        {
+//            event.setDisplayname(event.getUsername()+" the Great and Powerful");
+//        }        
+//        else if (event.getUsername().equalsIgnoreCase("MistMaestro"))
+//        {
+//            event.setDisplayname(event.getUsername()+" the Wise");
+//        }    
+//        else if (event.getUsername().equalsIgnoreCase("Taliaailat"))
+//        {
+//            event.setDisplayname(event.getUsername()+" the Beautiful");
+//        }    
+//        else
+//        {
+//            event.setDisplayname(event.getUsername()+" the Ugly");            
+//        }
+//    }
+//    
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 //    public void onEvent(ArrowLooseEvent event)
 //    {
@@ -381,11 +382,22 @@ public class EventHandler
 //        
 //    }
 //    
-//    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-//    public void onEvent(AttackEntityEvent event)
-//    {
-//
-//    }
+    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+    public void onEvent(AttackEntityEvent event)
+    {
+		EntityPlayer thePlayer = event.getEntityPlayer();
+		if (thePlayer.world.isRemote)
+		{
+			return;
+		}
+		
+		if (thePlayer.getHeldItemMainhand().getItem() == Item.getItemFromBlock(Blocks.TORCH))
+		{
+			// DEBUG
+			System.out.println("Setting entity "+event.getEntity()+" on fire");
+			event.getTarget().setFire(10);
+		}
+    }
 //    
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 //    public void onEvent(BonemealEvent event)
@@ -394,9 +406,18 @@ public class EventHandler
 //    }
 //    
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-//    public void onEvent(EntityInteractEvent event)
+//    public void onEvent(EntityInteract event)
 //    {
-//
+//    	EntityPlayer thePlayer = event.getEntityPlayer();
+//    	if (thePlayer.world.isRemote)
+//    	{
+//    		return;
+//    	}
+//    	
+//    	if (event.getItemStack().getItem() == Item.getItemFromBlock(Blocks.TORCH))
+//    	{
+//    		event.getEntityLiving().setFire(10);
+//    	}
 //    }
 //    
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
