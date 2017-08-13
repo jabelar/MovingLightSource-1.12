@@ -16,10 +16,10 @@
 
 package com.blogspot.jabelarminecraft.movinglightsource.blocks;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
+import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 
@@ -47,31 +47,30 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
-    public static List<Item> lightSourceList = new ArrayList<Item>() {
-        {
-        	add(Item.getItemFromBlock(Blocks.TORCH));
-            add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
-            add(Item.getItemFromBlock(Blocks.REDSTONE_LAMP));
-            add(Item.getItemFromBlock(Blocks.REDSTONE_BLOCK));
-            add(Item.getItemFromBlock(Blocks.REDSTONE_ORE));
-            add(Items.REDSTONE);
-            add(Item.getItemFromBlock(Blocks.REDSTONE_WIRE));
-            add(Item.getItemFromBlock(Blocks.GLOWSTONE));
-            add(Items.GLOWSTONE_DUST);
-            add(Item.getItemFromBlock(Blocks.LAVA));
-            add(Items.LAVA_BUCKET);
-            add(Item.getItemFromBlock(Blocks.LIT_REDSTONE_LAMP));
-            add(Item.getItemFromBlock(Blocks.BEACON));
-            add(Item.getItemFromBlock(Blocks.SEA_LANTERN));
-            add(Item.getItemFromBlock(Blocks.END_PORTAL));
-            add(Item.getItemFromBlock(Blocks.END_PORTAL_FRAME));
+    public static HashMap<Item, Block> lightSourceList = new HashMap<Item, Block>() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		{
+            put(Item.getItemFromBlock(Blocks.BEACON), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Item.getItemFromBlock(Blocks.LIT_PUMPKIN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Items.LAVA_BUCKET, BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Item.getItemFromBlock(Blocks.GLOWSTONE), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Items.GLOWSTONE_DUST, BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Item.getItemFromBlock(Blocks.SEA_LANTERN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+            put(Item.getItemFromBlock(Blocks.END_ROD), BlockRegistry.MOVING_LIGHT_SOURCE_14);
+        	put(Item.getItemFromBlock(Blocks.TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_14);
+            put(Item.getItemFromBlock(Blocks.REDSTONE_TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_9);
+            put(Item.getItemFromBlock(Blocks.REDSTONE_ORE), BlockRegistry.MOVING_LIGHT_SOURCE_7);
         }
     };
 
-    public BlockMovingLightSource()
+    public BlockMovingLightSource(String parName)
     {
         super(Material.AIR );
-        Utilities.setBlockName(this, "movinglightsource");
+        Utilities.setBlockName(this, parName);
         setDefaultState(blockState.getBaseState());
         setTickRandomly(false);
         setLightLevel(1.0F);
@@ -80,11 +79,11 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         // not easy to tell which blocks may not have items
         // so need to clean up any AIR ItemBlocks that make it into
         // the list.
-        Iterator<Item> iterator = lightSourceList.iterator();
+        Iterator<HashMap.Entry<Item, Block>> iterator = lightSourceList.entrySet().iterator();
         while (iterator.hasNext())
         {
-        	Item item = iterator.next();
-        	if (item == Items.AIR)
+        	HashMap.Entry<Item, Block> entry = iterator.next();
+        	if (entry.getKey() == Items.AIR)
         	{
         		iterator.remove();
         	}
@@ -93,16 +92,37 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         System.out.println("List of all light-emmitting items is "+lightSourceList);
     }
     
-    public BlockMovingLightSource(int parLightLevel)
+    public BlockMovingLightSource(String parName, float parLightLevel)
     {
-        this();
+        this(parName);
         setLightLevel(parLightLevel);
     }
     
     public static boolean isHoldingLightItem(EntityPlayer parPlayer)
     {
-        return (lightSourceList.contains(parPlayer.getHeldItemMainhand().getItem())
-        		|| lightSourceList.contains(parPlayer.getHeldItemOffhand().getItem()));
+        return (lightSourceList.containsKey(parPlayer.getHeldItemMainhand().getItem())
+        		|| lightSourceList.containsKey(parPlayer.getHeldItemOffhand().getItem()));
+    }
+    
+    public static Block lightBlockToPlace(EntityPlayer parPlayer)
+    {
+    	if (parPlayer == null)
+    	{
+    		return Blocks.AIR;
+    	}
+    	
+    	BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemMainhand().getItem());
+    	BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemOffhand().getItem());
+    	// DEBUG
+    	System.out.println("Block for main hand is = "+blockMainHand+" and block off hand = "+blockOffHand);
+    	if (blockMainHand.getLightValue(blockMainHand.getDefaultState()) >= blockOffHand.getLightValue(blockOffHand.getDefaultState())) 
+		{ 
+			return blockMainHand;
+		}
+		else
+		{
+			return blockOffHand;
+		}
     }
 
     @Override

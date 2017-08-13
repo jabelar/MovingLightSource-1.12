@@ -30,7 +30,14 @@ public class BlockRegistry {
 
     // instantiate blocks
 	public final static BlockCompactor COMPACTOR = new BlockCompactor();
-	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE = new BlockMovingLightSource();
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE = new BlockMovingLightSource("movinglightsource");
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_15 = new BlockMovingLightSource("movinglightsource_15", 1.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_14 = new BlockMovingLightSource("movinglightsource_14", 14.0F / 15.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_13 = new BlockMovingLightSource("movinglightsource_13", 13.0F / 15.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_12 = new BlockMovingLightSource("movinglightsource_12", 12.0F / 15.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_11 = new BlockMovingLightSource("movinglightsource_11", 11.0F / 15.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_9 = new BlockMovingLightSource("movinglightsource_9", 9.0F / 15.0F);
+	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_7 = new BlockMovingLightSource("movinglightsource_7", 7.0F / 15.0F);
 
 	/**
 	 * Initialize this mod's {@link Block}s with any post-registration data.
@@ -54,7 +61,15 @@ public class BlockRegistry {
 		public static void onEvent(final RegistryEvent.Register<Block> event) 
 		{
 			final Block[] arrayBlocks = {
-					COMPACTOR, MOVING_LIGHT_SOURCE
+					COMPACTOR, 
+					MOVING_LIGHT_SOURCE,
+					MOVING_LIGHT_SOURCE_15,
+					MOVING_LIGHT_SOURCE_14,
+					MOVING_LIGHT_SOURCE_13,
+					MOVING_LIGHT_SOURCE_12,
+					MOVING_LIGHT_SOURCE_11,
+					MOVING_LIGHT_SOURCE_9,
+					MOVING_LIGHT_SOURCE_7
 			};
 
 			final IForgeRegistry<Block> registry = event.getRegistry();
@@ -79,7 +94,14 @@ public class BlockRegistry {
 		{
 			final ItemBlock[] items = {
 					new ItemBlock(COMPACTOR),
-					new ItemBlock(MOVING_LIGHT_SOURCE)
+					new ItemBlock(MOVING_LIGHT_SOURCE),
+					new ItemBlock(MOVING_LIGHT_SOURCE_15),
+					new ItemBlock(MOVING_LIGHT_SOURCE_14),
+					new ItemBlock(MOVING_LIGHT_SOURCE_13),
+					new ItemBlock(MOVING_LIGHT_SOURCE_12),
+					new ItemBlock(MOVING_LIGHT_SOURCE_11),
+					new ItemBlock(MOVING_LIGHT_SOURCE_9),
+					new ItemBlock(MOVING_LIGHT_SOURCE_7),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();

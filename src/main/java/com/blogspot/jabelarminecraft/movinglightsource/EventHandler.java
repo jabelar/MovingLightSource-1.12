@@ -21,7 +21,6 @@ package com.blogspot.jabelarminecraft.movinglightsource;
 
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiCompactor;
-import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.ItemRegistry;
 
 import net.minecraft.entity.item.EntityItem;
@@ -1035,7 +1034,7 @@ public class EventHandler
                 	// there is space to create moving light source block
                     event.player.world.setBlockState(
                     		blockLocation, 
-                    		BlockRegistry.MOVING_LIGHT_SOURCE.getDefaultState()
+                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
                     		);
                 }
                 else if (event.player.world.getBlockState(blockLocation.add(event.player.getLookVec().x, event.player.getLookVec().y, event.player.getLookVec().y)).getBlock() == Blocks.AIR)
@@ -1047,7 +1046,7 @@ public class EventHandler
                     		event.player.getLookVec().x, 
                     		event.player.getLookVec().y, 
                     		event.player.getLookVec().y), 
-                    		BlockRegistry.MOVING_LIGHT_SOURCE.getDefaultState()
+                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
                     		);
                 }
             }

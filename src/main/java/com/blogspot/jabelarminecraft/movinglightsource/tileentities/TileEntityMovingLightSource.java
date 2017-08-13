@@ -17,7 +17,6 @@
 package com.blogspot.jabelarminecraft.movinglightsource.tileentities;
 
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
-import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -47,7 +46,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         {
 //        	// DEBUG
 //        	System.out.println("Setting block to air because player is null");
-            if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
+            if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
             {
                 world.setBlockToAir(getPos());
             }
@@ -62,7 +61,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         {
 //        	// DEBUG
 //        	System.out.println("Setting block to air because player moved away, with distance squared = "+distanceSquared+" from player at position = "+thePlayer.getPosition());
-            if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
+            if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
             {
 //            	// DEBUG
 //            	System.out.println("Comfirmed that there is moving light source there");
@@ -75,7 +74,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         {
         	// DEBUG
         	System.out.println("Setting block to air because player no longer holding light emmitting item");
-            if (world.getBlockState(getPos()).getBlock() == BlockRegistry.MOVING_LIGHT_SOURCE)
+            if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
             {
 //            	// DEBUG
 //            	System.out.println("Comfirmed that there is moving light source there");

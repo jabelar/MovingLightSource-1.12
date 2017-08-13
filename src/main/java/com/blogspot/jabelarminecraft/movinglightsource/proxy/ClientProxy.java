@@ -175,6 +175,13 @@ public class ClientProxy extends CommonProxy
         
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.COMPACTOR), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.COMPACTOR.getUnlocalizedName().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_15), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_15.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_14), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_14.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_13), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_13.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_12), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_12.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_11), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_11.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_9), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_9.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_7), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_7.getUnlocalizedName().substring(5), "inventory"));
     }
     
     /*     
