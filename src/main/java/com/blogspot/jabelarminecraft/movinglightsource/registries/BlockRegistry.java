@@ -82,6 +82,8 @@ public class BlockRegistry {
 			}
 
 			initialize();
+			
+			BlockMovingLightSource.initMapLightSources();
 		}
 
 		/**

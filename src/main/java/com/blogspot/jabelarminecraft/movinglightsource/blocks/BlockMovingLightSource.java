@@ -47,25 +47,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
-    public static HashMap<Item, Block> lightSourceList = new HashMap<Item, Block>() {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-            put(Item.getItemFromBlock(Blocks.BEACON), BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Item.getItemFromBlock(Blocks.LIT_PUMPKIN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Items.LAVA_BUCKET, BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Item.getItemFromBlock(Blocks.GLOWSTONE), BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Items.GLOWSTONE_DUST, BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Item.getItemFromBlock(Blocks.SEA_LANTERN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
-            put(Item.getItemFromBlock(Blocks.END_ROD), BlockRegistry.MOVING_LIGHT_SOURCE_14);
-        	put(Item.getItemFromBlock(Blocks.TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_14);
-            put(Item.getItemFromBlock(Blocks.REDSTONE_TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_9);
-            put(Item.getItemFromBlock(Blocks.REDSTONE_ORE), BlockRegistry.MOVING_LIGHT_SOURCE_7);
-        }
-    };
+    public static HashMap<Item, Block> lightSourceList = new HashMap<Item, Block>();
 
     public BlockMovingLightSource(String parName)
     {
@@ -76,6 +58,21 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setLightLevel(1.0F);
         // setBlockBounds(0.5F, 0.5F, 0.5F, 0.5F, 0.5F, 0.5F);
         
+    }
+    
+    // call only after you're sure that all items and blocks have been registered
+    public static void initMapLightSources()
+    {
+        lightSourceList.put(Item.getItemFromBlock(Blocks.BEACON), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.LIT_PUMPKIN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Items.LAVA_BUCKET, BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.GLOWSTONE), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Items.GLOWSTONE_DUST, BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.SEA_LANTERN), BlockRegistry.MOVING_LIGHT_SOURCE_15);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.END_ROD), BlockRegistry.MOVING_LIGHT_SOURCE_14);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_14);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_TORCH), BlockRegistry.MOVING_LIGHT_SOURCE_9);
+        lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_ORE), BlockRegistry.MOVING_LIGHT_SOURCE_7);
         // not easy to tell which blocks may not have items
         // so need to clean up any AIR ItemBlocks that make it into
         // the list.
@@ -90,7 +87,8 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         }
         // DEBUG
         System.out.println("List of all light-emmitting items is "+lightSourceList);
-    }
+    };
+
     
     public BlockMovingLightSource(String parName, float parLightLevel)
     {
@@ -114,15 +112,43 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     	BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemMainhand().getItem());
     	BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemOffhand().getItem());
     	// DEBUG
-    	System.out.println("Block for main hand is = "+blockMainHand+" and block off hand = "+blockOffHand);
-    	if (blockMainHand.getLightValue(blockMainHand.getDefaultState()) >= blockOffHand.getLightValue(blockOffHand.getDefaultState())) 
-		{ 
-			return blockMainHand;
-		}
-		else
-		{
-			return blockOffHand;
-		}
+    	System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
+    	if (blockMainHand != null)
+    	{
+    		// DEBUG
+    		System.out.println("Block in main hand is not null");
+    		if (blockOffHand != null) // both hands have light emmitting item
+    		{
+    			// DEBUG
+    			System.out.println("Block in both hands is not null");
+		    	if (blockMainHand.getLightValue(blockMainHand.getDefaultState()) >= blockOffHand.getLightValue(blockOffHand.getDefaultState())) 
+				{ 
+		    		// DEBUG
+		    		System.out.println("Block in main hand has higher light value");
+					return blockMainHand;
+				}
+				else
+				{
+					// DEBUG
+					System.out.println("Block in off hand has higher light value");
+					return blockOffHand;
+				}
+    		}
+    		else // only main hand has light emmitting item
+    		{
+    			return blockMainHand;
+    		}
+    	}
+    	else if (blockOffHand != null) // only off hand has light-emmitting item
+    	{
+    		// DEBUG
+    		System.out.println("Block in off hand is not null");
+    		return blockOffHand;
+    	}
+    	else // neither hand has light emmitting item
+    	{
+    		return Blocks.AIR;
+    	}
     }
 
     @Override
