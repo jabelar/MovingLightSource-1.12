@@ -165,7 +165,7 @@ public class EventHandler
         if (!theEntityLiving.world.isRemote)
         {
         	// check if entity is on fire
-        	if (theEntityLiving.isBurning())
+        	if (theEntityLiving.isBurning() && MainMod.allowBurningEntitiesToGiveOffLight)
         	{
 //               	// DEBUG
 //		        System.out.println("Entity is burning");
@@ -412,9 +412,12 @@ public class EventHandler
 		
 		if (thePlayer.getHeldItemMainhand().getItem() == Item.getItemFromBlock(Blocks.TORCH))
 		{
-			// DEBUG
-			System.out.println("Setting entity "+event.getEntity()+" on fire");
-			event.getTarget().setFire(10);
+			if (MainMod.allowTorchesToBurnEntities)
+			{
+				// DEBUG
+				System.out.println("Setting entity "+event.getEntity()+" on fire");
+				event.getTarget().setFire(10);
+			}
 		}
     }
 //    
@@ -1098,7 +1101,7 @@ public class EventHandler
         else if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote)
         {
          	// check if player is holding a light source
-            if (BlockMovingLightSource.isHoldingLightItem(event.player))
+            if (BlockMovingLightSource.isHoldingLightItem(event.player) && MainMod.allowHeldItemsToGiveOffLight)
             {
 //                	// DEBUG
 //                	System.out.println("Holding torch");

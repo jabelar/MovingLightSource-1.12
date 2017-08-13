@@ -1,9 +1,0 @@
-{
-    "forge_marker": 1,
-    "variants": {
-        "facing=north": { "model": "movinglightsource:compactor" },
-        "facing=south": { "model": "movinglightsource:compactor", "y": 180 },
-        "facing=west":  { "model": "movinglightsource:compactor", "y": 270 },
-        "facing=east":  { "model": "movinglightsource:compactor", "y": 90 }
-    }
-}

@@ -213,6 +213,9 @@ public class CommonProxy
         MainMod.allowTorchesToBurnEntities  = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Torches can burn entities", true, "Attacking with regular torch will set entities on fire.").getBoolean(true);
         // DEBUG
         System.out.println("Allow torches to burn entities = "+MainMod.allowTorchesToBurnEntities);
+        MainMod.allowBurningEntitiesToGiveOffLight  = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Burning entities give off light", true, "When an entity is burning it gives off same light as a fire block.").getBoolean(true);
+        // DEBUG
+        System.out.println("Burning entities give off light = "+MainMod.allowBurningEntitiesToGiveOffLight);
 
         
         // save is useful for the first run where config might not exist, and doesn't hurt

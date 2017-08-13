@@ -67,6 +67,7 @@ public class MainMod
     public static File configFile;
     public static Configuration config;
     public static boolean allowHeldItemsToGiveOffLight = true;
+    public static boolean allowBurningEntitiesToGiveOffLight = true;
     public static boolean allowTorchesToBurnEntities = true;
     public static boolean allowEntityItemsToGiveOffLitght = true;
     
