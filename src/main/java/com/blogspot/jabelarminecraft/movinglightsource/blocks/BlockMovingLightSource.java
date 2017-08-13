@@ -48,6 +48,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
     public static HashMap<Item, Block> lightSourceList = new HashMap<Item, Block>();
+    public static AxisAlignedBB boundingBox = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
 
     public BlockMovingLightSource(String parName)
     {
@@ -154,13 +155,13 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return NULL_AABB;
+        return boundingBox;
     }
     
     @Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return getBoundingBox(blockState, worldIn, pos);
+        return NULL_AABB;
     }
 
     @Override

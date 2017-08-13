@@ -1056,36 +1056,45 @@ public class EventHandler
                 }
                 else 
             	{
-            		blockLocation = blockLocation.add(2*event.player.getLookVec().x, 0, 2*event.player.getLookVec().z);
-                    if (blockAtLocation == Blocks.AIR)
-                    {
+//                	// DEBUG
+//                	System.out.println("Player head block location = "+blockLocation);
+//            		blockLocation = blockLocation.add(roundUp(event.player.getLookVec().x), 0, roundUp(event.player.getLookVec().z));
+//                	// DEBUG
+//                	System.out.println("Player look location = "+blockLocation);
+//                    if (blockAtLocation == Blocks.AIR)
+//                    {
 //                        	// DEBUG
 //                        	System.out.println("There is space at location "+blockLocation+" to place block");
-                    	
-                    	// there is space to create moving light source block
-                        event.player.world.setBlockState(
-                        		blockLocation, 
-                        		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
-                        		);
-                    }
-                    else if (blockAtLocation instanceof BlockMovingLightSource)
-                    {
+//                    	
+//                    	// there is space to create moving light source block
+//                        event.player.world.setBlockState(
+//                        		blockLocation, 
+//                        		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
+//                        		);
+//                    }
+//                    else if (blockAtLocation instanceof BlockMovingLightSource)
+//                    {
 //                    	// DEBUG
-//                    	System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
-                    	// check if light value at location should change (due to change in held item)
-                    	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
-                    			BlockMovingLightSource.lightBlockToPlace(event.player).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()))
-                    	{
-                    		// there is space to create moving light source block
-		                    event.player.world.setBlockState(
-		                    		blockLocation, 
-		                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
-		                    		);
-                    	}
-                    }
+//                    	System.out.println("There is already a BlockMovingLight at player look location "+blockLocation);
+//                    	// check if light value at location should change (due to change in held item)
+//                    	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
+//                    			BlockMovingLightSource.lightBlockToPlace(event.player).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()))
+//                    	{
+//                    		// there is space to create moving light source block
+//		                    event.player.world.setBlockState(
+//		                    		blockLocation, 
+//		                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
+//		                    		);
+//                    	}
+//                    }
             	}
             }
         }
+    }
+    
+    protected static double roundUp(double parDouble)
+    {
+    	return Math.signum(parDouble)*Math.round(Math.abs(parDouble));
     }
 
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
