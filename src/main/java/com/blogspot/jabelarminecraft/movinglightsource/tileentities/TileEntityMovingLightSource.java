@@ -17,9 +17,10 @@
 package com.blogspot.jabelarminecraft.movinglightsource.tileentities;
 
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
+import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -30,7 +31,7 @@ import net.minecraft.util.math.BlockPos;
  */
 public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
-    public EntityPlayer thePlayer;
+    public EntityLivingBase theEntityLiving;
     protected boolean shouldDie = false;
     protected int deathTimer = 2; // number of ticks after player moves away
     
@@ -63,7 +64,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     	Block blockAtLocation = world.getBlockState(getPos()).getBlock();
     	
     	// clean up in case the player disappears (teleports, dies, logs out, etc.)
-        if (thePlayer == null)
+        if (theEntityLiving == null)
         {
 //        	// DEBUG
 //        	System.out.println("Setting block to air because player is null");
@@ -76,7 +77,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 
         // check if player has moved away from the tile entity or no longer holding light
         // emmitting item set block to air
-        double distanceSquared = getDistanceSq(thePlayer.posX, thePlayer.posY, thePlayer.posZ);
+        double distanceSquared = getDistanceSq(theEntityLiving.posX, theEntityLiving.posY, theEntityLiving.posZ);
         if (distanceSquared > 5.0D) 
         {
 //        	// DEBUG
@@ -90,10 +91,10 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         }
         
         // handle case where player no longer holding light emitting item
-    	if (! BlockMovingLightSource.isHoldingLightItem(thePlayer))
+    	if (! BlockMovingLightSource.isHoldingLightItem(theEntityLiving))
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because player no longer holding light emmitting item");
+//        	// DEBUG
+//        	System.out.println("Setting block to air because player no longer holding light emmitting item");
             if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
             {
 //            	// DEBUG
@@ -104,7 +105,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     	else 
     	{
 	    	// handle the case where the light-emitting item has changed so light level needs to be adjusted
-	    	if (blockAtLocation != BlockMovingLightSource.lightBlockToPlace(thePlayer))
+	    	if (blockAtLocation != BlockMovingLightSource.lightBlockToPlace(theEntityLiving))
 	    	{
 //	    		// DEBUG
 //	    		System.out.println("thePlayer = "+thePlayer+" and tile entity pos = "+getPos());
@@ -114,16 +115,16 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     	}
     }  
     
-    public void setPlayer(EntityPlayer parPlayer)
+    public void setEntityLiving(EntityLivingBase parEntityLiving)
     {
 //    	// DEBUG
 //    	System.out.println("Setting the player to "+parPlayer);
-        thePlayer = parPlayer;
+        theEntityLiving = parEntityLiving;
     }
     
-    public EntityPlayer getPlayer()
+    public EntityLivingBase getEntityLiving()
     {
-    	return thePlayer;
+    	return theEntityLiving;
     }
 
 
@@ -131,12 +132,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 	public void setPos(BlockPos posIn)
     {
         pos = posIn.toImmutable();
-     	setPlayer(world
-    			.getClosestPlayer(
-    					pos.getX(),
-    					pos.getY(),
-    					pos.getZ(), 
-    					20.0D, 
-    					false));
+     	setEntityLiving(Utilities.getClosestEntityLiving(world, pos, 2.0D));
     }
 }
+
+

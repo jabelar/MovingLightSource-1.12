@@ -16,6 +16,7 @@
 
 package com.blogspot.jabelarminecraft.movinglightsource.utilities;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
@@ -26,8 +27,10 @@ import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageSyncEnt
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -336,6 +339,43 @@ public class Utilities
         
         }
         return returnMOP;
+    }
+    
+    public static EntityLivingBase getClosestEntityLiving(World parWorld, BlockPos parPos, double parMaxDistance)
+    {
+    	if (parMaxDistance <= 0.0D)
+    	{
+    		return null;
+    	}
+    	
+    	EntityLivingBase closestLiving = null;
+    	double distanceSq = parMaxDistance*parMaxDistance;
+    	AxisAlignedBB aabb = new AxisAlignedBB(
+    			parPos.getX()-parMaxDistance,
+    			parPos.getY()-parMaxDistance,
+    			parPos.getZ()-parMaxDistance,
+    			parPos.getX()+parMaxDistance,
+    			parPos.getY()+parMaxDistance,
+    			parPos.getZ()+parMaxDistance
+    			);
+    	List<EntityLivingBase> listEntitiesInRange = parWorld.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+    	Iterator<EntityLivingBase> iterator = listEntitiesInRange.iterator();
+    	while (iterator.hasNext())
+    	{
+    		EntityLivingBase next = iterator.next();
+    		if (getDistanceSq(next.getPosition(), parPos) < distanceSq)
+			{
+				closestLiving = next;
+			}		
+    	}
+    	return closestLiving;
+    }
+    
+    protected static double getDistanceSq(BlockPos parPos1, BlockPos parPos2)
+    {
+    	return (  (parPos1.getX()-parPos2.getX())*(parPos1.getX()-parPos2.getX())
+    			+ (parPos1.getY()-parPos2.getY())*(parPos1.getY()-parPos2.getY())
+    			+ (parPos1.getZ()-parPos2.getZ())*(parPos1.getZ()-parPos2.getZ()));
     }
 }
 
