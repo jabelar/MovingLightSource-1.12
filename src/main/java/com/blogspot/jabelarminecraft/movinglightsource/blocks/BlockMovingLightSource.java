@@ -28,7 +28,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -97,21 +97,21 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setLightLevel(parLightLevel);
     }
     
-    public static boolean isHoldingLightItem(EntityPlayer parPlayer)
+    public static boolean isHoldingLightItem(EntityLivingBase parLivingBase)
     {
-        return (lightSourceList.containsKey(parPlayer.getHeldItemMainhand().getItem())
-        		|| lightSourceList.containsKey(parPlayer.getHeldItemOffhand().getItem()));
+        return (lightSourceList.containsKey(parLivingBase.getHeldItemMainhand().getItem())
+        		|| lightSourceList.containsKey(parLivingBase.getHeldItemOffhand().getItem()));
     }
     
-    public static Block lightBlockToPlace(EntityPlayer parPlayer)
+    public static Block lightBlockToPlace(EntityLivingBase parEntityLivingBase)
     {
-    	if (parPlayer == null)
+    	if (parEntityLivingBase == null)
     	{
     		return Blocks.AIR;
     	}
     	
-    	BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemMainhand().getItem());
-    	BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemOffhand().getItem());
+    	BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parEntityLivingBase.getHeldItemMainhand().getItem());
+    	BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parEntityLivingBase.getHeldItemOffhand().getItem());
 //    	// DEBUG
 //    	System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
     	if (blockMainHand != null)

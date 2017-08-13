@@ -171,7 +171,51 @@ public class EventHandler
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 //    public void onEvent(LivingUpdateEvent event)
 //    {
-//
+//        if (!event.getEntityLiving().world.isRemote)
+//        {
+//         	// check if player is holding a light source
+//            if (BlockMovingLightSource.isHoldingLightItem(event.getEntityLiving()))
+//            {
+////                	// DEBUG
+////                	System.out.println("Holding torch");
+//            	
+//            	// determine player position
+//                int blockX = MathHelper.floor(event.getEntityLiving().posX);
+//                int blockY = MathHelper.floor(event.getEntityLiving().posY-0.2D - event.getEntityLiving().getYOffset());
+//                int blockZ = MathHelper.floor(event.getEntityLiving().posZ);
+//                
+//                // place light where there is space to do so
+//                BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
+//                Block blockAtLocation = event.getEntityLiving().world.getBlockState(blockLocation).getBlock();
+////                    // DEBUG
+////                    System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
+//                if (blockAtLocation == Blocks.AIR)
+//                {
+////                    	// DEBUG
+////                    	System.out.println("There is space at player location "+blockLocation+" to place block");
+//                	
+//                	// there is space to create moving light source block
+//                	event.getEntityLiving().world.setBlockState(
+//                    		blockLocation, 
+//                    		BlockMovingLightSource.lightBlockToPlace(event.getEntityLiving()).getDefaultState()
+//                    		);
+//                }
+//                else if (blockAtLocation instanceof BlockMovingLightSource)
+//                {
+////                	// DEBUG
+////                	System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
+//                	// check if light value at location should change (due to change in held item)
+//                	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
+//                			BlockMovingLightSource.lightBlockToPlace(event.getEntityLiving()).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.getEntityLiving()).getDefaultState()))
+//                	{
+//                		event.getEntityLiving().world.setBlockState(
+//		                		blockLocation, 
+//		                		BlockMovingLightSource.lightBlockToPlace(event.getEntityLiving()).getDefaultState()
+//		                		);
+//                	}
+//                }
+//            }
+//        } 
 //    }
 //
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
@@ -1054,40 +1098,6 @@ public class EventHandler
 		                		);
                 	}
                 }
-                else 
-            	{
-//                	// DEBUG
-//                	System.out.println("Player head block location = "+blockLocation);
-//            		blockLocation = blockLocation.add(roundUp(event.player.getLookVec().x), 0, roundUp(event.player.getLookVec().z));
-//                	// DEBUG
-//                	System.out.println("Player look location = "+blockLocation);
-//                    if (blockAtLocation == Blocks.AIR)
-//                    {
-//                        	// DEBUG
-//                        	System.out.println("There is space at location "+blockLocation+" to place block");
-//                    	
-//                    	// there is space to create moving light source block
-//                        event.player.world.setBlockState(
-//                        		blockLocation, 
-//                        		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
-//                        		);
-//                    }
-//                    else if (blockAtLocation instanceof BlockMovingLightSource)
-//                    {
-//                    	// DEBUG
-//                    	System.out.println("There is already a BlockMovingLight at player look location "+blockLocation);
-//                    	// check if light value at location should change (due to change in held item)
-//                    	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
-//                    			BlockMovingLightSource.lightBlockToPlace(event.player).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()))
-//                    	{
-//                    		// there is space to create moving light source block
-//		                    event.player.world.setBlockState(
-//		                    		blockLocation, 
-//		                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
-//		                    		);
-//                    	}
-//                    }
-            	}
             }
         }
     }

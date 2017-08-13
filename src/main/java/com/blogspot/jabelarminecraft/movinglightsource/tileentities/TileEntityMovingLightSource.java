@@ -32,7 +32,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
     public EntityPlayer thePlayer;
     protected boolean shouldDie = false;
-    protected int deathTimer = 1; // number of ticks after player moves away
+    protected int deathTimer = 2; // number of ticks after player moves away
     
     public TileEntityMovingLightSource()
     {
