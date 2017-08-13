@@ -111,26 +111,26 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     	
     	BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemMainhand().getItem());
     	BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parPlayer.getHeldItemOffhand().getItem());
-    	// DEBUG
-    	System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
+//    	// DEBUG
+//    	System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
     	if (blockMainHand != null)
     	{
-    		// DEBUG
-    		System.out.println("Block in main hand is not null");
+//    		// DEBUG
+//    		System.out.println("Block in main hand is not null");
     		if (blockOffHand != null) // both hands have light emmitting item
     		{
-    			// DEBUG
-    			System.out.println("Block in both hands is not null");
+//    			// DEBUG
+//    			System.out.println("Block in both hands is not null");
 		    	if (blockMainHand.getLightValue(blockMainHand.getDefaultState()) >= blockOffHand.getLightValue(blockOffHand.getDefaultState())) 
 				{ 
-		    		// DEBUG
-		    		System.out.println("Block in main hand has higher light value");
+//		    		// DEBUG
+//		    		System.out.println("Block in main hand has higher light value");
 					return blockMainHand;
 				}
 				else
 				{
-					// DEBUG
-					System.out.println("Block in off hand has higher light value");
+//					// DEBUG
+//					System.out.println("Block in off hand has higher light value");
 					return blockOffHand;
 				}
     		}
@@ -141,8 +141,8 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     	}
     	else if (blockOffHand != null) // only off hand has light-emmitting item
     	{
-    		// DEBUG
-    		System.out.println("Block in off hand is not null");
+//    		// DEBUG
+//    		System.out.println("Block in off hand is not null");
     		return blockOffHand;
     	}
     	else // neither hand has light emmitting item

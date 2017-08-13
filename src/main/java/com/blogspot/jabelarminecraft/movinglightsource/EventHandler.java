@@ -23,6 +23,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSo
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiCompactor;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.ItemRegistry;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
@@ -993,7 +994,8 @@ public class EventHandler
 //    boolean haveRequestedItemStackRegistry = false;
 //    boolean haveGivenGift = false;
             
-    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+    @SuppressWarnings("deprecation")
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
     public void onEvent(PlayerTickEvent event)
     {        
         if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) // only proceed if START phase otherwise, will execute twice per tick
@@ -1024,9 +1026,10 @@ public class EventHandler
                 
                 // place light where there is space to do so
                 BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
+                Block blockAtLocation = event.player.world.getBlockState(blockLocation).getBlock();
 //                    // DEBUG
 //                    System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
-                if (event.player.world.getBlockState(blockLocation).getBlock() == Blocks.AIR)
+                if (blockAtLocation == Blocks.AIR)
                 {
 //                    	// DEBUG
 //                    	System.out.println("There is space at player location "+blockLocation+" to place block");
@@ -1037,18 +1040,32 @@ public class EventHandler
                     		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
                     		);
                 }
-                else if (event.player.world.getBlockState(blockLocation.add(event.player.getLookVec().x, event.player.getLookVec().y, event.player.getLookVec().y)).getBlock() == Blocks.AIR)
+                else if (blockAtLocation instanceof BlockMovingLightSource)
                 {
-//                    	// DEBUG
-//                    	System.out.println("There is space in front of player to place block");
-                	
-                    event.player.world.setBlockState(blockLocation.add(
-                    		event.player.getLookVec().x, 
-                    		event.player.getLookVec().y, 
-                    		event.player.getLookVec().y), 
-                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
-                    		);
+//                	// DEBUG
+//                	System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
+                	// check if light value at location should change (due to change in held item)
+                	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
+                			BlockMovingLightSource.lightBlockToPlace(event.player).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()))
+            	// there is space to create moving light source block
+                event.player.world.setBlockState(
+                		blockLocation, 
+                		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
+                		);
                 }
+
+//                if (event.player.world.getBlockState(blockLocation.add(event.player.getLookVec().x, event.player.getLookVec().y, event.player.getLookVec().y)).getBlock() == Blocks.AIR)
+//                {
+////                    	// DEBUG
+////                    	System.out.println("There is space in front of player to place block");
+//                	
+//                    event.player.world.setBlockState(blockLocation.add(
+//                    		event.player.getLookVec().x, 
+//                    		event.player.getLookVec().y, 
+//                    		event.player.getLookVec().y), 
+//                    		BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()
+//                    		);
+//                }
             }
         }
     }
