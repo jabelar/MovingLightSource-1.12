@@ -45,11 +45,14 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     @Override
     public void update()
     {
+//    	// DEBUG
+//    	System.out.println("Tile entity for entityLiving = "+theEntityLiving+" still ticking");
+  
     	// check if already dying
     	if (shouldDie)
     	{
-			// DEBUG
-			System.out.println("Should die = "+shouldDie+" with deathTimer = "+deathTimer);
+//			// DEBUG
+//			System.out.println("Should die = "+shouldDie+" with deathTimer = "+deathTimer);
     		if (deathTimer > 0)
     		{
     			deathTimer--;
@@ -66,8 +69,20 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     	// clean up in case the entityLiving disappears (teleports, dies, logs out, etc.)
         if (theEntityLiving == null)
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because entityLiving is null");
+//        	// DEBUG
+//        	System.out.println("Setting block to air because entityLiving is null");
+            if (blockAtLocation instanceof BlockMovingLightSource)
+            {
+                shouldDie = true;
+            }
+            return;
+        }
+    	
+    	// clean up in case the entityLiving disappears (teleports, dies, logs out, etc.)
+        if (theEntityLiving.isDead)
+        {
+//        	// DEBUG
+//        	System.out.println("Setting block to air because entityLiving is null");
             if (blockAtLocation instanceof BlockMovingLightSource)
             {
                 shouldDie = true;
@@ -80,12 +95,12 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         double distanceSquared = getDistanceSq(theEntityLiving.posX, theEntityLiving.posY, theEntityLiving.posZ);
         if (distanceSquared > 5.0D) 
         {
-        	// DEBUG
-        	System.out.println("Setting block to air because entityLiving moved away, with distance squared = "+distanceSquared+" from entityLiving at position = "+theEntityLiving.getPosition());
+//        	// DEBUG
+//        	System.out.println("Setting block to air because entityLiving moved away, with distance squared = "+distanceSquared+" from entityLiving at position = "+theEntityLiving.getPosition());
             if (blockAtLocation instanceof BlockMovingLightSource)
             {
-            	// DEBUG
-            	System.out.println("Comfirmed that there is moving light source there");
+//            	// DEBUG
+//            	System.out.println("Comfirmed that there is moving light source there");
                 shouldDie = true;
             }        
         }
@@ -94,12 +109,12 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         // and also not on fire
         if (! theEntityLiving.isBurning())
         {
-        	// DEBUG
-        	System.out.println("theEntityLiving is not burning");
+//        	// DEBUG
+//        	System.out.println("theEntityLiving is not burning");
 	    	if (! BlockMovingLightSource.isHoldingLightItem(theEntityLiving))
 	        {
-	        	// DEBUG
-	        	System.out.println("Setting block to air because entityLiving ("+theEntityLiving+") is no longer holding light emmitting item and burning state = "+theEntityLiving.isBurning());
+//	        	// DEBUG
+//	        	System.out.println("Setting block to air because entityLiving ("+theEntityLiving+") is no longer holding light emmitting item and burning state = "+theEntityLiving.isBurning());
 	            if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
 	            {
 	//            	// DEBUG
