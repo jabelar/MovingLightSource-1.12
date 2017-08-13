@@ -1,10 +1,6 @@
 package com.blogspot.jabelarminecraft.movinglightsource.gui;
 
-import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
-import com.blogspot.jabelarminecraft.movinglightsource.containers.ContainerCompactor;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,12 +18,12 @@ public class GuiHandler implements IGuiHandler
         // process those GUIs that have associated tile entities (i.e. for delayed results like forge)
         if (tileEntity != null)
         {
-            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
-            {
-            	// DEBUG
-            	System.out.println("GUI handler server element creating ContainerCompactor");
-                return new ContainerCompactor(player.inventory, (IInventory)tileEntity);
-            }
+//            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
+//            {
+//            	// DEBUG
+//            	System.out.println("GUI handler server element creating ContainerCompactor");
+//                return new ContainerCompactor(player.inventory, (IInventory)tileEntity);
+//            }
         }
         // could process those GUIs that do not have associated entities (i.e. instant results) here
 
@@ -43,12 +39,12 @@ public class GuiHandler implements IGuiHandler
         // process those GUIs that have associated tile entities (i.e. for delayed results like forge)
         if (tileEntity != null)
         {
-            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
-            {
-               	// DEBUG
-            	System.out.println("GUI handler client element creating GUICompactor");
-                return new GuiCompactor(player.inventory, (IInventory)tileEntity);
-            }
+//            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
+//            {
+//               	// DEBUG
+//            	System.out.println("GUI handler client element creating GUICompactor");
+//                return new GuiCompactor(player.inventory, (IInventory)tileEntity);
+//            }
         }
         // could process those GUIs that do not have associated entities (i.e. instant results) here
         

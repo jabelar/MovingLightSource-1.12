@@ -21,11 +21,8 @@ package com.blogspot.jabelarminecraft.movinglightsource;
 
 import java.io.File;
 
-import com.blogspot.jabelarminecraft.movinglightsource.creativetabs.CustomCreativeTab;
 import com.blogspot.jabelarminecraft.movinglightsource.proxy.CommonProxy;
 
-import net.minecraft.advancements.Advancement;
-import net.minecraft.stats.StatBasic;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -51,9 +48,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 public class MainMod
 {
     public static final String MODID = "movinglightsource";
-    public static final String MODNAME = "Example Mod";
+    public static final String MODNAME = "Torches and Moving Light Sources";
     public static final String MODVERSION = "1.0.0";
-    public static final String MODDESCRIPTION = "Describe your mod here";
+    public static final String MODDESCRIPTION = "Certain items such as torches and glowstone will give off light when wielded or when on the ground. You can also use torches to burn entities.";
     public static final String MODAUTHOR = "jabelar";
     public static final String MODCREDITS = "Jnaejnae";
     public static final String MODURL = "www.jabelarminecraft.blogspot.com";
@@ -69,13 +66,12 @@ public class MainMod
     // set up configuration properties (will be read from config file in preInit)
     public static File configFile;
     public static Configuration config;
-    public static boolean allowDeconstructUnrealistic = false;
-    public static boolean allowDeconstructEnchantedBooks = true;
-    public static boolean allowHorseArmorCrafting = true;
-    public static boolean allowPartialDeconstructing = true;
+    public static boolean allowHeldItemsToGiveOffLight = true;
+    public static boolean allowTorchesToBurnEntities = true;
+    public static boolean allowEntityItemsToGiveOffLitght = true;
     
     // instantiate creative tabs
-	public static final CustomCreativeTab CREATIVE_TAB = new CustomCreativeTab();
+	// public static final CustomCreativeTab CREATIVE_TAB = new CustomCreativeTab();
 
     // instantiate materials
     // public final static MaterialTanningRack materialTanningRack = new MaterialTanningRack();
@@ -90,14 +86,14 @@ public class MainMod
     // important to do this after blocks in case structure uses custom block
 
 	// instantiate advancements and stats
-    public static Advancement advancementUseCompactor;
-    public static StatBasic deconstructedItemsStat;
+    // public static Advancement advancementUseCompactor;
+    // public static StatBasic deconstructedItemsStat;
     
     // enumerate guis
-    public enum GUI_ENUM 
-    {
-        COMPACTOR
-    }
+    // public enum GUI_ENUM 
+    // {
+    //    COMPACTOR
+    // }
     
     // instantiate the mod
     @Instance(MODID)

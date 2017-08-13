@@ -138,8 +138,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     
     public void setEntityLiving(EntityLivingBase parEntityLiving)
     {
-    	// DEBUG
-    	System.out.println("Setting the entity living to "+parEntityLiving);
+//    	// DEBUG
+//    	System.out.println("Setting the entity living to "+parEntityLiving);
         theEntityLiving = parEntityLiving;
     }
     

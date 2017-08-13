@@ -4,14 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
-import com.blogspot.jabelarminecraft.movinglightsource.items.ItemCowHide;
-import com.blogspot.jabelarminecraft.movinglightsource.items.ItemHorseHide;
-import com.blogspot.jabelarminecraft.movinglightsource.items.ItemPigSkin;
-import com.blogspot.jabelarminecraft.movinglightsource.items.ItemSheepSkin;
-import com.blogspot.jabelarminecraft.movinglightsource.items.ItemSwordExtended;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -28,12 +22,12 @@ public class ItemRegistry {
 //		public static final Item.ToolMaterial TOOL_MATERIAL_GLOWSTONE = EnumHelper.addToolMaterial("glowstone", 1, 5, 0.5f, 1.0f, 10);
 //	}
 
-    // instantiate items
-	public final static ItemCowHide COW_HIDE = new ItemCowHide();
-	public final static ItemSheepSkin SHEEP_SKIN = new ItemSheepSkin();
-	public final static ItemPigSkin PIG_SKIN = new ItemPigSkin();
-	public final static ItemHorseHide HORSE_HIDE = new ItemHorseHide();
-	public final static ItemSwordExtended SWORD_EXTENDED = new ItemSwordExtended(ToolMaterial.IRON);
+//    // instantiate items
+//	public final static ItemCowHide COW_HIDE = new ItemCowHide();
+//	public final static ItemSheepSkin SHEEP_SKIN = new ItemSheepSkin();
+//	public final static ItemPigSkin PIG_SKIN = new ItemPigSkin();
+//	public final static ItemHorseHide HORSE_HIDE = new ItemHorseHide();
+//	public final static ItemSwordExtended SWORD_EXTENDED = new ItemSwordExtended(ToolMaterial.IRON);
 
 	/**
 	 * Initialize this mod's {@link Item}s with any post-registration data.
@@ -56,11 +50,7 @@ public class ItemRegistry {
 		public static void onEvent(final RegistryEvent.Register<Item> event) 
 		{
 			final Item[] arrayItems = {
-					COW_HIDE,
-					SHEEP_SKIN,
-					PIG_SKIN,
-					HORSE_HIDE,
-					SWORD_EXTENDED
+					// no items currently defined in this mod
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
-import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockCompactor;
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
 import com.google.common.base.Preconditions;
 
@@ -29,7 +28,6 @@ public class BlockRegistry {
 //	}
 
     // instantiate blocks
-	public final static BlockCompactor COMPACTOR = new BlockCompactor();
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE = new BlockMovingLightSource("movinglightsource");
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_15 = new BlockMovingLightSource("movinglightsource_15", 1.0F);
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_14 = new BlockMovingLightSource("movinglightsource_14", 14.0F / 15.0F);
@@ -61,7 +59,6 @@ public class BlockRegistry {
 		public static void onEvent(final RegistryEvent.Register<Block> event) 
 		{
 			final Block[] arrayBlocks = {
-					COMPACTOR, 
 					MOVING_LIGHT_SOURCE,
 					MOVING_LIGHT_SOURCE_15,
 					MOVING_LIGHT_SOURCE_14,
@@ -95,7 +92,6 @@ public class BlockRegistry {
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) 
 		{
 			final ItemBlock[] items = {
-					new ItemBlock(COMPACTOR),
 					new ItemBlock(MOVING_LIGHT_SOURCE),
 					new ItemBlock(MOVING_LIGHT_SOURCE_15),
 					new ItemBlock(MOVING_LIGHT_SOURCE_14),

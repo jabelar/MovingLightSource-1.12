@@ -20,7 +20,6 @@
 package com.blogspot.jabelarminecraft.movinglightsource;
 
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
-import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiCompactor;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 
 import net.minecraft.block.Block;
@@ -33,18 +32,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandler 
 {
@@ -697,22 +692,22 @@ public class EventHandler
 //    {
 //        
 //    }
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-    public void onEvent(GuiOpenEvent event)
-    { 
-    	if (event.getGui() instanceof GuiCompactor)
-    	{
-    		// DEBUG
-    		System.out.println("GuiOpenEvent for GuiCompactor");
-    	}
-//        if (event.getGui() instanceof GuiIngameMenu)
+//
+//    @SideOnly(Side.CLIENT)
+//    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+//    public void onEvent(GuiOpenEvent event)
+//    { 
+//    	if (event.getGui() instanceof GuiCompactor)
+//    	{
+//    		// DEBUG
+//    		System.out.println("GuiOpenEvent for GuiCompactor");
+//    	}
+///       if (event.getGui() instanceof GuiIngameMenu)
 //        {
 //            System.out.println("GuiOpenEvent for GuiIngameModOptions");
 //            event.setGui(new GuiConfig(null));        
 //        }
-    }
+//    }
 
 //    @SideOnly(Side.CLIENT)
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
@@ -1049,15 +1044,15 @@ public class EventHandler
 //    {
 //        
 //    }
-
-    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-    public void onEvent(PlayerLoggedOutEvent event)
-    {
-        // DEBUG
-        System.out.println("Player logged out");
-        
-    }
-
+//
+//    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+//    public void onEvent(PlayerLoggedOutEvent event)
+//    {
+//        // DEBUG
+//        System.out.println("Player logged out");
+//        
+//    }
+//
 //    @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 //    public void onEvent(PlayerRespawnEvent event)
 //    {

@@ -27,8 +27,6 @@ import com.blogspot.jabelarminecraft.movinglightsource.EventHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.OreGenEventHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.TerrainGenEventHandler;
-import com.blogspot.jabelarminecraft.movinglightsource.commands.CommandStructureCapture;
-import com.blogspot.jabelarminecraft.movinglightsource.entities.EntityPigTest;
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageExtendedReachAttack;
 import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageRequestItemStackRegistryFromClient;
@@ -36,7 +34,6 @@ import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageSendIte
 import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageSyncEntityToClient;
 import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageToClient;
 import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageToServer;
-import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityCompactor;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
 import io.netty.buffer.ByteBuf;
@@ -72,7 +69,7 @@ public class CommonProxy
     /*
      * Sometimes useful to have list of all item types, including subtypes
      */
-    protected List itemStackRegistry = new ArrayList();
+    protected List<ItemStack> itemStackRegistry = new ArrayList<ItemStack>();
      
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event)
     { 
@@ -146,7 +143,7 @@ public class CommonProxy
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) 
     {
         // // register server commands
-        event.registerServerCommand(new CommandStructureCapture());
+        // event.registerServerCommand(new CommandStructureCapture());
     }
         
     /*
@@ -207,18 +204,15 @@ public class CommonProxy
     public void syncConfig()
     {
         MainMod.config.load();
-        MainMod.allowDeconstructUnrealistic = MainMod.config.get(Configuration.CATEGORY_GENERAL, "All Craftables Can Deconstruct", false, "Allow unrealistic deconstruction like pumpkins back from pumpkin seeds").getBoolean(false);
+        MainMod.allowEntityItemsToGiveOffLitght = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Enitity items can give off light", true, "Certain items on the ground will give off light.").getBoolean(true);
         // DEBUG
-        System.out.println("Allow unrealistic deconstruction = "+MainMod.allowDeconstructUnrealistic);
-        MainMod.allowHorseArmorCrafting = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Can Craft Horse Armor", true, "Allow crafting of horse armor and SADDLEs").getBoolean(true);
+        System.out.println("Allow entity items to give off light = "+MainMod.allowEntityItemsToGiveOffLitght);
+        MainMod.allowHeldItemsToGiveOffLight = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Held items can give off light", true, "Holding certain items like torches and glowstone will give off light.").getBoolean(true);
         // DEBUG
-        System.out.println("Allow horse armor crafting = "+MainMod.allowHorseArmorCrafting);
-        MainMod.allowDeconstructEnchantedBooks  = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Can Deconstruct Enchanted Books", true, "Allow enchanted books to deconstruct like a regular book").getBoolean(true);
+        System.out.println("Allow held items to give off light = "+MainMod.allowHeldItemsToGiveOffLight);
+        MainMod.allowTorchesToBurnEntities  = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Torches can burn entities", true, "Attacking with regular torch will set entities on fire.").getBoolean(true);
         // DEBUG
-        System.out.println("Allow enchanted book deconstruction = "+MainMod.allowDeconstructEnchantedBooks);
-        MainMod.allowPartialDeconstructing = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Allow Partial Deconstruction", true, "Allow deconstruction of stacks that are less than crafting output").getBoolean(true);
-        // DEBUG
-        System.out.println("Allow partial deconstruction = "+MainMod.allowPartialDeconstructing);
+        System.out.println("Allow torches to burn entities = "+MainMod.allowTorchesToBurnEntities);
 
         
         // save is useful for the first run where config might not exist, and doesn't hurt
@@ -244,7 +238,6 @@ public class CommonProxy
     {
         // DEBUG
         System.out.println("Registering tile entities");
-        GameRegistry.registerTileEntity(TileEntityCompactor.class, "tileEntityCompactor");               
         GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, "tileEntityMovingLightSource");               
    }
 
@@ -323,8 +316,7 @@ public class CommonProxy
         // registerModEntityWithEgg(EntityManEatingTiger.class, "tiger", 0xE18519, 0x000000);
         // or without spawn egg use
 
-        // example: registerModEntity(EntityGoldenGoose.class, "golden_goose");
-        registerModEntityWithEgg(EntityPigTest.class, "test_pig", 0xE18519, 0x000000);
+        // registerModEntityWithEgg(EntityPigTest.class, "test_pig", 0xE18519, 0x000000);
     }
  
     /**
@@ -452,7 +444,7 @@ public class CommonProxy
         itemStackRegistry = parRegistry;
     }
     
-    public List getItemStackRegistry()
+    public List<ItemStack> getItemStackRegistry()
     {
         return itemStackRegistry;
     }
@@ -462,11 +454,11 @@ public class CommonProxy
      */
     public void convertItemStackListToPayload(ByteBuf parBuffer)
     {
-        Iterator theIterator = itemStackRegistry.iterator();
+        Iterator<ItemStack> theIterator = itemStackRegistry.iterator();
        
         while (theIterator.hasNext())
         {          
-            ItemStack theStack = (ItemStack) theIterator.next();
+            ItemStack theStack = theIterator.next();
             
             // write item id and metadata
             parBuffer.writeInt(Item.getIdFromItem(theStack.getItem()));
@@ -497,7 +489,7 @@ public class CommonProxy
      */
     public List<ItemStack> convertPayloadToItemStackList(ByteBuf theBuffer)
     {
-        List<ItemStack> theList = new ArrayList();
+        List<ItemStack> theList = new ArrayList<ItemStack>();
         
         while (theBuffer.isReadable())
         {
