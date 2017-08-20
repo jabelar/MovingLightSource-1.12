@@ -41,7 +41,7 @@ public class VersionChecker implements Runnable
         InputStream in = null;
         try 
         {
-            in = new URL("https://raw.githubusercontent.com/jabelar/MagicBeans-1.7.10/master/src/main/java/com/blogspot/jabelarminecraft/magicbeans/version_file").openStream();
+            in = new URL("https://raw.githubusercontent.com/jabelar/MovingLightSource-1.12/master/src/main/java/com/blogspot/jabelarminecraft/movinglightsource/version_file").openStream();
         } 
         catch 
         (MalformedURLException e) 

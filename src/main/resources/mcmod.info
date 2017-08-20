@@ -1,10 +1,10 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
+  "modid": "movinglightsource",
+  "name": "Torches and Moving Light Sources",
   "description": "",
-  "version": "1.0.0",
-  "mcversion": "1.12",
+  "version": "1.0.2",
+  "mcversion": "1.12.1",
   "url": "",
   "updateUrl": "",
   "authorList": [],
