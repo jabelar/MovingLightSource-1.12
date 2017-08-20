@@ -204,9 +204,9 @@ public class CommonProxy
     public void syncConfig()
     {
         MainMod.config.load();
-        MainMod.allowEntityItemsToGiveOffLitght = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Enitity items can give off light", true, "Certain items on the ground will give off light.").getBoolean(true);
-        // DEBUG
-        System.out.println("Allow entity items to give off light = "+MainMod.allowEntityItemsToGiveOffLitght);
+//        MainMod.allowEntityItemsToGiveOffLitght = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Enitity items can give off light", true, "Certain items on the ground will give off light.").getBoolean(true);
+//        // DEBUG
+//        System.out.println("Allow entity items to give off light = "+MainMod.allowEntityItemsToGiveOffLitght);
         MainMod.allowHeldItemsToGiveOffLight = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Held items can give off light", true, "Holding certain items like torches and glowstone will give off light.").getBoolean(true);
         // DEBUG
         System.out.println("Allow held items to give off light = "+MainMod.allowHeldItemsToGiveOffLight);

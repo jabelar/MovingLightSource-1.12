@@ -49,14 +49,14 @@ public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
                 MainMod.MODID, 
                 false, 
                 false, 
-                Utilities.stringToGolden("Craft The Way You Want", 7));
+                Utilities.stringToGolden("Light Up Your World", 7));
     	titleLine2 = MainMod.configFile.getAbsolutePath();
     }
     
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-    	title = Utilities.stringToGolden("Craft The Way You Want", 7);
+    	title = Utilities.stringToGolden("Light Up Your World", 7);
     	super.drawScreen(mouseX, mouseY, partialTicks);
     }
       

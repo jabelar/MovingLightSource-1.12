@@ -142,6 +142,20 @@ public class Utilities
 		return stringToGolden(parString, parShineLocation, false);
 	}
 	
+	// the TextFormatting doesn't persist across new line characters (and maybe other
+	// escape characters so this method breaks up a string and repeats the text formatting
+	// for each line
+	public static String multiLineTextFormatting(TextFormatting parTextFormatting, String parString)
+	{
+		String theString = "";
+		String textStr[] = parString.split("\\r\\n|\\n|\\r");
+		for (int i=0; i< textStr.length; i++)
+		{
+			theString += parTextFormatting+textStr[i]+"\n";
+		}
+		return theString;
+	}
+	
 	/**
 	* Based on code from http://pages.cs.wisc.edu/~ltorrey/cs302/examples/PigLatinTranslator.java
 	* Method to translate a sentence word by word.
