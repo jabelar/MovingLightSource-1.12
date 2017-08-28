@@ -34,6 +34,7 @@ public class ItemRegistry {
 	 */
 	private static void initialize() 
 	{
+		// you can put furnace smelting recipes here
 	}
 
 	@Mod.EventBusSubscriber(modid = MainMod.MODID)
