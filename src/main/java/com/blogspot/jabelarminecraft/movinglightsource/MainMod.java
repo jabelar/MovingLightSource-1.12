@@ -45,7 +45,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
       name = MainMod.MODNAME, 
       version = MainMod.MODVERSION,
       guiFactory = "com.blogspot.jabelarminecraft."+MainMod.MODID+".gui.GuiFactory",
-      acceptedMinecraftVersions = "[1.12]")
+      acceptedMinecraftVersions = "[1.12, 1.12.1]")
 public class MainMod
 {
     public static final String MODID = "movinglightsource";
