@@ -40,7 +40,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig 
+class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
 {
     public GuiConfig(GuiScreen parent) 
     {

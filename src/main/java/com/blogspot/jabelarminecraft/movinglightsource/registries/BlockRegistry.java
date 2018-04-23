@@ -38,10 +38,10 @@ public class BlockRegistry {
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_7 = new BlockMovingLightSource("movinglightsource_7", 7.0F / 15.0F);
 
 	@Mod.EventBusSubscriber(modid = MainMod.MODID)
-	public static class RegistrationHandler 
+	static class RegistrationHandler
 	{
-		public static final Set<Block> SET_BLOCKS = new HashSet<>();
-		public static final Set<Item> SET_ITEM_BLOCKS = new HashSet<>();
+		static final Set<Block> SET_BLOCKS = new HashSet<>();
+		static final Set<Item> SET_ITEM_BLOCKS = new HashSet<>();
 
 		/**
 		 * Register this mod's {@link Block}s.

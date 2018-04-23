@@ -26,7 +26,7 @@ import net.minecraftforge.fml.client.IModGuiFactory;
  * @author jabelar
  *
  */
-public class GuiFactory implements IModGuiFactory 
+class GuiFactory implements IModGuiFactory
 {
     @Override
     public void initialize(Minecraft minecraftInstance) 

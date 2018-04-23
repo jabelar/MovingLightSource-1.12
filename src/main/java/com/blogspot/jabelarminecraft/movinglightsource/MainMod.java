@@ -43,15 +43,15 @@ public class MainMod
 {
     public static final String MODID = "movinglightsource";
     public static final String MODNAME = "Torches and Moving Light Sources";
-    public static final String MODVERSION = "1.0.2";
-    public static final String MODDESCRIPTION = 
+    private static final String MODVERSION = "1.0.2";
+    private static final String MODDESCRIPTION =
     		"Certain items such as torches and glowstone will give\n"+
     		"off light when wielded. You can also use torches to\n"+
     		"burn entities.";
-    public static final String MODAUTHOR = "jabelar";
-    public static final String MODCREDITS = "JnaeJnae";
-    public static final String MODURL = "www.jabelarminecraft.blogspot.com";
-    public static final String MODLOGO = "modconfiggraphic.png";
+    private static final String MODAUTHOR = "jabelar";
+    private static final String MODCREDITS = "JnaeJnae";
+    private static final String MODURL = "www.jabelarminecraft.blogspot.com";
+    private static final String MODLOGO = "modconfiggraphic.png";
  
 	// use a named channel to identify packets related to this mod
     public static final String NETWORK_CHANNEL_NAME = MODID;

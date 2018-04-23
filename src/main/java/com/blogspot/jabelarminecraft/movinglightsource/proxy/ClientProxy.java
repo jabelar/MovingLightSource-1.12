@@ -59,7 +59,7 @@ public class ClientProxy extends CommonProxy
     }
 
    
-    public void registerBlockRenderers()
+    private void registerBlockRenderers()
     {
         // DEBUG
         System.out.println("Registering block renderers");

@@ -21,8 +21,6 @@ package com.blogspot.jabelarminecraft.movinglightsource.proxy;
 
 import com.blogspot.jabelarminecraft.movinglightsource.EventHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
-import com.blogspot.jabelarminecraft.movinglightsource.OreGenEventHandler;
-import com.blogspot.jabelarminecraft.movinglightsource.TerrainGenEventHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
@@ -54,16 +52,16 @@ public class CommonProxy
         registerGuiHandlers();
     }
     
-    public void registerGuiHandlers() 
+    private void registerGuiHandlers()
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(MainMod.instance, new GuiHandler());     
     }
     
     /**
      * Process the configuration
-     * @param event
+     * @param event the event
      */
-    protected void initConfig(FMLPreInitializationEvent event)
+    private void initConfig(FMLPreInitializationEvent event)
     {
         // might need to use suggestedConfigFile (event.getSuggestedConfigFile) location to publish
         MainMod.configFile = event.getSuggestedConfigurationFile();
@@ -104,7 +102,7 @@ public class CommonProxy
     /**
      * Registers tile entities
      */
-    public void registerTileEntities()
+    private void registerTileEntities()
     {
         // DEBUG
         System.out.println("Registering tile entities");
@@ -114,13 +112,11 @@ public class CommonProxy
     /**
      * Register event listeners
      */
-    protected void registerEventListeners() 
+    private void registerEventListeners()
     {
         // DEBUG
         System.out.println("Registering event listeners");
 
         MinecraftForge.EVENT_BUS.register(new EventHandler());
-        MinecraftForge.TERRAIN_GEN_BUS.register(new TerrainGenEventHandler());
-        MinecraftForge.ORE_GEN_BUS.register(new OreGenEventHandler());        
     }
 }

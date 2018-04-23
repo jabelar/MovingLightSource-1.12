@@ -17,12 +17,12 @@
 package com.blogspot.jabelarminecraft.movinglightsource.blocks;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -41,14 +41,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author jabelar
  *
  */
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
-    public static HashMap<Item, Block> lightSourceList = new HashMap<Item, Block>();
-    public static AxisAlignedBB boundingBox = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
+    private static final HashMap<Item, Block> lightSourceList = new HashMap<>();
+    private static final AxisAlignedBB boundingBox = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
 
     public BlockMovingLightSource(String parName)
     {
@@ -77,20 +79,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         // not easy to tell which blocks may not have items
         // so need to clean up any AIR ItemBlocks that make it into
         // the list.
-        Iterator<HashMap.Entry<Item, Block>> iterator = lightSourceList.entrySet().iterator();
-        while (iterator.hasNext())
-        {
-        	HashMap.Entry<Item, Block> entry = iterator.next();
-        	if (entry.getKey() == Items.AIR)
-        	{
-        		iterator.remove();
-        	}
-        }
+        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
         // DEBUG
-        System.out.println("List of all light-emmitting items is "+lightSourceList);
-    };
+        System.out.println("List of all light-emitting items is "+lightSourceList);
+    }
 
-    
+
     public BlockMovingLightSource(String parName, float parLightLevel)
     {
         this(parName);
@@ -157,7 +151,8 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     {
         return boundingBox;
     }
-    
+
+    @ParametersAreNonnullByDefault
     @Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
@@ -182,6 +177,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         return false;
     }
 
+    @ParametersAreNonnullByDefault
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
@@ -191,7 +187,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        return;
     }
 
     /**
@@ -200,7 +195,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos)
     {
-        return;
     }
 
     @Override
@@ -226,20 +220,18 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
     	// want entities to be able to fall through it
-        return;
     }
 
     @Override
     public void onLanded(World worldIn, Entity entityIn)
     {
-        return;
     }
 
+    @ParametersAreNonnullByDefault
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-    	TileEntityMovingLightSource theTileEntity = new TileEntityMovingLightSource();
-        return theTileEntity;
+        return new TileEntityMovingLightSource();
     }
     
     @Override

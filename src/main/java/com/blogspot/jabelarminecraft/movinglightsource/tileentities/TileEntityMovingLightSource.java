@@ -31,9 +31,9 @@ import net.minecraft.util.math.BlockPos;
  */
 public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
-    public EntityLivingBase theEntityLiving;
-    protected boolean shouldDie = false;
-    protected int deathTimer = 2; // number of ticks after entityLiving moves away
+    private EntityLivingBase theEntityLiving;
+    private boolean shouldDie = false;
+    private int deathTimer = 2; // number of ticks after entityLiving moves away
     
     public TileEntityMovingLightSource()
     {
@@ -90,8 +90,10 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
             return;
         }
 
-        // check if entityLiving has moved away from the tile entity or no longer holding light
-        // emmitting item set block to air
+        /*
+        check if entityLiving has moved away from the tile entity or no longer holding light
+        emitting item set block to air
+        */
         double distanceSquared = getDistanceSq(theEntityLiving.posX, theEntityLiving.posY, theEntityLiving.posZ);
         if (distanceSquared > 5.0D) 
         {
@@ -136,7 +138,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         }
     }  
     
-    public void setEntityLiving(EntityLivingBase parEntityLiving)
+    private void setEntityLiving(EntityLivingBase parEntityLiving)
     {
 //    	// DEBUG
 //    	System.out.println("Setting the entity living to "+parEntityLiving);
