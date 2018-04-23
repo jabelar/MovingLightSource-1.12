@@ -31,21 +31,14 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 @Mod( modid = MainMod.MODID, 
       name = MainMod.MODNAME, 
       version = MainMod.MODVERSION,
-      guiFactory = "com.blogspot.jabelarminecraft."+MainMod.MODID+".gui.GuiFactory",
-      acceptedMinecraftVersions = "[1.12, 1.12.1]")
+      guiFactory = "com.blogspot.jabelarminecraft."+MainMod.MODID+".gui.GuiFactory")
 public class MainMod
 {
     public static final String MODID = "movinglightsource";
@@ -73,32 +66,6 @@ public class MainMod
     public static boolean allowHeldItemsToGiveOffLight = true;
     public static boolean allowBurningEntitiesToGiveOffLight = true;
     public static boolean allowTorchesToBurnEntities = true;
-//    public static boolean allowEntityItemsToGiveOffLitght = true;
-    
-    // instantiate creative tabs
-	// public static final CustomCreativeTab CREATIVE_TAB = new CustomCreativeTab();
-
-    // instantiate materials
-    // public final static MaterialTanningRack materialTanningRack = new MaterialTanningRack();
-    // see custom armor tutorial at: http://bedrockminer.jimdo.com/modding-tutorials/basic-modding/custom-armor/
-    // public final static ArmorMaterial SAFEFALLINGLEATHER = EnumHelper.addArmorMaterial("SAFEFALLINGLEATHER", "safe_falling", 5, new int[]{2, 6, 5, 2}, 15);
-    
-    // blocks are instantiated in BlockRegistry class
-    
-    // items are instantiated in ItemRegistry class
-   
-    // instantiate structures
-    // important to do this after blocks in case structure uses custom block
-
-	// instantiate advancements and stats
-    // public static Advancement advancementUseCompactor;
-    // public static StatBasic deconstructedItemsStat;
-    
-    // enumerate guis
-    // public enum GUI_ENUM 
-    // {
-    //    COMPACTOR
-    // }
     
     // instantiate the mod
     @Instance(MODID)
@@ -107,10 +74,6 @@ public class MainMod
     // Says where the client and server 'proxy' code is loaded.
     @SidedProxy(clientSide="com.blogspot.jabelarminecraft.movinglightsource.proxy.ClientProxy", serverSide="com.blogspot.jabelarminecraft.movinglightsource.proxy.CommonProxy")
     public static CommonProxy proxy;
-    
-    // Version checking instance
-	public static VersionChecker versionChecker;
-	public static boolean haveWarnedVersionOutOfDate = false;
             
     @EventHandler
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the GameRegistry."
@@ -141,64 +104,6 @@ public class MainMod
         
         proxy.fmlLifeCycleEvent(event);
     }
-
-	@EventHandler
-    // postInit "Handle interaction with other mods, complete your setup based on this."
-    public void fmlLifeCycle(FMLPostInitializationEvent event) 
-	{
-        // DEBUG
-        System.out.println("postInit()");
-        
-        proxy.fmlLifeCycleEvent(event);
-    }
-
-	@EventHandler
-	public void fmlLifeCycle(FMLServerAboutToStartEvent event)
-	{
-        // DEBUG
-        System.out.println("Server about to start");
-        
-		proxy.fmlLifeCycleEvent(event);
-	}
-
-	@EventHandler
-	// register server commands
-	// refer to tutorial at http://www.minecraftforge.net/wiki/Server_Command#Mod_Implementation
-	public void fmlLifeCycle(FMLServerStartingEvent event)
-	{
-        // DEBUG
-        System.out.println("Server starting");
-        
-		proxy.fmlLifeCycleEvent(event);
-	}
-
-	@EventHandler
-	public void fmlLifeCycle(FMLServerStartedEvent event)
-	{
-        // DEBUG
-        System.out.println("Server started");
-        
-		proxy.fmlLifeCycleEvent(event);
-	}
-
-	@EventHandler
-	public void fmlLifeCycle(FMLServerStoppingEvent event)
-	{
-        // DEBUG
-        System.out.println("Server stopping");
-        
-		proxy.fmlLifeCycleEvent(event);
-	}
-
-	@EventHandler
-	public void fmlLifeCycle(FMLServerStoppedEvent event)
-	{
-        // DEBUG
-        System.out.println("Server stopped");
-        
-		proxy.fmlLifeCycleEvent(event);
-	}
-
 
     public static void saveProperties()
     {

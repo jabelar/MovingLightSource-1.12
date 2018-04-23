@@ -19,11 +19,6 @@ package com.blogspot.jabelarminecraft.movinglightsource.utilities;
 import java.util.Iterator;
 import java.util.List;
 
-import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
-import com.blogspot.jabelarminecraft.movinglightsource.entities.IEntity;
-import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageSyncEntityToClient;
-import com.blogspot.jabelarminecraft.movinglightsource.networking.MessageSyncEntityToServer;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -232,32 +227,6 @@ public class Utilities
 	    }
 	    	return 0;
 	}
-	  
-	/*
-	 * Networking packet utilities
-	 */
-	
-    public static void sendEntitySyncPacketToClient(IEntity parEntity) 
-    {
-    	Entity theEntity = (Entity)parEntity;
-        if (!theEntity.getEntityWorld().isRemote)
-        {
-        	// DEBUG
-        	System.out.println("sendEntitySyncPacket from server for entity ID ="+theEntity.getEntityId());
-            MainMod.network.sendToAll(new MessageSyncEntityToClient(theEntity.getEntityId(), parEntity.getSyncDataCompound()));           
-        }
-    }
-
-    public static void sendEntitySyncPacketToServer(IEntity parEntity) 
-    {
-    	Entity theEntity = (Entity)parEntity;
-        if (theEntity.getEntityWorld().isRemote)
-        {
-        	// DEBUG
-        	System.out.println("sendEntitySyncPacket from client");
-            MainMod.network.sendToServer(new MessageSyncEntityToServer(theEntity.getEntityId(), parEntity.getSyncDataCompound()));           
-        }
-    }
     
     /*
      * World utilities
@@ -313,7 +282,6 @@ public class Utilities
             Vec3d var8 = pos.addVector(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
             Entity pointedEntity = null;
             float var9 = 1.0F;
-            @SuppressWarnings("unchecked")
             List<Entity> list = mc.world.getEntitiesWithinAABBExcludingEntity(theRenderViewEntity, theViewBoundingBox.grow(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).expand(var9, var9, var9));
             double d = calcdist;
             

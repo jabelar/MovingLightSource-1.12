@@ -122,7 +122,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     		{
 //    			// DEBUG
 //    			System.out.println("Block in both hands is not null");
-		    	if (blockMainHand.getLightValue(blockMainHand.getDefaultState()) >= blockOffHand.getLightValue(blockOffHand.getDefaultState())) 
+    		    if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
 				{ 
 //		    		// DEBUG
 //		    		System.out.println("Block in main hand has higher light value");
@@ -247,6 +247,4 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     {
         return true;
     }
-
-
 }

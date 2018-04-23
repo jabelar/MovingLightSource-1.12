@@ -37,13 +37,6 @@ public class BlockRegistry {
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_9 = new BlockMovingLightSource("movinglightsource_9", 9.0F / 15.0F);
 	public final static BlockMovingLightSource MOVING_LIGHT_SOURCE_7 = new BlockMovingLightSource("movinglightsource_7", 7.0F / 15.0F);
 
-	/**
-	 * Initialize this mod's {@link Block}s with any post-registration data.
-	 */
-	private static void initialize() 
-	{
-	}
-
 	@Mod.EventBusSubscriber(modid = MainMod.MODID)
 	public static class RegistrationHandler 
 	{
@@ -77,8 +70,6 @@ public class BlockRegistry {
 				// DEBUG
 				System.out.println("Registering block: "+block.getRegistryName());
 			}
-
-			initialize();
 			
 			BlockMovingLightSource.initMapLightSources();
 		}

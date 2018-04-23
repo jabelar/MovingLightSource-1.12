@@ -29,9 +29,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -1087,16 +1084,6 @@ public class EventHandler
     {        
         if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) // only proceed if START phase otherwise, will execute twice per tick
         {
-            EntityPlayer thePlayer = event.player;
-            if (!MainMod.haveWarnedVersionOutOfDate && !MainMod.versionChecker.isLatestVersion())
-            {
-                ClickEvent versionCheckChatClickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, "http://jabelarminecraft.blogspot.com");
-                Style clickableStyle = new Style().setClickEvent(versionCheckChatClickEvent);
-                TextComponentString versionWarningChatComponent = new TextComponentString("Your Magic Beans Mod is not latest version!  Click here to update.");
-                versionWarningChatComponent.setStyle(clickableStyle);
-                thePlayer.sendMessage(versionWarningChatComponent);
-                MainMod.haveWarnedVersionOutOfDate = true;
-            }
         }
         else if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote)
         {
@@ -1132,8 +1119,8 @@ public class EventHandler
 //                	// DEBUG
 //                	System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
                 	// check if light value at location should change (due to change in held item)
-                	if (blockAtLocation.getLightValue(blockAtLocation.getDefaultState()) != 
-                			BlockMovingLightSource.lightBlockToPlace(event.player).getLightValue(BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState()))
+                	if (blockAtLocation.getDefaultState().getLightValue() != 
+                			BlockMovingLightSource.lightBlockToPlace(event.player).getDefaultState().getLightValue())
                 	{
 		                event.player.world.setBlockState(
 		                		blockLocation, 

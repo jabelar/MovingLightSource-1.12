@@ -22,7 +22,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.1-14.22.1.2484"
+    version = "1.12.2-14.23.3.2671"
     runDir = "../run/assets"
     mappings = "snapshot_20170902"
 }
