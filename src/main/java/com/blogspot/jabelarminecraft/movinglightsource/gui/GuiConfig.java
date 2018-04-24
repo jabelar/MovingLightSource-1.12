@@ -40,41 +40,41 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
+public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
 {
-    public GuiConfig(GuiScreen parent) 
+    public GuiConfig(GuiScreen parent)
     {
         super(parent,
                 new ConfigElement(MainMod.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),
-                MainMod.MODID, 
-                false, 
-                false, 
+                MainMod.MODID,
+                false,
+                false,
                 Utilities.stringToGolden("Light Up Your World", 7));
-    	titleLine2 = MainMod.configFile.getAbsolutePath();
+        titleLine2 = MainMod.configFile.getAbsolutePath();
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-    	title = Utilities.stringToGolden("Light Up Your World", 7);
-    	super.drawScreen(mouseX, mouseY, partialTicks);
+        title = Utilities.stringToGolden("Light Up Your World", 7);
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
-      
+
     @Override
     protected void actionPerformed(GuiButton button)
     {
         if (button.id == 2000)
         {
-        	// DEBUG
-        	System.out.println("Pressed DONE button");
+            // DEBUG
+            System.out.println("Pressed DONE button");
             boolean flag = true;
             try
             {
-                if ((configID != null || this.parentScreen == null || !(this.parentScreen instanceof GuiConfig)) 
+                if ((configID != null || this.parentScreen == null || !(this.parentScreen instanceof GuiConfig))
                         && (this.entryList.hasChangedEntry(true)))
                 {
-                	// DEBUG
-                	System.out.println("Saving config elements");
+                    // DEBUG
+                    System.out.println("Saving config elements");
                     boolean requiresMcRestart = this.entryList.saveConfigElements();
 
                     if (Loader.isModLoaded(modID))
@@ -83,14 +83,14 @@ class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
                         MinecraftForge.EVENT_BUS.post(event);
                         if (!event.getResult().equals(Result.DENY))
                             MinecraftForge.EVENT_BUS.post(new PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
-                        
+
                         if (requiresMcRestart)
                         {
                             flag = false;
-                            mc.displayGuiScreen(new GuiMessageDialog(parentScreen, "fml.configgui.gameRestartTitle", 
+                            mc.displayGuiScreen(new GuiMessageDialog(parentScreen, "fml.configgui.gameRestartTitle",
                                     new TextComponentString(I18n.format("fml.configgui.gameRestartRequired")), "fml.configgui.confirmRestartMessage"));
                         }
-                        
+
                         if (this.parentScreen instanceof GuiConfig)
                             ((GuiConfig) this.parentScreen).needsRefresh = true;
                     }
@@ -100,7 +100,7 @@ class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
             {
                 e.printStackTrace();
             }
-            
+
             if (flag)
                 this.mc.displayGuiScreen(this.parentScreen);
         }

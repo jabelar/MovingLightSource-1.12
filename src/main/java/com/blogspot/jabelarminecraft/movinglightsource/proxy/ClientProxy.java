@@ -29,7 +29,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy 
+public class ClientProxy extends CommonProxy
 {
     @Override
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event)
@@ -38,7 +38,7 @@ public class ClientProxy extends CommonProxy
         System.out.println("on Client side");
 
         /*
-         *  do common stuff
+         * do common stuff
          */
         super.fmlLifeCycleEvent(event);
     }
@@ -50,7 +50,7 @@ public class ClientProxy extends CommonProxy
         System.out.println("on Client side");
 
         /*
-         *  do common stuff
+         * do common stuff
          */
         super.fmlLifeCycleEvent(event);
 
@@ -58,21 +58,28 @@ public class ClientProxy extends CommonProxy
         registerBlockRenderers();
     }
 
-   
     private void registerBlockRenderers()
     {
         // DEBUG
         System.out.println("Registering block renderers");
-        
+
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_15), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_15.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_14), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_14.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_13), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_13.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_12), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_12.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_11), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_11.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_9), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_9.getUnlocalizedName().substring(5), "inventory"));
-        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.MOVING_LIGHT_SOURCE_7), 0, new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.MOVING_LIGHT_SOURCE_7.getUnlocalizedName().substring(5), "inventory"));
+
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_15), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_15.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_14), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_14.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_13), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_13.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_12), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_12.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_11), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_11.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_9), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_9.getUnlocalizedName().substring(5), "inventory"));
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_7), 0,
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_7.getUnlocalizedName().substring(5), "inventory"));
     }
 }

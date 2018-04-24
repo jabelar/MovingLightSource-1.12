@@ -8,22 +8,22 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler
 {
-	// On server side you return the container (not the GUI!)
+    // On server side you return the container (not the GUI!)
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) 
-    { 
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
         // DEBUG
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
         // process those GUIs that have associated tile entities (i.e. for delayed results like forge)
         if (tileEntity != null)
         {
-//            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
-//            {
-//            	// DEBUG
-//            	System.out.println("GUI handler server element creating ContainerCompactor");
-//                return new ContainerCompactor(player.inventory, (IInventory)tileEntity);
-//            }
+            // if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
+            // {
+            // // DEBUG
+            // System.out.println("GUI handler server element creating ContainerCompactor");
+            // return new ContainerCompactor(player.inventory, (IInventory)tileEntity);
+            // }
         }
         // could process those GUIs that do not have associated entities (i.e. instant results) here
 
@@ -39,15 +39,15 @@ public class GuiHandler implements IGuiHandler
         // process those GUIs that have associated tile entities (i.e. for delayed results like forge)
         if (tileEntity != null)
         {
-//            if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
-//            {
-//               	// DEBUG
-//            	System.out.println("GUI handler client element creating GUICompactor");
-//                return new GuiCompactor(player.inventory, (IInventory)tileEntity);
-//            }
+            // if (ID == MainMod.GUI_ENUM.COMPACTOR.ordinal())
+            // {
+            // // DEBUG
+            // System.out.println("GUI handler client element creating GUICompactor");
+            // return new GuiCompactor(player.inventory, (IInventory)tileEntity);
+            // }
         }
         // could process those GUIs that do not have associated entities (i.e. instant results) here
-        
-       return null;
+
+        return null;
     }
 }

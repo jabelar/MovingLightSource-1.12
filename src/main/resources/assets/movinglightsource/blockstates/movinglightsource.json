@@ -1,6 +1,7 @@
 {
     "forge_marker": 1,
     "variants": {
-        "normal": { "model": "movinglightsource:movinglightsource" }
+        "normal": { "model": "movinglightsource:movinglightsource" },
+        "inventory": { "model": "movinglightsource:movinglightsource" }
     }
 }
