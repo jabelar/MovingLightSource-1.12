@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "1.12.1-1.0.2"
+version = "1.12.2-1.0.2"
 group= "com.blogspot.jabelarminecraft.movinglightsource" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "movinglightsource"
 
@@ -22,9 +22,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.3.2671"
+    version = "1.12.2-14.23..4.2745"
     runDir = "../run/assets"
-    mappings = "snapshot_20170902"
+    mappings = "snapshot_20180731"
 }
 
 dependencies {
