@@ -1,3 +1,10 @@
+mod_motto=Light up your world!
+config.held_items.name=Held items can give off light
+config.held_items.tooltip=Holding certain items like torches and glowstone will give off light.
+config.torches_burn.name=Torches can burn entities
+config.torches_burn.tooltip=Attacking with regular torch will set entities on fire.
+config.burning_entities.name=Burning entities give off light
+config.burning_entities.tooltip=When an entity is burning it gives off same light as a fire block.
 
 
 

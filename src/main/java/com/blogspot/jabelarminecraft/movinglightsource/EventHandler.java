@@ -89,8 +89,6 @@ public class EventHandler
         {
             if (MainMod.allowTorchesToBurnEntities)
             {
-                // DEBUG
-                System.out.println("Setting entity " + event.getEntity() + " on fire");
                 event.getTarget().setFire(10);
             }
         }
@@ -148,11 +146,8 @@ public class EventHandler
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onEvent(OnConfigChangedEvent eventArgs)
     {
-        // DEBUG
-        System.out.println("OnConfigChangedEvent");
         if (eventArgs.getModID().equals(MainMod.MODID))
         {
-            System.out.println("Syncing config for mod =" + eventArgs.getModID());
             MainMod.config.save();
             MainMod.proxy.syncConfig();
         }

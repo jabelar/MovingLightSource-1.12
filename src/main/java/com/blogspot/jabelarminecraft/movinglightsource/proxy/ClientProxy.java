@@ -27,42 +27,18 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy
-{
-    @Override
-    public void fmlLifeCycleEvent(FMLPreInitializationEvent event)
-    {
-        // DEBUG
-        System.out.println("on Client side");
-
-        /*
-         * do common stuff
-         */
-        super.fmlLifeCycleEvent(event);
-    }
-
-    @Override
+{    @Override
     public void fmlLifeCycleEvent(FMLInitializationEvent event)
     {
-        // DEBUG
-        System.out.println("on Client side");
-
-        /*
-         * do common stuff
-         */
         super.fmlLifeCycleEvent(event);
 
-        // register renderers
         registerBlockRenderers();
     }
 
     private void registerBlockRenderers()
     {
-        // DEBUG
-        System.out.println("Registering block renderers");
-
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource), 0,

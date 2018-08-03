@@ -58,8 +58,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         setDefaultState(blockState.getBaseState());
         setTickRandomly(false);
         setLightLevel(1.0F);
-        // setBlockBounds(0.5F, 0.5F, 0.5F, 0.5F, 0.5F, 0.5F);
-
     }
 
     // call only after you're sure that all items and blocks have been registered
@@ -95,6 +93,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                 || lightSourceList.containsKey(parLivingBase.getHeldItemOffhand().getItem()));
     }
 
+    @SuppressWarnings("deprecation")
     public static Block lightBlockToPlace(EntityLivingBase parEntityLivingBase)
     {
         if (parEntityLivingBase == null)

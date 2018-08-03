@@ -49,14 +49,14 @@ public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
                 MainMod.MODID,
                 false,
                 false,
-                Utilities.stringToGolden("Light Up Your World", 7));
+                Utilities.stringToGolden(I18n.format("mod_motto"), 7));
         titleLine2 = MainMod.configFile.getAbsolutePath();
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        title = Utilities.stringToGolden("Light Up Your World", 7);
+        title = Utilities.stringToGolden(I18n.format("mod_motto"), 7);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -65,16 +65,12 @@ public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
     {
         if (button.id == 2000)
         {
-            // DEBUG
-            System.out.println("Pressed DONE button");
             boolean flag = true;
             try
             {
                 if ((configID != null || this.parentScreen == null || !(this.parentScreen instanceof GuiConfig))
                         && (this.entryList.hasChangedEntry(true)))
                 {
-                    // DEBUG
-                    System.out.println("Saving config elements");
                     boolean requiresMcRestart = this.entryList.saveConfigElements();
 
                     if (Loader.isModLoaded(modID))
@@ -104,6 +100,13 @@ public class GuiConfig extends net.minecraftforge.fml.client.config.GuiConfig
             if (flag)
                 this.mc.displayGuiScreen(this.parentScreen);
         }
+        else if (button.id == 2001)
+        {
+            this.entryList.setAllToDefault(this.chkApplyGlobally.isChecked());
+        }
+        else if (button.id == 2002)
+        {
+            this.entryList.undoAllChanges(this.chkApplyGlobally.isChecked());
+        }
     }
-
 }

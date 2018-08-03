@@ -24,6 +24,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -82,23 +83,16 @@ public class CommonProxy
     public void syncConfig()
     {
         MainMod.config.load();
-        // MainMod.allowEntityItemsToGiveOffLitght = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Enitity items can give off light", true, "Certain items on the ground will
-        // give off light.").getBoolean(true);
-        // // DEBUG
-        // System.out.println("Allow entity items to give off light = "+MainMod.allowEntityItemsToGiveOffLitght);
-        MainMod.allowHeldItemsToGiveOffLight = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Held items can give off light", true,
-                "Holding certain items like torches and glowstone will give off light.").getBoolean(true);
-        // DEBUG
-        System.out.println("Allow held items to give off light = " + MainMod.allowHeldItemsToGiveOffLight);
+        MainMod.allowHeldItemsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.held_items.name"), true,
+                I18n.format("config.held_items.tooltip")).getBoolean(true);
         MainMod.allowTorchesToBurnEntities = MainMod.config
-                .get(Configuration.CATEGORY_GENERAL, "Torches can burn entities", true, "Attacking with regular torch will set entities on fire.")
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.torches_burn.name"), true, 
+                 I18n.format("config.torches_burn.tooltip"))
                 .getBoolean(true);
-        // DEBUG
-        System.out.println("Allow torches to burn entities = " + MainMod.allowTorchesToBurnEntities);
-        MainMod.allowBurningEntitiesToGiveOffLight = MainMod.config.get(Configuration.CATEGORY_GENERAL, "Burning entities give off light", true,
-                "When an entity is burning it gives off same light as a fire block.").getBoolean(true);
-        // DEBUG
-        System.out.println("Burning entities give off light = " + MainMod.allowBurningEntitiesToGiveOffLight);
+        MainMod.allowBurningEntitiesToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.burning_entities.name"), true,
+                I18n.format("config.burning_entities.tooltip")).getBoolean(true);
 
         // save is useful for the first run where config might not exist, and doesn't hurt
         MainMod.config.save();
@@ -109,8 +103,6 @@ public class CommonProxy
      */
     private void registerTileEntities()
     {
-        // DEBUG
-        System.out.println("Registering tile entities");
         GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, "tileEntityMovingLightSource");
     }
 
@@ -119,9 +111,6 @@ public class CommonProxy
      */
     private void registerEventListeners()
     {
-        // DEBUG
-        System.out.println("Registering event listeners");
-
         MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 }
