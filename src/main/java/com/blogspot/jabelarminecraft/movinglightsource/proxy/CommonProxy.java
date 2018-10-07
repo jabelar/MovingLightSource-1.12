@@ -25,6 +25,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -103,7 +104,7 @@ public class CommonProxy
      */
     private void registerTileEntities()
     {
-        GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, "tileEntityMovingLightSource");
+        GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, new ResourceLocation(MainMod.MODID, "tileEntityMovingLightSource"));
     }
 
     /**
