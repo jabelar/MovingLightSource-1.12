@@ -17,9 +17,13 @@
 package com.blogspot.jabelarminecraft.movinglightsource.blocks;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
@@ -35,10 +39,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -63,6 +69,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     // call only after you're sure that all items and blocks have been registered
     public static void initMapLightSources()
     {
+        // Add known vanilla items to list
         lightSourceList.put(Item.getItemFromBlock(Blocks.BEACON), BlockRegistry.movinglightsource_15);
         lightSourceList.put(Item.getItemFromBlock(Blocks.LIT_PUMPKIN), BlockRegistry.movinglightsource_15);
         lightSourceList.put(Items.LAVA_BUCKET, BlockRegistry.movinglightsource_15);
@@ -77,8 +84,43 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         // so need to clean up any AIR ItemBlocks that make it into
         // the list.
         lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
+        
+        // Add any mod blocks that emit light to list
+        Set<Entry<ResourceLocation, Block>> setModBlocksWithLight = ForgeRegistries.BLOCKS.getEntries();
+        Iterator<Entry<ResourceLocation, Block>> iterator = setModBlocksWithLight.iterator();
+        while (iterator.hasNext())
+        {
+            Entry<ResourceLocation, Block> entry = iterator.next();
+            if (!(entry.getKey().getNamespace().contains("minecraft") || entry.getKey().getNamespace().contains(MainMod.MODID)))
+            {
+//                // DEBUG
+//                System.out.println("Found a mod block = "+entry.getKey()+" with light level = "+entry.getValue().getDefaultState().getLightValue(null, null));
+                
+                if (entry.getValue().getDefaultState().getLightValue(null, null) > 0)
+                {
+                    Block lightBlock = BlockRegistry.movinglightsource_15;
+                    switch (entry.getValue().getDefaultState().getLightValue(null, null))
+                    {
+                        case 14: lightBlock = BlockRegistry.movinglightsource_14; break;
+                        case 13: lightBlock = BlockRegistry.movinglightsource_13; break;
+                        case 12: lightBlock = BlockRegistry.movinglightsource_12; break;
+                        case 11: lightBlock = BlockRegistry.movinglightsource_11; break;
+                        case 10: case 9: case 8: lightBlock = BlockRegistry.movinglightsource_9; break;
+                        case 7: case 6: case 5: case 4: case 3: case 2: case 1: lightBlock = BlockRegistry.movinglightsource_7; break;
+                    }
+                    lightSourceList.put(Item.getItemFromBlock(entry.getValue()), lightBlock);
+                }
+            }
+        }
+        
         // DEBUG
-        System.out.println("List of all light-emitting items is " + lightSourceList);
+        System.out.println("List of all light-emitting items is: ");
+        Iterator<Entry<Item, Block>> iterator2 = lightSourceList.entrySet().iterator();
+        while (iterator2.hasNext())
+        {
+            Entry<Item, Block> entry = iterator2.next();
+            System.out.println(entry.getKey().getRegistryName()+" "+entry.getValue());
+        }
     }
 
     public BlockMovingLightSource(String parName, float parLightLevel)
