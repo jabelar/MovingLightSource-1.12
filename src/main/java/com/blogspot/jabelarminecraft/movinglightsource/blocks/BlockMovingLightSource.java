@@ -68,6 +68,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     // call only after you're sure that all items and blocks have been registered
+    @SuppressWarnings("deprecation")
     public static void initMapLightSources()
     {
         // Add known vanilla items to list
@@ -96,20 +97,28 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             {
 //                // DEBUG
 //                System.out.println("Found a mod block = "+entry.getKey()+" with light level = "+entry.getValue().getDefaultState().getLightValue(null, null));
-                
-                if (entry.getValue().getDefaultState().getLightValue(null, null) > 0)
+                try
                 {
-                    Block lightBlock = BlockRegistry.movinglightsource_15;
-                    switch (entry.getValue().getDefaultState().getLightValue(null, null))
+                    int lightValue = entry.getValue().getDefaultState().getLightValue(null, null);
+                    if (lightValue > 0)
                     {
-                        case 14: lightBlock = BlockRegistry.movinglightsource_14; break;
-                        case 13: lightBlock = BlockRegistry.movinglightsource_13; break;
-                        case 12: lightBlock = BlockRegistry.movinglightsource_12; break;
-                        case 11: lightBlock = BlockRegistry.movinglightsource_11; break;
-                        case 10: case 9: case 8: lightBlock = BlockRegistry.movinglightsource_9; break;
-                        case 7: case 6: case 5: case 4: case 3: case 2: case 1: lightBlock = BlockRegistry.movinglightsource_7; break;
+                        Block lightBlock = BlockRegistry.movinglightsource_15;
+                        switch (entry.getValue().getDefaultState().getLightValue(null, null))
+                        {
+                            case 14: lightBlock = BlockRegistry.movinglightsource_14; break;
+                            case 13: lightBlock = BlockRegistry.movinglightsource_13; break;
+                            case 12: lightBlock = BlockRegistry.movinglightsource_12; break;
+                            case 11: lightBlock = BlockRegistry.movinglightsource_11; break;
+                            case 10: case 9: case 8: lightBlock = BlockRegistry.movinglightsource_9; break;
+                            case 7: case 6: case 5: case 4: case 3: case 2: case 1: lightBlock = BlockRegistry.movinglightsource_7; break;
+                        }
+                        lightSourceList.put(Item.getItemFromBlock(entry.getValue()), lightBlock);
                     }
-                    lightSourceList.put(Item.getItemFromBlock(entry.getValue()), lightBlock);
+                }
+                catch (NullPointerException e)
+                {
+//                    // DEBUG
+//                    System.out.println(entry.getValue()+" has dynamic lighting");
                 }
             }
         }
