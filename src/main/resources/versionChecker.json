@@ -2,8 +2,8 @@
   "homepage": "http://jabelarminecraftmods.blogspot.com/",
   "promos": 
   {
-    "1.12.2-latest": "1.0.4",
-    "1.12.2-recommended": "1.0.4"
+    "1.12.2-latest": "1.0.5",
+    "1.12.2-recommended": "1.0.5"
   },
   "1.12.2": 
   {
@@ -11,6 +11,7 @@
     "1.0.1": "jabelar: ",
     "1.0.2": "jabelar: Added ability to burn entities. Got configuration options fully working.",
     "1.0.3": "jabelar: Various code clean up and bug fixes.",
-    "1.0.4": "jabelar: Now supports mod blocks that emit light."
+    "1.0.4": "jabelar: Now supports mod blocks that emit light.",
+    "1.0.5": "jabelar: Now supports EntityItems emitting light. Fixed numerous bugs.
   }
 }

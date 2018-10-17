@@ -46,8 +46,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     @Override
     public void update()
     {
-         // DEBUG
-         System.out.println(this+" at pos = "+getPos()+" for block "+world.getBlockState(getPos()).getBlock()+" placed by entity = "+theEntity+" still ticking with shouldDie = "+shouldDie);
+//         // DEBUG
+//         System.out.println(this+" at pos = "+getPos()+" for block "+world.getBlockState(getPos()).getBlock()+" placed by entity = "+theEntity+" still ticking with shouldDie = "+shouldDie);
 
         // check if already dying
         if (shouldDie)
@@ -70,8 +70,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         // clean up in case the entityLiving disappears (teleports, dies, logs out, etc.)
         if (theEntity == null || theEntity.isDead)
         {
-            // DEBUG
-            System.out.println(this+" is setting block shouldDie because entity is null or dead");
+//            // DEBUG
+//            System.out.println(this+" is setting block shouldDie because entity is null or dead");
 
             if (blockAtLocation instanceof BlockMovingLightSource)
             {
@@ -86,8 +86,8 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         double distanceSquared = getDistanceSq(theEntity.posX, theEntity.posY, theEntity.posZ);
         if (distanceSquared > 5.0D)
         {
-             // DEBUG
-             System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
+//             // DEBUG
+//             System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
             if (blockAtLocation instanceof BlockMovingLightSource)
             {
 //                 // DEBUG
@@ -135,11 +135,11 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 
     public void setEntity(Entity parEntity)
     {
-        // DEBUG
-        if (parEntity == null) 
-        {
-            System.out.println(this+" is Setting the entity to null!");
-        }
+//        // DEBUG
+//        if (parEntity == null) 
+//        {
+//            System.out.println(this+" is Setting the entity to null!");
+//        }
         theEntity = parEntity;
     }
 

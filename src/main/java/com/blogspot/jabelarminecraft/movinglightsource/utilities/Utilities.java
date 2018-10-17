@@ -91,11 +91,11 @@ public class Utilities
             }
         }
         
-        // DEBUG
-        if (closest == null)
-        {
-            System.out.println("Couldn't find closest entity");
-        }
+//        // DEBUG
+//        if (closest == null)
+//        {
+//            System.out.println("Couldn't find closest entity");
+//        }
         return closest;
     }
 
