@@ -34,6 +34,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -114,13 +115,14 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         }
         
         // DEBUG
-        System.out.println("List of all light-emitting items is: ");
+        System.out.print("List of all light-emitting items is: ");
         Iterator<Entry<Item, Block>> iterator2 = lightSourceList.entrySet().iterator();
         while (iterator2.hasNext())
         {
             Entry<Item, Block> entry = iterator2.next();
-            System.out.println(entry.getKey().getRegistryName()+" "+entry.getValue());
+            System.out.print(entry.getKey().getRegistryName()+" ");
         }
+        System.out.print("\n");
     }
 
     public BlockMovingLightSource(String parName, float parLightLevel)
@@ -131,8 +133,13 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
 
     public static boolean isHoldingLightItem(EntityLivingBase parLivingBase)
     {
-        return (lightSourceList.containsKey(parLivingBase.getHeldItemMainhand().getItem())
-                || lightSourceList.containsKey(parLivingBase.getHeldItemOffhand().getItem()));
+        return (isLightItem(parLivingBase.getHeldItemMainhand().getItem())
+                || isLightItem(parLivingBase.getHeldItemOffhand().getItem()));
+    }
+    
+    public static boolean isLightItem(Item parItem)
+    {
+        return lightSourceList.containsKey(parItem);
     }
 
     @SuppressWarnings("deprecation")
@@ -185,6 +192,17 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         }
     }
 
+    public static Block lightBlockToPlace(EntityItem parEntityItem)
+    {
+        if (parEntityItem == null)
+        {
+            return Blocks.AIR;
+        }
+        
+        return lightSourceList.get(parEntityItem.getItem().getItem());
+    }
+
+    
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {

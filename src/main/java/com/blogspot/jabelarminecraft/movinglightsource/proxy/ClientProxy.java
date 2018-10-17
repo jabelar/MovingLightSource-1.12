@@ -25,7 +25,9 @@ import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class ClientProxy extends CommonProxy
@@ -57,5 +59,27 @@ public class ClientProxy extends CommonProxy
                 new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_9.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_7), 0,
                 new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_7.getTranslationKey().substring(5), "inventory"));
+    }
+    
+    /*
+     * sync the configuration want it public so you can handle case of changes made in-game
+     */
+    @Override
+    public void syncConfig()
+    {
+        MainMod.config.load();
+        MainMod.allowHeldItemsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.held_items.name"), true,
+                I18n.format("config.held_items.tooltip")).getBoolean(true);
+        MainMod.allowTorchesToBurnEntities = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.torches_burn.name"), true, 
+                 I18n.format("config.torches_burn.tooltip"))
+                .getBoolean(true);
+        MainMod.allowBurningEntitiesToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.burning_entities.name"), true,
+                I18n.format("config.burning_entities.tooltip")).getBoolean(true);
+
+        // save is useful for the first run where config might not exist, and doesn't hurt
+        MainMod.config.save();
     }
 }

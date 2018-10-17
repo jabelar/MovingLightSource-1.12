@@ -48,7 +48,7 @@ public class MainMod
             "burn entities.";
     private static final String MODAUTHOR = "jabelar";
     private static final String MODCREDITS = "";
-    private static final String MODURL = "http://jabelarminecraftmods.blogspot.com/";
+    private static final String MODURL = "https://minecraft.curseforge.com/search?search=jabelar";
     private static final String MODLOGO = "modconfiggraphic.png";
 
     // set up configuration properties (will be read from config file in preInit)

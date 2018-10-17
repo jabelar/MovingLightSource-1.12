@@ -20,7 +20,9 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -63,14 +65,14 @@ public class Utilities
      * World utilities
      */
 
-    public static EntityLivingBase getClosestEntityLiving(World parWorld, BlockPos parPos, double parMaxDistance)
+    public static Entity getClosestEntity(World parWorld, BlockPos parPos, double parMaxDistance)
     {
         if (parMaxDistance <= 0.0D)
         {
             return null;
         }
 
-        EntityLivingBase closestLiving = null;
+        Entity closest = null;
         double distanceSq = parMaxDistance * parMaxDistance;
         AxisAlignedBB aabb = new AxisAlignedBB(
                 parPos.getX() - parMaxDistance,
@@ -79,15 +81,22 @@ public class Utilities
                 parPos.getX() + parMaxDistance,
                 parPos.getY() + parMaxDistance,
                 parPos.getZ() + parMaxDistance);
-        List<EntityLivingBase> listEntitiesInRange = parWorld.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
-        for (EntityLivingBase next : listEntitiesInRange)
+        List<Entity> listEntitiesInRange = parWorld.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+        listEntitiesInRange.addAll(parWorld.getEntitiesWithinAABB(EntityItem.class, aabb));
+        for (Entity next : listEntitiesInRange)
         {
             if (getDistanceSq(next.getPosition(), parPos) < distanceSq)
             {
-                closestLiving = next;
+                closest = next;
             }
         }
-        return closestLiving;
+        
+        // DEBUG
+        if (closest == null)
+        {
+            System.out.println("Couldn't find closest entity");
+        }
+        return closest;
     }
 
     private static double getDistanceSq(BlockPos parPos1, BlockPos parPos2)
