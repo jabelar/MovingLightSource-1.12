@@ -2,17 +2,18 @@
   "homepage": "http://jabelarminecraftmods.blogspot.com/",
   "promos": 
   {
-    "1.12.2-latest": "1.0.6",
-    "1.12.2-recommended": "1.0.6"
+    "1.12.2-latest": "1.0.7",
+    "1.12.2-recommended": "1.0.7"
   },
   "1.12.2": 
   {
     "1.0.0": "jabelar: Inital release.",
-    "1.0.1": "jabelar: ",
+    "1.0.1": "jabelar: Additional feature development",
     "1.0.2": "jabelar: Added ability to burn entities. Got configuration options fully working.",
     "1.0.3": "jabelar: Various code clean up and bug fixes.",
     "1.0.4": "jabelar: Now supports mod blocks that emit light.",
     "1.0.5": "jabelar: Now supports EntityItems emitting light. Fixed numerous bugs.",
-    "1.0.6": "jabelar: Fixed issue with mods where blocks have dynamic lighting"
+    "1.0.6": "jabelar: Fixed issue with mods where blocks have dynamic lighting",
+    "1.0.7": "jabelar: Fixed issue with lingering light after burnin stops"
   }
 }

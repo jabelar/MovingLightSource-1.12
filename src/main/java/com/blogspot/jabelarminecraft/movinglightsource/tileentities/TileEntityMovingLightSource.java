@@ -22,6 +22,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -129,6 +130,27 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
                         shouldDie = true;
                     }
                 }
+            }
+            else if (theEntity instanceof EntityItem)
+            {
+                // // DEBUG
+                // System.out.println("The entity item is not burning");
+                if (!BlockMovingLightSource.isHoldingLightItem((EntityItem)theEntity))
+                {
+                    // // DEBUG
+                    // System.out.println("Setting block to air because entity item ("+theEntityLiving+") is no longer holding light emmitting item and burning state =
+                    // "+theEntity.isBurning());
+                    if (world.getBlockState(getPos()).getBlock() instanceof BlockMovingLightSource)
+                    {
+                        // // DEBUG
+                        // System.out.println("Comfirmed that there is moving light source there");
+                        shouldDie = true;
+                    }
+                }
+            }
+            else // not burning and not light-emitting
+            {
+                shouldDie = true;
             }
         }
     }

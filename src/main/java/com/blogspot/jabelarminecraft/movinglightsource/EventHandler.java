@@ -25,12 +25,11 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
-import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 import com.google.common.base.Predicate;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -53,38 +52,38 @@ public class EventHandler
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onEvent(LivingUpdateEvent event)
     {
-        EntityLivingBase theEntityLiving = event.getEntityLiving();
-
-        if (!theEntityLiving.world.isRemote)
-        {
-            // check if entity is on fire
-            if (theEntityLiving.isBurning() && MainMod.allowBurningEntitiesToGiveOffLight)
-            {
-                // // DEBUG
-                // System.out.println("Entity is burning");
-
-                // determine player position
-                int blockX = MathHelper.floor(theEntityLiving.posX);
-                int blockY = MathHelper.floor(theEntityLiving.posY - 0.2D - event.getEntityLiving().getYOffset());
-                int blockZ = MathHelper.floor(theEntityLiving.posZ);
-
-                // place light where there is space to do so
-                BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
-                Block blockAtLocation = theEntityLiving.world.getBlockState(blockLocation).getBlock();
-                // // DEBUG
-                // System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
-                if (blockAtLocation == Blocks.AIR)
-                {
-                    // // DEBUG
-                    // System.out.println("There is space at player location "+blockLocation+" to place block");
-
-                    // there is space to create moving light source block
-                    theEntityLiving.world.setBlockState(
-                            blockLocation,
-                            BlockRegistry.movinglightsource_15.getDefaultState());
-                }
-            }
-        }
+//        Entity theEntity = event.getEntityLiving();
+//
+//        if (!theEntity.world.isRemote)
+//        {
+//            // check if entity is on fire
+//            if (theEntity.isBurning() && MainMod.allowBurningEntitiesToGiveOffLight)
+//            {
+//                // // DEBUG
+//                // System.out.println("Entity is burning");
+//
+//                // determine player position
+//                int blockX = MathHelper.floor(theEntity.posX);
+//                int blockY = MathHelper.floor(theEntity.posY - 0.2D - event.getEntityLiving().getYOffset());
+//                int blockZ = MathHelper.floor(theEntity.posZ);
+//
+//                // place light where there is space to do so
+//                BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
+//                Block blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+//                // // DEBUG
+//                // System.out.println("Block at player position is "+event.player.world.getBlockState(blockLocation).getBlock());
+//                if (blockAtLocation == Blocks.AIR)
+//                {
+//                    // // DEBUG
+//                    // System.out.println("There is space at player location "+blockLocation+" to place block");
+//
+//                    // there is space to create moving light source block
+//                    theEntity.world.setBlockState(
+//                            blockLocation,
+//                            BlockRegistry.movinglightsource_15.getDefaultState());
+//                }
+//            }
+//        }
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
@@ -167,35 +166,59 @@ public class EventHandler
     }
 
 
-    @SuppressWarnings("deprecation")
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onEvent(WorldTickEvent event)
     {
         World theWorld = event.world;
         if (event.phase == TickEvent.Phase.START && !theWorld.isRemote)
         {
-            List<EntityItem> entityList = theWorld.getEntities(EntityItem.class, LIGHT_SOURCE);
-            Iterator<EntityItem> iterator = entityList.iterator();
-            while(iterator.hasNext())
+            processEntityItems(theWorld);
+            processBurningEntities(theWorld);
+        }
+    }
+    
+    private void processEntityItems(World theWorld)
+    {
+        List<EntityItem> entityList = theWorld.getEntities(EntityItem.class, ENTITY_ITEM_LIGHT_SOURCE);
+        Iterator<EntityItem> iterator = entityList.iterator();
+        while(iterator.hasNext())
+        {
+            EntityItem theEntityItem = iterator.next();
+            
+            // determine entity position
+            int blockX = MathHelper.floor(theEntityItem.posX);
+            int blockY = MathHelper.floor(theEntityItem.posY - 0.2D - theEntityItem.getYOffset());
+            int blockZ = MathHelper.floor(theEntityItem.posZ);
+
+            // place light where there is space to do so
+            BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up(2);
+            Block blockAtLocation = theEntityItem.world.getBlockState(blockLocation).getBlock();
+            // // DEBUG
+            // System.out.println("Block at player position is "+theEntityItem.world.getBlockState(blockLocation).getBlock());
+            if (blockAtLocation == Blocks.AIR)
             {
-                EntityItem theEntityItem = iterator.next();
-                
-                // determine entity position
-                int blockX = MathHelper.floor(theEntityItem.posX);
-                int blockY = MathHelper.floor(theEntityItem.posY - 0.2D - theEntityItem.getYOffset());
-                int blockZ = MathHelper.floor(theEntityItem.posZ);
-
-                // place light where there is space to do so
-                BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up(2);
-                Block blockAtLocation = theEntityItem.world.getBlockState(blockLocation).getBlock();
                 // // DEBUG
-                // System.out.println("Block at player position is "+theEntityItem.world.getBlockState(blockLocation).getBlock());
-                if (blockAtLocation == Blocks.AIR)
-                {
-                    // // DEBUG
-                    // System.out.println("There is space at player location "+blockLocation+" to place block");
+                // System.out.println("There is space at player location "+blockLocation+" to place block");
 
-                    // there is space to create moving light source block
+                // there is space to create moving light source block
+                theEntityItem.world.setBlockState(
+                        blockLocation,
+                        BlockMovingLightSource.lightBlockToPlace(theEntityItem).getDefaultState());
+                TileEntity theTileEntity = theEntityItem.world.getTileEntity(blockLocation);
+                if (theTileEntity instanceof TileEntityMovingLightSource)
+                {
+                    TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
+                    theTileEntityMovingLightSource.setEntity(theEntityItem);
+                }
+            }
+            else if (blockAtLocation instanceof BlockMovingLightSource)
+            {
+                // // DEBUG
+                // System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
+                // check if light value at location should change (due to change in held item)
+                if (blockAtLocation.getDefaultState().getLightValue() != BlockMovingLightSource.lightBlockToPlace(theEntityItem).getDefaultState()
+                        .getLightValue())
+                {
                     theEntityItem.world.setBlockState(
                             blockLocation,
                             BlockMovingLightSource.lightBlockToPlace(theEntityItem).getDefaultState());
@@ -206,36 +229,128 @@ public class EventHandler
                         theTileEntityMovingLightSource.setEntity(theEntityItem);
                     }
                 }
+            }
+        }
+    }
+    
+    private void processBurningEntities(World theWorld)
+    {
+        List<Entity> entityList = theWorld.getEntities(Entity.class, FLAMING_ENTITY);
+        Iterator<Entity> iterator = entityList.iterator();
+        while(iterator.hasNext())
+        {
+            Entity theEntity = iterator.next();
+            
+            // determine entity position
+            int blockX = MathHelper.floor(theEntity.posX);
+            int blockY = MathHelper.floor(theEntity.posY - 0.2D - theEntity.getYOffset());
+            int blockZ = MathHelper.floor(theEntity.posZ);
+
+            // place light where there is space to do so
+            BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up(1);
+            Block blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+
+            // // DEBUG
+            // System.out.println("Block at player position is "+theEntityItem.world.getBlockState(blockLocation).getBlock());
+            if (blockAtLocation == Blocks.AIR)
+            {
+                // // DEBUG
+                // System.out.println("There is space at player location "+blockLocation+" to place block");
+
+                // there is space to create moving light source block
+                theEntity.world.setBlockState(
+                        blockLocation,
+                        BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState());
+                TileEntity theTileEntity = theEntity.world.getTileEntity(blockLocation);
+                if (theTileEntity instanceof TileEntityMovingLightSource)
+                {
+                    TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
+                    theTileEntityMovingLightSource.setEntity(theEntity);
+                }
+            }
+            else if (blockAtLocation instanceof BlockMovingLightSource)
+            {
+                // // DEBUG
+                // System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
+                // check if light value at location should change (due to change in held item)
+                if (blockAtLocation.getDefaultState().getLightValue() != BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState()
+                        .getLightValue())
+                {
+                    theEntity.world.setBlockState(
+                            blockLocation,
+                            BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState());
+                    TileEntity theTileEntity = theEntity.world.getTileEntity(blockLocation);
+                    if (theTileEntity instanceof TileEntityMovingLightSource)
+                    {
+                        TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
+                        theTileEntityMovingLightSource.setEntity(theEntity);
+                    }
+                }
+            }
+            else // try one block up
+            {
+                blockLocation.up();
+                blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+                
+                // // DEBUG
+                // System.out.println("Block at player position is "+theEntityItem.world.getBlockState(blockLocation).getBlock());
+                if (blockAtLocation == Blocks.AIR)
+                {
+                    // // DEBUG
+                    // System.out.println("There is space at player location "+blockLocation+" to place block");
+
+                    // there is space to create moving light source block
+                    theEntity.world.setBlockState(
+                            blockLocation,
+                            BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState());
+                    TileEntity theTileEntity = theEntity.world.getTileEntity(blockLocation);
+                    if (theTileEntity instanceof TileEntityMovingLightSource)
+                    {
+                        TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
+                        theTileEntityMovingLightSource.setEntity(theEntity);
+                    }
+                }
                 else if (blockAtLocation instanceof BlockMovingLightSource)
                 {
                     // // DEBUG
                     // System.out.println("There is already a BlockMovingLight at player location "+blockLocation);
                     // check if light value at location should change (due to change in held item)
-                    if (blockAtLocation.getDefaultState().getLightValue() != BlockMovingLightSource.lightBlockToPlace(theEntityItem).getDefaultState()
+                    if (blockAtLocation.getDefaultState().getLightValue() != BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState()
                             .getLightValue())
                     {
-                        theEntityItem.world.setBlockState(
+                        theEntity.world.setBlockState(
                                 blockLocation,
-                                BlockMovingLightSource.lightBlockToPlace(theEntityItem).getDefaultState());
-                        TileEntity theTileEntity = theEntityItem.world.getTileEntity(blockLocation);
+                                BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState());
+                        TileEntity theTileEntity = theEntity.world.getTileEntity(blockLocation);
                         if (theTileEntity instanceof TileEntityMovingLightSource)
                         {
                             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
-                            theTileEntityMovingLightSource.setEntity(theEntityItem);
+                            theTileEntityMovingLightSource.setEntity(theEntity);
                         }
                     }
                 }
             }
         }
     }
+
     
     /** Selects entities which are either not players or players that are not spectating */
-    public static final Predicate<EntityItem> LIGHT_SOURCE = new Predicate<EntityItem>()
+    public static final Predicate<EntityItem> ENTITY_ITEM_LIGHT_SOURCE = new Predicate<EntityItem>()
     {
         @Override
         public boolean apply(@Nullable EntityItem theEntityItem)
         {
             return  (BlockMovingLightSource.isLightItem(theEntityItem.getItem().getItem()) && MainMod.allowHeldItemsToGiveOffLight);
+        }
+    };
+    
+    /** Selects entities which are either not players or players that are not spectating */
+    public static final Predicate<Entity> FLAMING_ENTITY = new Predicate<Entity>()
+    {
+        @Override
+        public boolean apply(@Nullable Entity theEntity)
+        {
+            return  (theEntity.isBurning() && MainMod.allowBurningEntitiesToGiveOffLight);
         }
     };
 

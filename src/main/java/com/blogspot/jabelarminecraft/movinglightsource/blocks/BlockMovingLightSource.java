@@ -68,7 +68,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     // call only after you're sure that all items and blocks have been registered
-    @SuppressWarnings("deprecation")
     public static void initMapLightSources()
     {
         // Add known vanilla items to list
@@ -146,71 +145,80 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                 || isLightItem(parLivingBase.getHeldItemOffhand().getItem()));
     }
     
+    public static boolean isHoldingLightItem(EntityItem theEntityItem)
+    {
+        return (isLightItem(theEntityItem.getItem().getItem()));
+    }
+   
     public static boolean isLightItem(Item parItem)
     {
         return lightSourceList.containsKey(parItem);
     }
 
     @SuppressWarnings("deprecation")
-    public static Block lightBlockToPlace(EntityLivingBase parEntityLivingBase)
+    public static Block lightBlockToPlace(Entity parEntity)
     {
-        if (parEntityLivingBase == null)
-        {
-            return Blocks.AIR;
-        }
-
-        BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(parEntityLivingBase.getHeldItemMainhand().getItem());
-        BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(parEntityLivingBase.getHeldItemOffhand().getItem());
-        // // DEBUG
-        // System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
-        if (blockMainHand != null)
-        {
-            // // DEBUG
-            // System.out.println("Block in main hand is not null");
-            if (blockOffHand != null) // both hands have light emmitting item
-            {
-                // // DEBUG
-                // System.out.println("Block in both hands is not null");
-                if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
-                {
-                    // // DEBUG
-                    // System.out.println("Block in main hand has higher light value");
-                    return blockMainHand;
-                }
-                else
-                {
-                    // // DEBUG
-                    // System.out.println("Block in off hand has higher light value");
-                    return blockOffHand;
-                }
-            }
-            else // only main hand has light emmitting item
-            {
-                return blockMainHand;
-            }
-        }
-        else if (blockOffHand != null) // only off hand has light-emmitting item
-        {
-            // // DEBUG
-            // System.out.println("Block in off hand is not null");
-            return blockOffHand;
-        }
-        else // neither hand has light emmitting item
-        {
-            return Blocks.AIR;
-        }
-    }
-
-    public static Block lightBlockToPlace(EntityItem parEntityItem)
-    {
-        if (parEntityItem == null)
+        if (parEntity == null)
         {
             return Blocks.AIR;
         }
         
-        return lightSourceList.get(parEntityItem.getItem().getItem());
+        if (parEntity.isBurning())
+        {
+            return BlockRegistry.movinglightsource_15;
+        }
+        
+        if (parEntity instanceof EntityLivingBase)
+        {
+            EntityLivingBase theEntityLiving = (EntityLivingBase)parEntity;
+            
+            BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemMainhand().getItem());
+            BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemOffhand().getItem());
+            // // DEBUG
+            // System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
+            if (blockMainHand != null)
+            {
+                // // DEBUG
+                // System.out.println("Block in main hand is not null");
+                if (blockOffHand != null) // both hands have light emmitting item
+                {
+                    // // DEBUG
+                    // System.out.println("Block in both hands is not null");
+                    if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
+                    {
+                        // // DEBUG
+                        // System.out.println("Block in main hand has higher light value");
+                        return blockMainHand;
+                    }
+                    else
+                    {
+                        // // DEBUG
+                        // System.out.println("Block in off hand has higher light value");
+                        return blockOffHand;
+                    }
+                }
+                else // only main hand has light emmitting item
+                {
+                    return blockMainHand;
+                }
+            }
+            else
+            {
+                if (blockOffHand != null)
+                {
+                    return blockOffHand;
+                }
+            }
+        }
+        
+        if (parEntity instanceof EntityItem)
+        {
+            EntityItem theEntityItem = (EntityItem)parEntity;
+            return lightSourceList.get(theEntityItem.getItem().getItem());
+        }
+        
+        return Blocks.AIR;
     }
-
     
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)

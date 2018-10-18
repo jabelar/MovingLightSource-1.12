@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -83,6 +84,7 @@ public class Utilities
                 parPos.getZ() + parMaxDistance);
         List<Entity> listEntitiesInRange = parWorld.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
         listEntitiesInRange.addAll(parWorld.getEntitiesWithinAABB(EntityItem.class, aabb));
+        listEntitiesInRange.addAll(parWorld.getEntitiesWithinAABB(EntityTippedArrow.class, aabb));
         for (Entity next : listEntitiesInRange)
         {
             if (getDistanceSq(next.getPosition(), parPos) < distanceSq)
