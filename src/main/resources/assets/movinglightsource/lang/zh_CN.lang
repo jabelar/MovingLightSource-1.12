@@ -1,0 +1,7 @@
+mod_motto=点亮你的世界!
+config.held_items.name=手持物品可发光
+config.held_items.tooltip=手持火炬或萤石等可发光物体时能正常发光.
+config.torches_burn.name=火炬可点燃实体
+config.torches_burn.tooltip=使用火炬攻击可以使实体着火.
+config.burning_entities.name=点燃实体可发光
+config.burning_entities.tooltip=实体燃烧时可发出与火焰相同的亮度.
