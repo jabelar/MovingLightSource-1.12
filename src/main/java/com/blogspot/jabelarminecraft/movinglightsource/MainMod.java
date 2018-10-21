@@ -42,7 +42,7 @@ public class MainMod
 {
     public static final String MODID = "movinglightsource";
     public static final String MODNAME = "Torches and Moving Light Sources";
-    public static final String MODVERSION = "1.0.8";
+    public static final String MODVERSION = "1.0.9";
     private static final String MODDESCRIPTION = "Certain items such as torches and glowstone will give\n" +
             "off light when wielded. You can also use torches to\n" +
             "burn entities.";

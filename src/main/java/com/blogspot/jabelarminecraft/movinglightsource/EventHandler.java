@@ -141,8 +141,8 @@ public class EventHandler
                         TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
                         theTileEntityMovingLightSource.setEntity(event.player);
                         
-                        // DEBUG
-                        System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
+//                        // DEBUG
+//                        System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
                     }
                 }
                 else if (blockAtLocation instanceof BlockMovingLightSource)
@@ -162,8 +162,8 @@ public class EventHandler
                             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
                             theTileEntityMovingLightSource.setEntity(event.player);
                             
-                            // DEBUG
-                            System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
+//                            // DEBUG
+//                            System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
                         }
                     }
                 }

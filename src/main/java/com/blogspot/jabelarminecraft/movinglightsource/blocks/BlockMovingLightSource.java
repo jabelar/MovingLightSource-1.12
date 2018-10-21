@@ -45,6 +45,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -70,6 +71,20 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     // call only after you're sure that all items and blocks have been registered
     public static void initMapLightSources()
     {
+        addVanillaItemsToLightSourceList();
+        addModItemsToLightSourceList(); 
+        addModCompabilityItemsToLightSourceList();
+        
+        // not easy to tell which blocks may not have items
+        // so need to clean up any AIR ItemBlocks that make it into
+        // the list.
+        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
+        
+        dumpLightSourceListToConsole();
+    }
+    
+    private static void addVanillaItemsToLightSourceList()
+    {
         // Add known vanilla items to list
         lightSourceList.put(Item.getItemFromBlock(Blocks.BEACON), BlockRegistry.movinglightsource_15);
         lightSourceList.put(Item.getItemFromBlock(Blocks.LIT_PUMPKIN), BlockRegistry.movinglightsource_15);
@@ -81,7 +96,10 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         lightSourceList.put(Item.getItemFromBlock(Blocks.TORCH), BlockRegistry.movinglightsource_14);
         lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_TORCH), BlockRegistry.movinglightsource_9);
         lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_ORE), BlockRegistry.movinglightsource_7);
-        
+    }
+    
+    private static void addModItemsToLightSourceList()
+    {
         // Add any mod blocks that emit light to list
         Set<Entry<ResourceLocation, Block>> setModBlocksWithLight = ForgeRegistries.BLOCKS.getEntries();
         Iterator<Entry<ResourceLocation, Block>> iterator = setModBlocksWithLight.iterator();
@@ -122,17 +140,33 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                 }
             }
         }
-        
-        // not easy to tell which blocks may not have items
-        // so need to clean up any AIR ItemBlocks that make it into
-        // the list.
-        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
-                
-        // not easy to tell which blocks may not have items
-        // so need to clean up any AIR ItemBlocks that make it into
-        // the list.
-        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
-        
+    }
+    
+    private static void addModCompabilityItemsToLightSourceList()
+    {
+        if (Loader.isModLoaded("jetorches"))
+        {
+            jetorchesCompatibility();
+        }
+    }
+    
+    private static void jetorchesCompatibility()
+    {
+        // Add any mod blocks that emit light to list
+        Set<Entry<ResourceLocation, Block>> setModBlocksWithLight = ForgeRegistries.BLOCKS.getEntries();
+        Iterator<Entry<ResourceLocation, Block>> iterator = setModBlocksWithLight.iterator();
+        while (iterator.hasNext())
+        {
+            Entry<ResourceLocation, Block> entry = iterator.next();
+            if (entry.getKey().getNamespace().contains("jetorches"))
+            {
+                lightSourceList.put(Item.getItemFromBlock(entry.getValue()), BlockRegistry.movinglightsource_14);
+            }
+        }
+    }
+    
+    private static void dumpLightSourceListToConsole()
+    {
         // DEBUG
         System.out.print("List of all light-emitting items is: ");
         Iterator<Entry<Item, Block>> iterator2 = lightSourceList.entrySet().iterator();
