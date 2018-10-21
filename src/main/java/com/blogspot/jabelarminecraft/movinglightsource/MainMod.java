@@ -57,6 +57,7 @@ public class MainMod
     public static boolean allowHeldItemsToGiveOffLight = true;
     public static boolean allowBurningEntitiesToGiveOffLight = true;
     public static boolean allowTorchesToBurnEntities = true;
+    public static boolean allowFireEnchantmentsToGiveOffLight = true;
 
     // instantiate the mod
     @Instance(MODID)

@@ -5,6 +5,5 @@ config.torches_burn.name=Torches can burn entities
 config.torches_burn.tooltip=Attacking with regular torch will set entities on fire.
 config.burning_entities.name=Burning entities give off light
 config.burning_entities.tooltip=When an entity is burning it gives off same light as a fire block.
-
-
-
+config.fire_enchantments.name=Fire-based enchantments give off light
+config.fire_enchantments.tooltip=When an entity is holding a Flame or Fire Aspect enchanted item, it will give off the same light as a fire block.

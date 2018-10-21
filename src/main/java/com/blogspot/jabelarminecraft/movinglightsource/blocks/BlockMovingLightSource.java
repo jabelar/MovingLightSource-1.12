@@ -32,10 +32,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -164,8 +166,8 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                         entry.getKey().getPath().contains("lamp"))
                     )
             {
-                // DEBUG
-                System.out.println("Found mod block = "+entry.getKey()+" with instance = "+entry.getValue()+" with item from block = "+Item.getItemFromBlock(entry.getValue()));
+//                // DEBUG
+//                System.out.println("Found mod block = "+entry.getKey()+" with instance = "+entry.getValue()+" with item from block = "+Item.getItemFromBlock(entry.getValue()));
                 lightSourceList.put(Item.getItemFromBlock(entry.getValue()), BlockRegistry.movinglightsource_14);
             }
         }
@@ -210,7 +212,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     public static boolean isHoldingLightItem(EntityLivingBase parLivingBase)
     {        
         return (isLightItem(parLivingBase.getHeldItemMainhand().getItem())
-                || isLightItem(parLivingBase.getHeldItemOffhand().getItem()));
+                || isLightItem(parLivingBase.getHeldItemOffhand().getItem())
+                || (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, parLivingBase.getHeldItemMainhand()) > 0)
+                || (EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, parLivingBase.getHeldItemMainhand()) > 0)
+                || (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, parLivingBase.getHeldItemOffhand()) > 0)
+                || (EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, parLivingBase.getHeldItemOffhand()) > 0)
+                );
     }
     
     public static boolean isHoldingLightItem(EntityItem theEntityItem)
@@ -235,10 +242,19 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         {
             return BlockRegistry.movinglightsource_15;
         }
-        
+                
         if (parEntity instanceof EntityLivingBase)
         {
             EntityLivingBase theEntityLiving = (EntityLivingBase)parEntity;
+            
+            // Handle case of holding item with a flame type enchantment
+            if (MainMod.allowFireEnchantmentsToGiveOffLight && (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemMainhand()) > 0
+                    || EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemOffhand()) > 0
+                    || EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT,theEntityLiving.getHeldItemMainhand()) > 0
+                    || EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT,theEntityLiving.getHeldItemOffhand()) > 0))
+            {
+                return BlockRegistry.movinglightsource_15;
+            }
             
             BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemMainhand().getItem());
             BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemOffhand().getItem());
