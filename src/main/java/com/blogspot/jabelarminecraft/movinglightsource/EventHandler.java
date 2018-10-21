@@ -113,8 +113,8 @@ public class EventHandler
             // check if player is holding a light source
             if (BlockMovingLightSource.isHoldingLightItem(event.player) && MainMod.allowHeldItemsToGiveOffLight)
             {
-                // // DEBUG
-                // System.out.println("Holding torch");
+//                 // DEBUG
+//                 System.out.println("Holding light-emitting item");
 
                 // determine player position
                 int blockX = MathHelper.floor(event.player.posX);
@@ -140,6 +140,9 @@ public class EventHandler
                     {
                         TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
                         theTileEntityMovingLightSource.setEntity(event.player);
+                        
+                        // DEBUG
+                        System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
                     }
                 }
                 else if (blockAtLocation instanceof BlockMovingLightSource)
@@ -158,6 +161,9 @@ public class EventHandler
                         {
                             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
                             theTileEntityMovingLightSource.setEntity(event.player);
+                            
+                            // DEBUG
+                            System.out.println("Placing "+theTileEntityMovingLightSource+" placed by "+theTileEntityMovingLightSource.getEntity());
                         }
                     }
                 }

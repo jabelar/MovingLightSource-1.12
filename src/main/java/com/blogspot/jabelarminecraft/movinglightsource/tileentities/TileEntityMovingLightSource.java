@@ -87,8 +87,9 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         double distanceSquared = getDistanceSq(theEntity.posX, theEntity.posY, theEntity.posZ);
         if (distanceSquared > 5.0D)
         {
-//             // DEBUG
-//             System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
+//            // DEBUG
+//            System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
+
             if (blockAtLocation instanceof BlockMovingLightSource)
             {
 //                 // DEBUG

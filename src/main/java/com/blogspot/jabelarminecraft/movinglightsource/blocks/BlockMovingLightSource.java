@@ -81,10 +81,6 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         lightSourceList.put(Item.getItemFromBlock(Blocks.TORCH), BlockRegistry.movinglightsource_14);
         lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_TORCH), BlockRegistry.movinglightsource_9);
         lightSourceList.put(Item.getItemFromBlock(Blocks.REDSTONE_ORE), BlockRegistry.movinglightsource_7);
-        // not easy to tell which blocks may not have items
-        // so need to clean up any AIR ItemBlocks that make it into
-        // the list.
-        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
         
         // Add any mod blocks that emit light to list
         Set<Entry<ResourceLocation, Block>> setModBlocksWithLight = ForgeRegistries.BLOCKS.getEntries();
@@ -95,7 +91,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             if (!(entry.getKey().getNamespace().contains("minecraft") || entry.getKey().getNamespace().contains(MainMod.MODID)))
             {
 //                // DEBUG
-//                System.out.println("Found a mod block = "+entry.getKey()+" with light level = "+entry.getValue().getDefaultState().getLightValue(null, null));
+//                if (!(entry.getKey().getNamespace().contains("adchimneys")))
+//                {
+//                    List<ItemStack> subBlockList = NonNullList.create();
+//                    entry.getValue().getSubBlocks(null, (NonNullList<ItemStack>) subBlockList);
+//                    System.out.println("Found a mod block = "+entry.getKey()+" with sub blocks = "+subBlockList);
+//                }
                 try
                 {
                     int lightValue = entry.getValue().getDefaultState().getLightValue(null, null);
@@ -122,6 +123,16 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             }
         }
         
+        // not easy to tell which blocks may not have items
+        // so need to clean up any AIR ItemBlocks that make it into
+        // the list.
+        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
+                
+        // not easy to tell which blocks may not have items
+        // so need to clean up any AIR ItemBlocks that make it into
+        // the list.
+        lightSourceList.entrySet().removeIf(entry -> entry.getKey() == Items.AIR);
+        
         // DEBUG
         System.out.print("List of all light-emitting items is: ");
         Iterator<Entry<Item, Block>> iterator2 = lightSourceList.entrySet().iterator();
@@ -140,7 +151,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     public static boolean isHoldingLightItem(EntityLivingBase parLivingBase)
-    {
+    {        
         return (isLightItem(parLivingBase.getHeldItemMainhand().getItem())
                 || isLightItem(parLivingBase.getHeldItemOffhand().getItem()));
     }
