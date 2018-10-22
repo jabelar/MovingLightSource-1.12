@@ -413,8 +413,8 @@ public class EventHandler
         while(iterator.hasNext())
         {
             Entity theEntity = iterator.next();
-            // DEBUG
-            System.out.println("Found EntityFireworkRocket at position"+theEntity.getPosition());
+//            // DEBUG
+//            System.out.println("Found EntityFireworkRocket at position"+theEntity.getPosition());
            
             // determine entity position
             int blockX = MathHelper.floor(theEntity.posX);

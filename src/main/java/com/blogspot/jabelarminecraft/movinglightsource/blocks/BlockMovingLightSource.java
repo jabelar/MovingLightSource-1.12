@@ -136,7 +136,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                         lightSourceList.put(Item.getItemFromBlock(entry.getValue()), lightBlock);
                     }
                 }
-                catch (NullPointerException e)
+                catch (NullPointerException | IllegalArgumentException e)
                 {
 //                    // DEBUG
 //                    System.out.println(entry.getValue()+" has dynamic lighting");
