@@ -35,6 +35,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
@@ -270,6 +271,11 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         if (parEntity == null)
         {
             return Blocks.AIR;
+        }
+        
+        if (parEntity instanceof EntityFireworkRocket)
+        {
+            return BlockRegistry.movinglightsource_12;
         }
         
         if (parEntity.isBurning())
