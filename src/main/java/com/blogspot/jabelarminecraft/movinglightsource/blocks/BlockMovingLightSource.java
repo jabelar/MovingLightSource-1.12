@@ -150,6 +150,10 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         {
             jetorchesCompatibility();
         }
+        if (Loader.isModLoaded("fairylights"))
+        {
+            fairylightsCompatibility();
+        }
     }
     
     private static void jetorchesCompatibility()
@@ -183,8 +187,38 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                         entry.getKey().getPath().contains("lamp"))
                     )
             {
-                // DEBUG
-                System.out.println("Found mod item = "+entry.getKey()+" with instance = "+entry.getValue());
+//                // DEBUG
+//                System.out.println("Found mod item = "+entry.getKey()+" with instance = "+entry.getValue());
+                lightSourceList.put(entry.getValue(), BlockRegistry.movinglightsource_14);
+            }
+        }
+    }
+    
+    private static void fairylightsCompatibility()
+    {
+        // Add any mod blocks that emit light to list
+        Set<Entry<ResourceLocation, Block>> setModBlocksWithLight = ForgeRegistries.BLOCKS.getEntries();
+        Iterator<Entry<ResourceLocation, Block>> iterator = setModBlocksWithLight.iterator();
+        while (iterator.hasNext())
+        {
+            Entry<ResourceLocation, Block> entry = iterator.next();
+            if (entry.getKey().getNamespace().contains("fairylights"))
+            {
+//                // DEBUG
+//                System.out.println("Found mod block = "+entry.getKey()+" with instance = "+entry.getValue()+" with item from block = "+Item.getItemFromBlock(entry.getValue()));
+                lightSourceList.put(Item.getItemFromBlock(entry.getValue()), BlockRegistry.movinglightsource_14);
+            }
+        }
+        // Add any mod blocks that emit light to list
+        Set<Entry<ResourceLocation, Item>> setModItemsWithLight = ForgeRegistries.ITEMS.getEntries();
+        Iterator<Entry<ResourceLocation, Item>> iterator2 = setModItemsWithLight.iterator();
+        while (iterator2.hasNext())
+        {
+            Entry<ResourceLocation, Item> entry = iterator2.next();
+            if (entry.getKey().getNamespace().contains("fairylights"))
+            {
+//                // DEBUG
+//                System.out.println("Found mod item = "+entry.getKey()+" with instance = "+entry.getValue());
                 lightSourceList.put(entry.getValue(), BlockRegistry.movinglightsource_14);
             }
         }
