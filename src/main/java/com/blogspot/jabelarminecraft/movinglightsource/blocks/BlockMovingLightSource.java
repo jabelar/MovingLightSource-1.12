@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
@@ -31,6 +32,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -43,9 +45,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
@@ -347,7 +352,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return boundingBox;
+        return NULL_AABB;
     }
 
     @ParametersAreNonnullByDefault
@@ -361,6 +366,27 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
     {
         return false;
+    }
+    
+    @Override
+    public boolean isCollidable()
+    {
+        return false;
+    }
+    
+    @Override
+    @Deprecated
+    @Nullable
+    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+    {
+        return this.rayTrace(pos, start, end, blockState.getBoundingBox(worldIn, pos));
+    }
+
+    @Override
+    @Nullable
+    protected RayTraceResult rayTrace(BlockPos pos, Vec3d start, Vec3d end, AxisAlignedBB boundingBox)
+    {
+        return null;
     }
 
     @Override
@@ -412,6 +438,29 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
+    }
+    
+    @Override
+    @Deprecated
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+    {
+        return false;
+    }
+    
+    @Override
+    @Deprecated
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+    {
+        return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    @Deprecated
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+    {
+        return NULL_AABB;
     }
 
     @Override
