@@ -18,6 +18,7 @@
     "1.0.8": "jabelar: Fixed compatibility issue with mods like Tinkers Construct that had light-emitting blocks without registered item block.",
     "1.0.9": "jabelar: Got rid of some console spam left over from debugging.",
     "1.0.10": "jabelar: Flame enchantments can now give light, as can any living entity holding a light source.",
-    "1.0.11": "jabelar: Fixed compatibility issue with Better Records mod."
+    "1.0.11": "jabelar: Fixed compatibility issue with Better Records mod.",
+    "1.0.12": "jabelar: Fixed issue with fences connecting to the invisible light blocks."
   }
 }
