@@ -65,8 +65,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
     private static final HashMap<Item, Block> lightSourceList = new HashMap<>();
-    private static final AxisAlignedBB boundingBox = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
-
+    
     public BlockMovingLightSource(String parName)
     {
         super(Material.AIR);
