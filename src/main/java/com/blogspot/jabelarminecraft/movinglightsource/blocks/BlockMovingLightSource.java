@@ -39,9 +39,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.projectile.EntitySpectralArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -282,6 +284,11 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             return BlockRegistry.movinglightsource_12;
         }
         
+        if (parEntity instanceof EntitySpectralArrow)
+        {
+            return BlockRegistry.movinglightsource_15;
+        }
+        
         if (parEntity.isBurning())
         {
             return BlockRegistry.movinglightsource_15;
@@ -290,6 +297,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         if (parEntity instanceof EntityLivingBase)
         {
             EntityLivingBase theEntityLiving = (EntityLivingBase)parEntity;
+            
+            // handle case of glowing
+            if (theEntityLiving.isPotionActive(MobEffects.GLOWING))
+            {
+                return BlockRegistry.movinglightsource_15;
+            }
             
             // Handle case of holding item with a flame type enchantment
             if (MainMod.allowFireEnchantmentsToGiveOffLight && (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemMainhand()) > 0
