@@ -75,9 +75,9 @@ public class EventHandler
         World theWorld = event.world;
         if (event.phase == TickEvent.Phase.START && !theWorld.isRemote)
         {
-            processLightPlacementForEntity(theWorld, ENTITY_HOLDING_LIGHT_SOURCE);
             processLightPlacementForEntity(theWorld, ENTITY_ITEM_LIGHT_SOURCE);
             processLightPlacementForEntity(theWorld, FLAMING_ENTITY);
+            processLightPlacementForEntity(theWorld, ENTITY_HOLDING_LIGHT_SOURCE);
             processLightPlacementForEntity(theWorld, ENTITY_FIREWORK_ROCKET);
             processLightPlacementForEntity(theWorld, ENTITY_SPECTRAL_ARROW);
             processLightPlacementForEntity(theWorld, GLOWING_ENTITY);
@@ -133,6 +133,7 @@ public class EventHandler
             }
         }
     }
+    
     
     private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation)
     {
