@@ -64,6 +64,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
             else
             {
                 world.setBlockToAir(getPos());
+                world.removeTileEntity(getPos());;
                 return;
             }
         }
@@ -72,6 +73,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         {
             shouldDie = true;
             world.setBlockToAir(getPos());
+            world.removeTileEntity(getPos());;
             return;
         }
         
