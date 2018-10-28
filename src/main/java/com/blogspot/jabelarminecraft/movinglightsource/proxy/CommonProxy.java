@@ -96,6 +96,9 @@ public class CommonProxy
         MainMod.allowFireEnchantmentsToGiveOffLight = MainMod.config
                 .get(Configuration.CATEGORY_GENERAL, "config.fire_enchantments.name", true,
                 "config.fire_enchantments.tooltip").getBoolean(true);
+        MainMod.allowEntityItemsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, "config.entity_items.name", true,
+                "config.entity_items.tooltip").getBoolean(true);
 
         // save is useful for the first run where config might not exist, and doesn't hurt
         MainMod.config.save();

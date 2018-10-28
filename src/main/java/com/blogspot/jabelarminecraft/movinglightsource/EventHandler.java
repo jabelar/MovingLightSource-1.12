@@ -74,14 +74,12 @@ public class EventHandler
             Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
             if (lightBlockToPlace instanceof BlockMovingLightSource)
             {
-                // determine entity position
-                int blockX = MathHelper.floor(theEntity.posX);
-                int blockY = MathHelper.floor(theEntity.posY - 0.2D - theEntity.getYOffset());
-                int blockZ = MathHelper.floor(theEntity.posZ);
-
-                // place light where there is space to do so
-                BlockPos blockLocation = new BlockPos(blockX, blockY, blockZ).up();
-                Block blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+                // place light near entity where there is space to do so
+                BlockPos blockLocation = new BlockPos(
+                        MathHelper.floor(theEntity.posX), 
+                        MathHelper.floor(theEntity.posY - 0.2D - theEntity.getYOffset()), 
+                        MathHelper.floor(theEntity.posZ)).up();
+                Block blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
 
                 if (blockAtLocation == Blocks.AIR)
                 {
@@ -98,7 +96,7 @@ public class EventHandler
                 else // try one block up
                 {
                     blockLocation.up();
-                    blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+                    blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
                     
                     if (blockAtLocation == Blocks.AIR)
                     {
@@ -106,7 +104,7 @@ public class EventHandler
                     }
                     else if (blockAtLocation instanceof BlockMovingLightSource)
                     {
-                        if (blockAtLocation.getDefaultState().getLightValue() != BlockMovingLightSource.lightBlockToPlace(theEntity).getDefaultState()
+                        if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
                                 .getLightValue())
                         {
                             placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace);

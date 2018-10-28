@@ -39,11 +39,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.projectile.EntitySpectralArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -67,7 +65,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
     private static final HashMap<Item, Block> lightSourceList = new HashMap<>();
-    
+    private static final AxisAlignedBB THE_AABB = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
     public BlockMovingLightSource(String parName)
     {
         super(Material.AIR);
@@ -272,9 +270,9 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @SuppressWarnings("deprecation")
-    public static Block lightBlockToPlace(Entity parEntity)
+    public static Block lightBlockToPlace(@Nullable Entity parEntity)
     {
-        if (parEntity == null)
+        if (parEntity == null || parEntity.isDead)
         {
             return Blocks.AIR;
         }
@@ -284,12 +282,12 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             return BlockRegistry.movinglightsource_12;
         }
         
-        if (parEntity instanceof EntitySpectralArrow)
-        {
-            return BlockRegistry.movinglightsource_15;
-        }
+//        if (parEntity instanceof EntitySpectralArrow)
+//        {
+//            return BlockRegistry.movinglightsource_15;
+//        }
         
-        if (parEntity.isBurning())
+        if (parEntity.isBurning() && MainMod.allowBurningEntitiesToGiveOffLight)
         {
             return BlockRegistry.movinglightsource_15;
         }
@@ -298,57 +296,62 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
         {
             EntityLivingBase theEntityLiving = (EntityLivingBase)parEntity;
             
-            // handle case of glowing
-            if (theEntityLiving.isPotionActive(MobEffects.GLOWING))
+//            // handle case of glowing
+//            if (theEntityLiving.isPotionActive(MobEffects.GLOWING))
+//            {
+//                return BlockRegistry.movinglightsource_15;
+//            }
+
+            // Handle case of holding other light-emitting item
+            if (MainMod.allowHeldItemsToGiveOffLight)
             {
-                return BlockRegistry.movinglightsource_15;
+                BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemMainhand().getItem());
+                BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemOffhand().getItem());
+                // // DEBUG
+                // System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
+                if (blockMainHand != null)
+                {
+                    // // DEBUG
+                    // System.out.println("Block in main hand is not null");
+                    if (blockOffHand != null) // both hands have light emmitting item
+                    {
+                        // // DEBUG
+                        // System.out.println("Block in both hands is not null");
+                        if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
+                        {
+                            // // DEBUG
+                            // System.out.println("Block in main hand has higher light value");
+                            return blockMainHand;
+                        }
+                        else
+                        {
+                            // // DEBUG
+                            // System.out.println("Block in off hand has higher light value");
+                            return blockOffHand;
+                        }
+                    }
+                    else // only main hand has light emmitting item
+                    {
+                        return blockMainHand;
+                    }
+                }
+                else
+                {
+                    if (blockOffHand != null)
+                    {
+                        return blockOffHand;
+                    }
+                }
             }
             
             // Handle case of holding item with a flame type enchantment
-            if (MainMod.allowFireEnchantmentsToGiveOffLight && (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemMainhand()) > 0
+            if (MainMod.allowFireEnchantmentsToGiveOffLight && 
+                    (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemMainhand()) > 0
                     || EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME,theEntityLiving.getHeldItemOffhand()) > 0
                     || EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT,theEntityLiving.getHeldItemMainhand()) > 0
                     || EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT,theEntityLiving.getHeldItemOffhand()) > 0))
             {
-                return BlockRegistry.movinglightsource_15;
-            }
-            
-            BlockMovingLightSource blockMainHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemMainhand().getItem());
-            BlockMovingLightSource blockOffHand = (BlockMovingLightSource) lightSourceList.get(theEntityLiving.getHeldItemOffhand().getItem());
-            // // DEBUG
-            // System.out.println("Block for main hand = "+blockMainHand+" and block for off hand = "+blockOffHand);
-            if (blockMainHand != null)
-            {
-                // // DEBUG
-                // System.out.println("Block in main hand is not null");
-                if (blockOffHand != null) // both hands have light emmitting item
-                {
-                    // // DEBUG
-                    // System.out.println("Block in both hands is not null");
-                    if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
-                    {
-                        // // DEBUG
-                        // System.out.println("Block in main hand has higher light value");
-                        return blockMainHand;
-                    }
-                    else
-                    {
-                        // // DEBUG
-                        // System.out.println("Block in off hand has higher light value");
-                        return blockOffHand;
-                    }
-                }
-                else // only main hand has light emmitting item
-                {
-                    return blockMainHand;
-                }
-            }
-            else
-            {
-                if (blockOffHand != null)
-                {
-                    return blockOffHand;
-                }
+                return BlockRegistry.movinglightsource_14;
             }
         }
         
@@ -364,7 +367,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return NULL_AABB;
+        return THE_AABB;
     }
 
     @ParametersAreNonnullByDefault

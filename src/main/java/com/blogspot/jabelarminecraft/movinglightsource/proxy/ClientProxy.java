@@ -81,6 +81,9 @@ public class ClientProxy extends CommonProxy
         MainMod.allowFireEnchantmentsToGiveOffLight = MainMod.config
                 .get(Configuration.CATEGORY_GENERAL, I18n.format("config.fire_enchantments.name"), true,
                         I18n.format("config.fire_enchantments.tooltip")).getBoolean(true);
+        MainMod.allowEntityItemsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.entity_items.name"), true,
+                        I18n.format("config.entityItems.tooltip")).getBoolean(true);
 
         // save is useful for the first run where config might not exist, and doesn't hurt
         MainMod.config.save();

@@ -7,3 +7,5 @@ config.burning_entities.name=Burning entities give off light
 config.burning_entities.tooltip=When an entity is burning it gives off same light as a fire block.
 config.fire_enchantments.name=Fire-based enchantments give off light
 config.fire_enchantments.tooltip=When an entity is holding a Flame or Fire Aspect enchanted item, it will give off the same light as a fire block.
+config.entity_items.name=Entity items give off light
+config.entity_items.tooltip=An item dropped on the ground will give off light, unless in water.
