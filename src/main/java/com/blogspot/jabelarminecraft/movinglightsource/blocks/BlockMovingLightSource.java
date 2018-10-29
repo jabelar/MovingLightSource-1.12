@@ -317,30 +317,16 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                     {
                         // // DEBUG
                         // System.out.println("Block in both hands is not null");
-                        if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
-                        {
-                            // // DEBUG
-                            // System.out.println("Block in main hand has higher light value");
-                            return blockMainHand;
-                        }
-                        else
-                        {
-                            // // DEBUG
-                            // System.out.println("Block in off hand has higher light value");
-                            return blockOffHand;
-                        }
+                        return blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue() ? blockMainHand : blockOffHand;
                     }
                     else // only main hand has light emmitting item
                     {
                         return blockMainHand;
                     }
                 }
-                else
+                else if (blockOffHand != null)
                 {
-                    if (blockOffHand != null)
-                    {
-                        return blockOffHand;
-                    }
+                    return blockOffHand;
                 }
             }
             
@@ -388,7 +374,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Nullable
     public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
     {
-        return this.rayTrace(pos, start, end, blockState.getBoundingBox(worldIn, pos));
+        return null;
     }
 
     @Override
