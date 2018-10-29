@@ -18,6 +18,8 @@ package com.blogspot.jabelarminecraft.movinglightsource.utilities;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -27,6 +29,8 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -187,5 +191,83 @@ public class Utilities
             theString += parTextFormatting + textStr[i] + "\n";
         }
         return theString;
+    }
+    
+//    // This is mostly copied from the EntityRenderer#getMouseOver() method
+//    public static RayTraceResult rayTrace(Entity theEntity, float dist)
+//    {
+//        AxisAlignedBB theViewBoundingBox = new AxisAlignedBB(
+//                theEntity.posX-0.5D,
+//                theEntity.posY-0.0D,
+//                theEntity.posZ-0.5D,
+//                theEntity.posX+0.5D,
+//                theEntity.posY+1.5D,
+//                theEntity.posZ+0.5D
+//                );
+//        RayTraceResult returnMOP = null;
+//        if (theEntity.world != null)
+//        {
+//            double var2 = dist;
+//            returnMOP = theEntity.rayTrace(var2, 0);
+//            double calcdist = var2;
+//            Vec3d pos = theEntity.getPositionEyes(0);
+//            var2 = calcdist;
+//            if (returnMOP != null)
+//            {
+//                calcdist = returnMOP.hitVec.distanceTo(pos);
+//            }
+//            
+//            Vec3d lookvec = theEntity.getLook(0);
+//            Vec3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+//            Entity pointedEntity = null;
+//            float var9 = 1.0F;
+//            List<Entity> list = theEntity.world.getEntitiesWithinAABBExcludingEntity(theEntity, theViewBoundingBox.grow(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).expand(var9, var9, var9));
+//            double d = calcdist;
+//            
+//            for (Entity entity : list)
+//            {
+//                if (entity.canBeCollidedWith())
+//                {
+//                    float bordersize = entity.getCollisionBorderSize();
+//                    AxisAlignedBB aabb = new AxisAlignedBB(entity.posX-entity.width/2, entity.posY, entity.posZ-entity.width/2, entity.posX+entity.width/2, entity.posY+entity.height, entity.posZ+entity.width/2);
+//                    aabb.expand(bordersize, bordersize, bordersize);
+//                    RayTraceResult mop0 = aabb.calculateIntercept(pos, var8);
+//                    
+//                    if (aabb.contains(pos))
+//                    {
+//                        if (0.0D < d || d == 0.0D)
+//                        {
+//                            pointedEntity = entity;
+//                            d = 0.0D;
+//                        }
+//                    } else if (mop0 != null)
+//                    {
+//                        double d1 = pos.distanceTo(mop0.hitVec);
+//                        
+//                        if (d1 < d || d == 0.0D)
+//                        {
+//                            pointedEntity = entity;
+//                            d = d1;
+//                        }
+//                    }
+//                }
+//            }
+//            
+//            if (pointedEntity != null && (d < calcdist || returnMOP == null))
+//            {
+//                returnMOP = new RayTraceResult(pointedEntity);
+//            }
+//        
+//        }
+//        return returnMOP;
+//    }
+    
+    @Nullable
+    public static RayTraceResult rayTrace(Entity theEntity, double reachDistance)
+    {
+        Vec3d startPos = theEntity.getPositionEyes(0);
+        Vec3d lookVec = theEntity.getLookVec();
+        Vec3d endPos = startPos.add(lookVec.x * reachDistance, lookVec.y * reachDistance, lookVec.z * reachDistance);
+        return theEntity.world.rayTraceBlocks(startPos, endPos, false, true, true);
     }
 }

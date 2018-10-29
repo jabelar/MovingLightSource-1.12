@@ -2,8 +2,8 @@
   "homepage": "http://jabelarminecraftmods.blogspot.com/",
   "promos": 
   {
-    "1.12.2-latest": "1.0.13",
-    "1.12.2-recommended": "1.0.13"
+    "1.12.2-latest": "1.0.14",
+    "1.12.2-recommended": "1.0.14"
   },
   "1.12.2": 
   {
@@ -20,6 +20,7 @@
     "1.0.10": "jabelar: Flame enchantments can now give light, as can any living entity holding a light source.",
     "1.0.11": "jabelar: Fixed compatibility issue with Better Records mod.",
     "1.0.12": "jabelar: Fixed issue with fences connecting to the invisible light blocks.",
-    "1.0.13": "jabelar: Tried to do major performance improvement. Hope I didn't introduce new bugs!"
+    "1.0.13": "jabelar: Tried to do major performance improvement. Hope I didn't introduce new bugs!",
+    "1.0.14": "jabelar: Fixed a concurrent modification error introduced in 1.0.13. Thanks V01dWalker for suggesting fix."
   }
 }

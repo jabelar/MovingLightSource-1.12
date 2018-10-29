@@ -19,6 +19,8 @@
 
 package com.blogspot.jabelarminecraft.movinglightsource;
 
+import java.util.Collections;
+
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
@@ -69,7 +71,7 @@ public class EventHandler
     
     private static void processLightPlacementForEntities(World theWorld)
     {
-        for (Entity theEntity : theWorld.loadedEntityList)
+        for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
         {
             Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
             if (lightBlockToPlace instanceof BlockMovingLightSource)
@@ -83,14 +85,14 @@ public class EventHandler
 
                 if (blockAtLocation == Blocks.AIR)
                 {
-                    placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace);
+                    placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
                 }
                 else if (blockAtLocation instanceof BlockMovingLightSource)
                 {
                     if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
                             .getLightValue())
                     {
-                        placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace);
+                        placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
                     }
                 }
                 else // try one block up
@@ -100,22 +102,70 @@ public class EventHandler
                     
                     if (blockAtLocation == Blocks.AIR)
                     {
-                        placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace);
+                        placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
                     }
                     else if (blockAtLocation instanceof BlockMovingLightSource)
                     {
                         if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
                                 .getLightValue())
                         {
-                            placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace);
+                            placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
                         }
                     }
                 }
             }
+            
+//            // process flashlight-holding entities
+//            if (theEntity instanceof EntityLivingBase)
+//            {
+//                EntityLivingBase theEntityLiving = (EntityLivingBase) theEntity;
+//                
+//                if (isHoldingFlashlight(theEntityLiving))
+//                {
+//                    RayTraceResult theRayTraceResult = Utilities.rayTrace(theEntityLiving, 30);
+//                    if (theRayTraceResult != null)
+//                    {
+//                        BlockPos blockLocation = theRayTraceResult.getBlockPos().subtract(new Vec3i(theEntityLiving.getLookVec().x, theEntityLiving.getLookVec().y, theEntityLiving.getLookVec().z));
+//                        Block blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
+//    
+//                        // DEBUG
+//                        System.out.println("Entity is holding flashlight at position "+blockLocation+"which currently has block = "+blockAtLocation);
+//    
+//                        if (blockAtLocation == Blocks.AIR)
+//                        {
+//                            // DEBUG
+//                            System.out.println("Placing light source to replace the air");
+//                            
+//                            placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
+//                        }
+//                        else if (blockAtLocation instanceof BlockMovingLightSource)
+//                        {
+////                            if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
+////                                    .getLightValue())
+////                            {
+////                                placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
+////                            }
+////                            else
+////                            {
+////                                TileEntity theTileEntity = theWorld.getTileEntity(blockLocation);
+////                                if (theTileEntity instanceof TileEntityMovingLightSource)
+////                                {
+////                                    ((TileEntityMovingLightSource) theTileEntity).resetDeathTimer();
+////                                }
+////                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
     
-    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, Block theLightBlock)
+//    private static boolean isHoldingFlashlight(EntityLivingBase theEntityLiving)
+//    {
+//        return (theEntityLiving.getHeldItemMainhand().getItem() instanceof ItemFlashlight || theEntityLiving.getHeldItemOffhand().getItem() instanceof ItemFlashlight);
+//    }
+    
+    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, Block theLightBlock, boolean isFlashlight)
     {
         theEntity.world.setBlockState(
                 blockLocation,
@@ -125,6 +175,7 @@ public class EventHandler
         {
             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
             theTileEntityMovingLightSource.setEntity(theEntity);
+            theTileEntityMovingLightSource.setFlashlight(isFlashlight);
         }
     }
    

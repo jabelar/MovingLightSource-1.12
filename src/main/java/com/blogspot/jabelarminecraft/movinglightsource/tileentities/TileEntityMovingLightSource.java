@@ -32,14 +32,20 @@ import net.minecraft.util.math.BlockPos;
 public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
     private Entity theEntity; // the entity holding the light-emitting item
-    private boolean shouldDie = false;
-    private byte deathTimer = 4; // number of ticks after entityLiving moves away
+    private boolean shouldDie;
+    private static final int MAX_DEATH_TIMER = 4; // number of ticks a light source persists
+    private int deathTimer; 
+    private boolean typeFlashlight;
 
     public TileEntityMovingLightSource()
     {
         // after constructing the tile entity instance, remember to call the setentityLiving() method.
-        // // DEBUG
-        // System.out.println("Constructing");
+        shouldDie = false;
+        typeFlashlight = false;
+        deathTimer = MAX_DEATH_TIMER;
+        
+//        // DEBUG
+//        System.out.println("Constructing");
     }
     
     @Override
@@ -52,10 +58,10 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 //        }
         
         // check if already dying
-        if (shouldDie)
+        if (!typeFlashlight && shouldDie)
         {
-            // // DEBUG
-            // System.out.println("Should die = "+shouldDie+" with deathTimer = "+deathTimer);
+//             // DEBUG
+//             System.out.println("Should die = "+shouldDie+" with deathTimer = "+deathTimer);
             if (deathTimer > 0)
             {
                 deathTimer--;
@@ -71,38 +77,45 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         
         if (theEntity == null || theEntity.isDead)
         {
+//            // DEBUG
+//            System.out.println("The associated entity is null or dead");
             shouldDie = true;
             world.setBlockToAir(getPos());
             world.removeTileEntity(getPos());;
             return;
         }
-        
-        Block theLightBlock = BlockMovingLightSource.lightBlockToPlace(theEntity);
-        if (!(theLightBlock instanceof BlockMovingLightSource))
+       
+        if (!this.typeFlashlight)
         {
-            shouldDie = true;
-        }
+            Block theLightBlock = BlockMovingLightSource.lightBlockToPlace(theEntity);
+            if (!(theLightBlock instanceof BlockMovingLightSource))
+            {
+                shouldDie = true;
+                world.setBlockToAir(getPos());
+                world.removeTileEntity(getPos());;
+            }
 
-        /*
-         * check if entityLiving has moved away from the tile entity or no longer holding light emitting item set block to air
-         */
-        double distanceSquared = getDistanceSq(theEntity.posX, theEntity.posY, theEntity.posZ);
-        if (distanceSquared > 5.0D)
-        {
-//            // DEBUG
-//            if (theEntity instanceof EntityArrow)
-//            {
-//                System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
-//            }
-//            
-//            if (!(blockAtLocation instanceof BlockMovingLightSource))
-//            {
-//                // DEBUG
-//                System.out.println(this+" is unexpectedly not in position with a light block");
-//            }
-            shouldDie = true;
-
-            return;
+            /*
+             * check if entityLiving has moved away from the tile entity or no longer holding light emitting item set block to air
+             */
+            double distanceSquared = getDistanceSq(theEntity.posX, theEntity.posY, theEntity.posZ);
+            if (distanceSquared > 5.0D)
+            {
+    //            // DEBUG
+    //            if (theEntity instanceof EntityArrow)
+    //            {
+    //                System.out.println(this+" is setting block to shouldDie because entity moved away, with distance squared = "+distanceSquared+" from entity at position ="+theEntity.getPosition());
+    //            }
+    //            
+    //            if (!(blockAtLocation instanceof BlockMovingLightSource))
+    //            {
+    //                // DEBUG
+    //                System.out.println(this+" is unexpectedly not in position with a light block");
+    //            }
+                shouldDie = true;
+    
+                return;
+            }
         }
     }
 
@@ -119,6 +132,24 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     public Entity getEntity()
     {
         return theEntity;
+    }
+    
+    public void setFlashlight(boolean isFlashlight)
+    {
+//        // DEBUG
+//        System.out.println("Setting tile entity into flashlight mode");
+        
+        typeFlashlight = isFlashlight;
+    }
+    
+    public boolean getFlashlight()
+    {
+        return typeFlashlight;
+    }
+    
+    public void resetDeathTimer()
+    {
+        deathTimer = MAX_DEATH_TIMER;
     }
 
     @Override
