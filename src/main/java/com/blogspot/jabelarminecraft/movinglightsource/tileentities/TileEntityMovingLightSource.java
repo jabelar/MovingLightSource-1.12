@@ -31,11 +31,11 @@ import net.minecraft.util.math.BlockPos;
  */
 public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
-    private Entity theEntity; // the entity holding the light-emitting item
+    public Entity theEntity; // the entity holding the light-emitting item
     private boolean shouldDie;
     private static final int MAX_DEATH_TIMER = 4; // number of ticks a light source persists
     private int deathTimer; 
-    private boolean typeFlashlight;
+    public boolean typeFlashlight;
 
     public TileEntityMovingLightSource()
     {
@@ -119,43 +119,10 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         }
     }
 
-    public void setEntity(Entity parEntity)
-    {
-//        // DEBUG
-//        if (parEntity == null) 
-//        {
-//            System.out.println(this+" is Setting the entity to null!");
-//        }
-        theEntity = parEntity;
-    }
-
-    public Entity getEntity()
-    {
-        return theEntity;
-    }
-    
-    public void setFlashlight(boolean isFlashlight)
-    {
-//        // DEBUG
-//        System.out.println("Setting tile entity into flashlight mode");
-        
-        typeFlashlight = isFlashlight;
-    }
-    
-    public boolean getFlashlight()
-    {
-        return typeFlashlight;
-    }
-    
-    public void resetDeathTimer()
-    {
-        deathTimer = MAX_DEATH_TIMER;
-    }
-
     @Override
     public void setPos(BlockPos posIn)
     {
         pos = posIn.toImmutable();
-        setEntity(Utilities.getClosestEntity(world, pos, 2.0D));
+        theEntity = Utilities.getClosestEntity(world, pos, 2.0D);
     }
 }

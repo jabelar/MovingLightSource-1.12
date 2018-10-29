@@ -174,8 +174,8 @@ public class EventHandler
         if (theTileEntity instanceof TileEntityMovingLightSource)
         {
             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
-            theTileEntityMovingLightSource.setEntity(theEntity);
-            theTileEntityMovingLightSource.setFlashlight(isFlashlight);
+            theTileEntityMovingLightSource.theEntity = theEntity;
+            theTileEntityMovingLightSource.typeFlashlight = isFlashlight;
         }
     }
    
