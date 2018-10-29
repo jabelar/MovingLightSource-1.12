@@ -274,7 +274,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     {
         if (parEntity == null || parEntity.isDead)
         {
-            return Blocks.AIR;
+            return null;
         }
         
         if (parEntity instanceof EntityFireworkRocket)
@@ -355,13 +355,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             }
         }
         
-        if (parEntity instanceof EntityItem)
-        {
-            EntityItem theEntityItem = (EntityItem)parEntity;
-            return lightSourceList.get(theEntityItem.getItem().getItem());
-        }
-        
-        return Blocks.AIR;
+        return parEntity instanceof EntityItem ? lightSourceList.get(((EntityItem)parEntity).getItem().getItem()) : null;
     }
     
     @Override

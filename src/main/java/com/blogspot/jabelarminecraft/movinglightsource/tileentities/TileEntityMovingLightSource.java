@@ -88,7 +88,7 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         if (!this.typeFlashlight)
         {
             Block theLightBlock = BlockMovingLightSource.lightBlockToPlace(theEntity);
-            if (!(theLightBlock instanceof BlockMovingLightSource))
+            if (theLightBlock == null)
             {
                 shouldDie = true;
                 world.setBlockToAir(getPos());

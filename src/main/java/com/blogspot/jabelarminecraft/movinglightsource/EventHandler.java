@@ -74,7 +74,7 @@ public class EventHandler
         for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
         {
             Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
-            if (lightBlockToPlace instanceof BlockMovingLightSource)
+            if (lightBlockToPlace != null)
             {
                 // place light near entity where there is space to do so
                 BlockPos blockLocation = new BlockPos(
