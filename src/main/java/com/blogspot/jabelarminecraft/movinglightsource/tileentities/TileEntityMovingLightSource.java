@@ -33,8 +33,6 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 {
     private Entity theEntity; // the entity holding the light-emitting item
     private boolean shouldDie;
-    private static final int MAX_DEATH_TIMER = 4; // number of ticks a light source persists
-    private int deathTimer; 
     private boolean typeFlashlight;
 
     public TileEntityMovingLightSource()
@@ -42,7 +40,6 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         // after constructing the tile entity instance, remember to call the setentityLiving() method.
         shouldDie = false;
         typeFlashlight = false;
-        deathTimer = MAX_DEATH_TIMER;
         
 //        // DEBUG
 //        System.out.println("Constructing");
@@ -62,17 +59,9 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
         {
 //             // DEBUG
 //             System.out.println("Should die = "+shouldDie+" with deathTimer = "+deathTimer);
-            if (deathTimer > 0)
-            {
-                deathTimer--;
-                return;
-            }
-            else
-            {
-                world.setBlockToAir(getPos());
-                world.removeTileEntity(getPos());;
-                return;
-            }
+            world.setBlockToAir(getPos());
+            world.removeTileEntity(getPos());;
+            return;
         }
         
         if (theEntity == null || theEntity.isDead)
@@ -145,11 +134,6 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
     public boolean getFlashlight()
     {
         return typeFlashlight;
-    }
-    
-    public void resetDeathTimer()
-    {
-        deathTimer = MAX_DEATH_TIMER;
     }
 
     @Override
