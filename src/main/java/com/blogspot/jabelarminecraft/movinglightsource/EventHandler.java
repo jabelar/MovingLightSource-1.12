@@ -36,6 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
@@ -68,21 +69,50 @@ public class EventHandler
             processLightPlacementForEntities(theWorld);
         }
     }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+    public void onEvent(PlayerEvent.PlayerLoggedInEvent event)
+    {
+    	processLightPlacementForEntity(event.player);
+    }
     
     private static void processLightPlacementForEntities(World theWorld)
     {
         for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
         {
-            Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
-            if (lightBlockToPlace instanceof BlockMovingLightSource)
-            {
-                // place light near entity where there is space to do so
-                BlockPos blockLocation = new BlockPos(
-                        MathHelper.floor(theEntity.posX), 
-                        MathHelper.floor(theEntity.posY - 0.2D - theEntity.getYOffset()), 
-                        MathHelper.floor(theEntity.posZ)).up();
-                Block blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
+        	processLightPlacementForEntity(theEntity);
+        }
+    }
+    
+    private static void processLightPlacementForEntity(Entity theEntity)
+    {
+        Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
+        if (lightBlockToPlace instanceof BlockMovingLightSource)
+        {
+            // place light near entity where there is space to do so
+            BlockPos blockLocation = new BlockPos(
+                    MathHelper.floor(theEntity.posX), 
+                    MathHelper.floor(theEntity.posY - 0.2D - theEntity.getYOffset()), 
+                    MathHelper.floor(theEntity.posZ)).up();
+            Block blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
 
+            if (blockAtLocation == Blocks.AIR)
+            {
+                placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
+            }
+            else if (blockAtLocation instanceof BlockMovingLightSource)
+            {
+                if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
+                        .getLightValue())
+                {
+                    placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
+                }
+            }
+            else // try one block up
+            {
+                blockLocation.up();
+                blockAtLocation = theEntity.world.getBlockState(blockLocation).getBlock();
+                
                 if (blockAtLocation == Blocks.AIR)
                 {
                     placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
@@ -95,71 +125,52 @@ public class EventHandler
                         placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
                     }
                 }
-                else // try one block up
-                {
-                    blockLocation.up();
-                    blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
-                    
-                    if (blockAtLocation == Blocks.AIR)
-                    {
-                        placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
-                    }
-                    else if (blockAtLocation instanceof BlockMovingLightSource)
-                    {
-                        if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
-                                .getLightValue())
-                        {
-                            placeLightSourceBlock(theEntity, blockLocation, lightBlockToPlace, false);
-                        }
-                    }
-                }
             }
-            
-//            // process flashlight-holding entities
-//            if (theEntity instanceof EntityLivingBase)
+        }
+        
+//        // process flashlight-holding entities
+//        if (theEntity instanceof EntityLivingBase)
+//        {
+//            EntityLivingBase theEntityLiving = (EntityLivingBase) theEntity;
+//            
+//            if (isHoldingFlashlight(theEntityLiving))
 //            {
-//                EntityLivingBase theEntityLiving = (EntityLivingBase) theEntity;
-//                
-//                if (isHoldingFlashlight(theEntityLiving))
+//                RayTraceResult theRayTraceResult = Utilities.rayTrace(theEntityLiving, 30);
+//                if (theRayTraceResult != null)
 //                {
-//                    RayTraceResult theRayTraceResult = Utilities.rayTrace(theEntityLiving, 30);
-//                    if (theRayTraceResult != null)
+//                    BlockPos blockLocation = theRayTraceResult.getBlockPos().subtract(new Vec3i(theEntityLiving.getLookVec().x, theEntityLiving.getLookVec().y, theEntityLiving.getLookVec().z));
+//                    Block blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
+//
+//                    // DEBUG
+//                    System.out.println("Entity is holding flashlight at position "+blockLocation+"which currently has block = "+blockAtLocation);
+//
+//                    if (blockAtLocation == Blocks.AIR)
 //                    {
-//                        BlockPos blockLocation = theRayTraceResult.getBlockPos().subtract(new Vec3i(theEntityLiving.getLookVec().x, theEntityLiving.getLookVec().y, theEntityLiving.getLookVec().z));
-//                        Block blockAtLocation = theWorld.getBlockState(blockLocation).getBlock();
-//    
 //                        // DEBUG
-//                        System.out.println("Entity is holding flashlight at position "+blockLocation+"which currently has block = "+blockAtLocation);
-//    
-//                        if (blockAtLocation == Blocks.AIR)
-//                        {
-//                            // DEBUG
-//                            System.out.println("Placing light source to replace the air");
-//                            
-//                            placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
-//                        }
-//                        else if (blockAtLocation instanceof BlockMovingLightSource)
-//                        {
-////                            if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
-////                                    .getLightValue())
+//                        System.out.println("Placing light source to replace the air");
+//                        
+//                        placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
+//                    }
+//                    else if (blockAtLocation instanceof BlockMovingLightSource)
+//                    {
+////                        if (blockAtLocation.getDefaultState().getLightValue() != lightBlockToPlace.getDefaultState()
+////                                .getLightValue())
+////                        {
+////                            placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
+////                        }
+////                        else
+////                        {
+////                            TileEntity theTileEntity = theWorld.getTileEntity(blockLocation);
+////                            if (theTileEntity instanceof TileEntityMovingLightSource)
 ////                            {
-////                                placeLightSourceBlock(theEntity, blockLocation, BlockRegistry.movinglightsource_15, true);
+////                                ((TileEntityMovingLightSource) theTileEntity).resetDeathTimer();
 ////                            }
-////                            else
-////                            {
-////                                TileEntity theTileEntity = theWorld.getTileEntity(blockLocation);
-////                                if (theTileEntity instanceof TileEntityMovingLightSource)
-////                                {
-////                                    ((TileEntityMovingLightSource) theTileEntity).resetDeathTimer();
-////                                }
-////                            }
-//                        }
+////                        }
 //                    }
 //                }
 //            }
-        }
+//        }
     }
-    
 //    private static boolean isHoldingFlashlight(EntityLivingBase theEntityLiving)
 //    {
 //        return (theEntityLiving.getHeldItemMainhand().getItem() instanceof ItemFlashlight || theEntityLiving.getHeldItemOffhand().getItem() instanceof ItemFlashlight);
