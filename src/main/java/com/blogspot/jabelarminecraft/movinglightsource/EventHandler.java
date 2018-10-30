@@ -73,7 +73,7 @@ public class EventHandler
     {
         for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
         {
-            Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
+        	BlockMovingLightSource lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
             if (lightBlockToPlace != null)
             {
                 // place light near entity where there is space to do so
@@ -165,7 +165,7 @@ public class EventHandler
 //        return (theEntityLiving.getHeldItemMainhand().getItem() instanceof ItemFlashlight || theEntityLiving.getHeldItemOffhand().getItem() instanceof ItemFlashlight);
 //    }
     
-    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, Block theLightBlock, boolean isFlashlight)
+    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, BlockMovingLightSource theLightBlock, boolean isFlashlight)
     {
         theEntity.world.setBlockState(
                 blockLocation,
