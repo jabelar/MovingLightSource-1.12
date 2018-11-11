@@ -64,7 +64,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockMovingLightSource extends Block implements ITileEntityProvider
 {
-    private static final HashMap<Item, Block> lightSourceList = new HashMap<>();
+    private static final HashMap<Item, BlockMovingLightSource> lightSourceList = new HashMap<>();
     private static final AxisAlignedBB THE_AABB = new AxisAlignedBB(0.5D, 0.5D, 0.5D, 0.5D, 0.5D, 0.5D);
     public BlockMovingLightSource(String parName)
     {
@@ -127,7 +127,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                     int lightValue = entry.getValue().getDefaultState().getLightValue(null, null);
                     if (lightValue > 0)
                     {
-                        Block lightBlock = BlockRegistry.movinglightsource_15;
+                    	BlockMovingLightSource lightBlock = BlockRegistry.movinglightsource_15;
                         switch (entry.getValue().getDefaultState().getLightValue(null, null))
                         {
                             case 14: lightBlock = BlockRegistry.movinglightsource_14; break;
@@ -233,10 +233,10 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     {
         // DEBUG
         System.out.print("List of all light-emitting items is: ");
-        Iterator<Entry<Item, Block>> iterator2 = lightSourceList.entrySet().iterator();
+        Iterator<Entry<Item, BlockMovingLightSource>> iterator2 = lightSourceList.entrySet().iterator();
         while (iterator2.hasNext())
         {
-            Entry<Item, Block> entry = iterator2.next();
+            Entry<Item, BlockMovingLightSource> entry = iterator2.next();
             System.out.print(entry.getKey().getRegistryName()+" ");
         }
         System.out.print("\n");
@@ -270,11 +270,11 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     }
 
     @SuppressWarnings("deprecation")
-    public static Block lightBlockToPlace(@Nullable Entity parEntity)
+    public static BlockMovingLightSource lightBlockToPlace(@Nullable Entity parEntity)
     {
         if (parEntity == null || parEntity.isDead)
         {
-            return Blocks.AIR;
+            return null;
         }
         
         if (parEntity instanceof EntityFireworkRocket)
@@ -317,30 +317,16 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
                     {
                         // // DEBUG
                         // System.out.println("Block in both hands is not null");
-                        if (blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue())
-                        {
-                            // // DEBUG
-                            // System.out.println("Block in main hand has higher light value");
-                            return blockMainHand;
-                        }
-                        else
-                        {
-                            // // DEBUG
-                            // System.out.println("Block in off hand has higher light value");
-                            return blockOffHand;
-                        }
+                        return blockMainHand.getDefaultState().getLightValue() >= blockOffHand.getDefaultState().getLightValue() ? blockMainHand : blockOffHand;
                     }
                     else // only main hand has light emmitting item
                     {
                         return blockMainHand;
                     }
                 }
-                else
+                else if (blockOffHand != null)
                 {
-                    if (blockOffHand != null)
-                    {
-                        return blockOffHand;
-                    }
+                    return blockOffHand;
                 }
             }
             
@@ -355,13 +341,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
             }
         }
         
-        if (parEntity instanceof EntityItem)
-        {
-            EntityItem theEntityItem = (EntityItem)parEntity;
-            return lightSourceList.get(theEntityItem.getItem().getItem());
-        }
-        
-        return Blocks.AIR;
+        return parEntity instanceof EntityItem ? lightSourceList.get(((EntityItem)parEntity).getItem().getItem()) : null;
     }
     
     @Override
@@ -394,7 +374,7 @@ public class BlockMovingLightSource extends Block implements ITileEntityProvider
     @Nullable
     public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
     {
-        return this.rayTrace(pos, start, end, blockState.getBoundingBox(worldIn, pos));
+        return null;
     }
 
     @Override

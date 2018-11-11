@@ -73,8 +73,8 @@ public class EventHandler
 //        for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
         for (Entity theEntity : theWorld.getEntities(Entity.class, EntitySelectors.IS_ALIVE))
         {
-            Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
-            if (lightBlockToPlace instanceof BlockMovingLightSource)
+        	BlockMovingLightSource lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
+            if (lightBlockToPlace != null)
             {
                 // place light near entity where there is space to do so
                 BlockPos blockLocation = new BlockPos(
@@ -165,7 +165,7 @@ public class EventHandler
 //        return (theEntityLiving.getHeldItemMainhand().getItem() instanceof ItemFlashlight || theEntityLiving.getHeldItemOffhand().getItem() instanceof ItemFlashlight);
 //    }
     
-    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, Block theLightBlock, boolean isFlashlight)
+    private static void placeLightSourceBlock(Entity theEntity, BlockPos blockLocation, BlockMovingLightSource theLightBlock, boolean isFlashlight)
     {
         theEntity.world.setBlockState(
                 blockLocation,
@@ -174,8 +174,8 @@ public class EventHandler
         if (theTileEntity instanceof TileEntityMovingLightSource)
         {
             TileEntityMovingLightSource theTileEntityMovingLightSource = (TileEntityMovingLightSource) theTileEntity;
-            theTileEntityMovingLightSource.setEntity(theEntity);
-            theTileEntityMovingLightSource.setFlashlight(isFlashlight);
+            theTileEntityMovingLightSource.theEntity = theEntity;
+            theTileEntityMovingLightSource.typeFlashlight = isFlashlight;
         }
     }
 }
