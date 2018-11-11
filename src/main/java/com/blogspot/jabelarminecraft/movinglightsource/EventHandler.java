@@ -19,8 +19,6 @@
 
 package com.blogspot.jabelarminecraft.movinglightsource;
 
-import java.util.Collections;
-
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
@@ -30,6 +28,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -63,7 +62,7 @@ public class EventHandler
     public void onEvent(WorldTickEvent event)
     {
         World theWorld = event.world;
-        if (event.phase == TickEvent.Phase.START && !theWorld.isRemote)
+        if (event.phase == TickEvent.Phase.START ) // && !theWorld.isRemote)
         {
             processLightPlacementForEntities(theWorld);
         }
@@ -71,7 +70,8 @@ public class EventHandler
     
     private static void processLightPlacementForEntities(World theWorld)
     {
-        for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
+//        for (Entity theEntity : Collections.unmodifiableList(theWorld.loadedEntityList))
+        for (Entity theEntity : theWorld.getEntities(Entity.class, EntitySelectors.IS_ALIVE))
         {
             Block lightBlockToPlace = BlockMovingLightSource.lightBlockToPlace(theEntity);
             if (lightBlockToPlace instanceof BlockMovingLightSource)
@@ -178,5 +178,4 @@ public class EventHandler
             theTileEntityMovingLightSource.setFlashlight(isFlashlight);
         }
     }
-   
 }
