@@ -141,7 +141,7 @@ public class BlockRegistry
 //                + ": " + parBlock.getRegistryName());
 
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(parBlock), parMetaData,
-                new ModelResourceLocation(MainMod.MODID + ":" + parBlock.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + parBlock.getTranslationKey().substring(5), "inventory"));
     }
 
     /**

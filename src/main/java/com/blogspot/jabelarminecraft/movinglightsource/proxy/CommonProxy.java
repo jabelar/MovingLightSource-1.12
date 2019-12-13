@@ -24,7 +24,7 @@ import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.gui.GuiHandler;
 import com.blogspot.jabelarminecraft.movinglightsource.tileentities.TileEntityMovingLightSource;
 
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -84,15 +84,21 @@ public class CommonProxy
     {
         MainMod.config.load();
         MainMod.allowHeldItemsToGiveOffLight = MainMod.config
-                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.held_items.name"), true,
-                I18n.format("config.held_items.tooltip")).getBoolean(true);
+                .get(Configuration.CATEGORY_GENERAL, "config.held_items.name", true,
+                "config.held_items.tooltip").getBoolean(true);
         MainMod.allowTorchesToBurnEntities = MainMod.config
-                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.torches_burn.name"), true, 
-                 I18n.format("config.torches_burn.tooltip"))
+                .get(Configuration.CATEGORY_GENERAL, "config.torches_burn.name", true, 
+                 "config.torches_burn.tooltip")
                 .getBoolean(true);
         MainMod.allowBurningEntitiesToGiveOffLight = MainMod.config
-                .get(Configuration.CATEGORY_GENERAL, I18n.format("config.burning_entities.name"), true,
-                I18n.format("config.burning_entities.tooltip")).getBoolean(true);
+                .get(Configuration.CATEGORY_GENERAL, "config.burning_entities.name", true,
+                "config.burning_entities.tooltip").getBoolean(true);
+        MainMod.allowFireEnchantmentsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, "config.fire_enchantments.name", true,
+                "config.fire_enchantments.tooltip").getBoolean(true);
+        MainMod.allowEntityItemsToGiveOffLight = MainMod.config
+                .get(Configuration.CATEGORY_GENERAL, "config.entity_items.name", true,
+                "config.entity_items.tooltip").getBoolean(true);
 
         // save is useful for the first run where config might not exist, and doesn't hurt
         MainMod.config.save();
@@ -103,7 +109,7 @@ public class CommonProxy
      */
     private void registerTileEntities()
     {
-        GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, "tileEntityMovingLightSource");
+        GameRegistry.registerTileEntity(TileEntityMovingLightSource.class, new ResourceLocation(MainMod.MODID, "tileEntityMovingLightSource"));
     }
 
     /**

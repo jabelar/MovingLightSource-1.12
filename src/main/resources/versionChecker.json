@@ -1,0 +1,27 @@
+{
+  "homepage": "http://jabelarminecraftmods.blogspot.com/",
+  "promos": 
+  {
+    "1.12.2-latest": "1.0.15",
+    "1.12.2-recommended": "1.0.15"
+  },
+  "1.12.2": 
+  {
+    "1.0.0": "jabelar: Inital release.",
+    "1.0.1": "jabelar: Additional feature development",
+    "1.0.2": "jabelar: Added ability to burn entities. Got configuration options fully working.",
+    "1.0.3": "jabelar: Various code clean up and bug fixes.",
+    "1.0.4": "jabelar: Now supports mod blocks that emit light.",
+    "1.0.5": "jabelar: Now supports EntityItems emitting light. Fixed numerous bugs.",
+    "1.0.6": "jabelar: Fixed issue with mods where blocks have dynamic lighting.",
+    "1.0.7": "jabelar: Fixed issue with lingering light after burning stops.",
+    "1.0.8": "jabelar: Fixed compatibility issue with mods like Tinkers Construct that had light-emitting blocks without registered item block.",
+    "1.0.9": "jabelar: Got rid of some console spam left over from debugging.",
+    "1.0.10": "jabelar: Flame enchantments can now give light, as can any living entity holding a light source.",
+    "1.0.11": "jabelar: Fixed compatibility issue with Better Records mod.",
+    "1.0.12": "jabelar: Fixed issue with fences connecting to the invisible light blocks.",
+    "1.0.13": "jabelar: Tried to do major performance improvement. Hope I didn't introduce new bugs!",
+    "1.0.14": "jabelar: Fixed a concurrent modification error introduced in 1.0.13. Thanks V01dWalker for suggesting fix.",
+    "1.0.15": "jabelar: Another attempt at fully fixing the concurrent modification error."
+  }
+}
