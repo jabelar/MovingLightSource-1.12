@@ -3,7 +3,6 @@ package com.blogspot.jabelarminecraft.movinglightsource.registries;
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.blocks.BlockMovingLightSource;
 import com.blogspot.jabelarminecraft.movinglightsource.utilities.Utilities;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -83,14 +82,14 @@ public class BlockRegistry
         {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource), movinglightsource.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_15), movinglightsource_15.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_14), movinglightsource_14.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_13), movinglightsource_13.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_12), movinglightsource_12.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_11), movinglightsource_11.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_9), movinglightsource_9.getRegistryName().getResourcePath()));
-            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_7), movinglightsource_7.getRegistryName().getResourcePath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource), movinglightsource.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_15), movinglightsource_15.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_14), movinglightsource_14.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_13), movinglightsource_13.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_12), movinglightsource_12.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_11), movinglightsource_11.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_9), movinglightsource_9.getRegistryName().getPath()));
+            registry.register(Utilities.setItemName(new ItemBlock(movinglightsource_7), movinglightsource_7.getRegistryName().getPath()));
         }
         
         /**

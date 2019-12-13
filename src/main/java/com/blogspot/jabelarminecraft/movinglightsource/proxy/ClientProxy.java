@@ -21,7 +21,6 @@ package com.blogspot.jabelarminecraft.movinglightsource.proxy;
 
 import com.blogspot.jabelarminecraft.movinglightsource.MainMod;
 import com.blogspot.jabelarminecraft.movinglightsource.registries.BlockRegistry;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -42,20 +41,20 @@ public class ClientProxy extends CommonProxy
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_15), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_15.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_15.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_14), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_14.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_14.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_13), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_13.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_13.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_12), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_12.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_12.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_11), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_11.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_11.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_9), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_9.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_9.getTranslationKey().substring(5), "inventory"));
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(BlockRegistry.movinglightsource_7), 0,
-                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_7.getUnlocalizedName().substring(5), "inventory"));
+                new ModelResourceLocation(MainMod.MODID + ":" + BlockRegistry.movinglightsource_7.getTranslationKey().substring(5), "inventory"));
     }
 }
